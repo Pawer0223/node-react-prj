@@ -1,0 +1,30 @@
+{
+  "name": "react-prj",
+  "version": "1.0.0",
+  "description": "toy prj with node and react",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "fullcalendar": "^5.2.0",
+    "fullcalendar-scheduler": "^5.2.0",
+    "mongoose": "^5.9.28"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "backend": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pawer0223/node-react-prj.git"
+  },
+  "author": "taesan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pawer0223/node-react-prj/issues"
+  },
+  "homepage": "https://github.com/Pawer0223/node-react-prj#readme"
+}
