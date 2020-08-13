@@ -1,6 +1,6 @@
 import React from 'react'
 
-function temp1() {
+function Temp1() {
     return (
         <div>
             temp1
@@ -8,4 +8,4 @@ function temp1() {
     )
 }
 
-export default temp1
+export default Temp1

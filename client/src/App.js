@@ -5,7 +5,7 @@ import {
   Route
 } from "react-router-dom";
 
-import home from './components/views/home/home'
+import landingPage from './components/views/LandingPage/LandingPage'
 import temp1 from './components/views/temp1/temp1'
 import temp2 from './components/views/temp2/temp2'
 
@@ -17,7 +17,7 @@ function App() {
       {/* A <Switch> looks through its children <Route>s and
           renders the first one that matches the current URL. */}
       <Switch>
-        <Route exact path="/"  component={home} />
+        <Route exact path="/"  component={landingPage} />
         <Route exact path="/temp1"  component={temp1} />
         <Route exact path="/temp2"  component={temp2} />
       </Switch>

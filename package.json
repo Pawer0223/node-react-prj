@@ -4,6 +4,7 @@
   "description": "toy prj with node and react",
   "main": "index.js",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "fullcalendar": "^5.2.0",
     "fullcalendar-scheduler": "^5.2.0",
