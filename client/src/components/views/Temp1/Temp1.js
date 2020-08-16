@@ -3,7 +3,7 @@ import React from 'react'
 function Temp1() {
     return (
         <div>
-            Temp1 123123123 456
+            temp1
         </div>
     )
 }
