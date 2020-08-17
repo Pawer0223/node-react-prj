@@ -23,6 +23,8 @@
       - 페이지 이동시 react-router-dom 사용하려고 다운
    - axios
       - 비동기 통신
+   - [ @material-ui/core,pickers,styles, @date-io/date-fns@1.x date-fns ]
+      - Modal창, 이벤트 등록 시 시간선택 등 UI작성 시 편리 함
   
   ## Common
     
