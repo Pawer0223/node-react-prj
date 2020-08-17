@@ -9,12 +9,15 @@ import actionCreators from './actions'
 import { getHashValues } from './utils'
 import Modal from '@material-ui/core/Modal';
 import EventList from './EventList'
+import RegisteEvent from './components/views/RegisterPage/RegisteEvent'
 
 class DemoApp extends React.Component {
 
   state = {
     open: false,
-    getList: ""
+    getList: "",
+    registForm: "",
+    open2: false
   };
 
   handleOpen = (clickInfo) => {
@@ -33,6 +36,19 @@ class DemoApp extends React.Component {
   handleClose = () => {
     this.setState(state => ({
       open: false
+    }))
+  };
+
+  eventRegistOpen = () => {
+    this.setState(state => ({
+      registForm: <RegisteEvent  />,
+      open2: true
+    }))
+  };
+
+  eventRegistClose = () => {
+    this.setState(state => ({
+      registForm: ""
     }))
   };
 
@@ -73,6 +89,7 @@ class DemoApp extends React.Component {
         >
           {this.state.getList}
       </Modal>
+      {this.state.registForm}
       </div>
     </div>
     )
@@ -114,31 +131,31 @@ class DemoApp extends React.Component {
   // ------------------------------------------------------------------------------------------
 
   handleDateSelect = (selectInfo) => {
-    console.log('handleDateSelect clicked')
-    let calendarApi = selectInfo.view.calendar
-    let title = prompt('Please enter a new title for your event')
-
-    calendarApi.unselect() // clear date selection
-    //log.info(selectInfo);
-
-    if (title) {
-      calendarApi.addEvent({ // will render immediately. will call handleEventAdd
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay
-      }, true) // temporary=true, will get overwritten when reducer gives new events
+    if (this.state.open2){
+      this.eventRegistClose()
     }
+    this.eventRegistOpen()
+    console.log('handleDateSelect clicked')
   }
-  // handleEventClick = (clickInfo) => {
-  //   if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-  //     clickInfo.event.remove() // will render immediately. will call handleEventRemove
+
+  // handleDateSelect = (selectInfo) => {
+  //   console.log('handleDateSelect clicked')
+  //   let calendarApi = selectInfo.view.calendar
+  //   let title = prompt('Please enter a new title for your event')
+
+  //   calendarApi.unselect() // clear date selection
+  //   //log.info(selectInfo);
+
+  //   if (title) {
+  //     calendarApi.addEvent({ // will render immediately. will call handleEventAdd
+  //       title,
+  //       start: selectInfo.startStr,
+  //       end: selectInfo.endStr,
+  //       allDay: selectInfo.allDay
+  //     }, true) // temporary=true, will get overwritten when reducer gives new events
   //   }
   // }
 
-  handleEventClick = (clickInfo) => {
-    console.log("clicked events ");
-  }
 
   // handlers that initiate reads/writes via the 'action' props
   // ------------------------------------------------------------------------------------------
