@@ -8,7 +8,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import actionCreators from './actions'
 import { getHashValues } from './utils'
 import Modal from '@material-ui/core/Modal';
-import Test from './Test'
+import EventList from './EventList'
 
 class DemoApp extends React.Component {
 
@@ -19,7 +19,7 @@ class DemoApp extends React.Component {
 
   handleOpen = (clickInfo) => {
     this.setState(state => ({
-      getList: <Test eventId={clickInfo.event.id} />,
+      getList: <EventList eventId={clickInfo.event.id} />,
       open: true
     }))
   };
@@ -87,6 +87,7 @@ class DemoApp extends React.Component {
             <li>Select dates and you will be prompted to create a new event</li>
             <li>Drag, drop, and resize events</li>
             <li>Click an event to delete it</li>
+            <li>Add</li>
           </ul>
         </div>
         <div className='demo-app-sidebar-section'>
@@ -113,6 +114,7 @@ class DemoApp extends React.Component {
   // ------------------------------------------------------------------------------------------
 
   handleDateSelect = (selectInfo) => {
+    console.log('handleDateSelect clicked')
     let calendarApi = selectInfo.view.calendar
     let title = prompt('Please enter a new title for your event')
 
