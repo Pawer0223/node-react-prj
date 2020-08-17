@@ -18,9 +18,6 @@ class DemoApp extends React.Component {
   };
 
   handleOpen = (clickInfo) => {
-    console.log('calledme');
-    console.log('clickInfo : ' + clickInfo.event.id);
-
     this.setState(state => ({
       getList: <Test eventId={clickInfo.event.id} />,
       open: true

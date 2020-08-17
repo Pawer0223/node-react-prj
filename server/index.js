@@ -4,7 +4,7 @@ const port = 5000
 const mongoose = require('mongoose')
 const config = require('./config/key')
 const cors = require('cors')
-let cors_origin = ['http://localhost:3000', 'http://localhost:8080/']
+let cors_origin = ['http://localhost:3000', 'http://localhost:8080']
 
 mongoose.connect(config.mongoURI,{
     useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false

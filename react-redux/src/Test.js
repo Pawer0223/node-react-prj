@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios'
 
 function getModalStyle() {
   const top = 50 ;
@@ -24,8 +25,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Test(props) {
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/test')
+    .then(response => {console.log(response.data)})
+  }, [])
   
-  //console.log('props is : ' + {this.props.eventId})
+  let clickedId = props.eventId;
+
+  console.log('clickedId : ' + clickedId);
 
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
