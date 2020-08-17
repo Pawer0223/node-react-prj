@@ -10,6 +10,7 @@ import LandingPage from './components/views/LandingPage/LandingPage'
 import Temp1 from './components/views/Temp1/Temp1'
 import Temp2 from './components/views/Temp2/Temp2'
 import Modal from './components/views/Modal/Modal'
+import Modal2 from './components/views/Modal/Modal2'
 
 
 function Appc() {
@@ -22,6 +23,7 @@ function Appc() {
         <Route exact path="/temp1" component={Temp1} />
         <Route exact path="/temp2" component={Temp2} />
         <Route exact path="/Modal" component={Modal} />
+        <Route exact path="/Modal2" component={Modal2} />
       </Switch>
     </Router>
   );
