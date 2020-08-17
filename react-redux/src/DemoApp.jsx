@@ -13,14 +13,20 @@ import Test from './Test'
 class DemoApp extends React.Component {
 
   state = {
-    open: false
+    open: false,
+    getList: ""
   };
 
-  handleOpen = () => {
+  handleOpen = (clickInfo) => {
+    console.log('calledme');
+    console.log('clickInfo : ' + clickInfo.event.id);
+
     this.setState(state => ({
+      getList: <Test eventId={clickInfo.event.id} />,
       open: true
     }))
   };
+
   handleClose = () => {
     this.setState(state => ({
       open: false
@@ -60,19 +66,18 @@ class DemoApp extends React.Component {
             eventChange={this.handleEventChange} // called for drag-n-drop/resize
             eventRemove={this.handleEventRemove}
           />
-                  <div>
-        <Modal
+      </div>
+      <div>
+      <Modal
         open={this.state.open}
         onClose={this.handleClose}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
         >
-        <Test />
-        </Modal>
-        </div>
-        </div>
-
+          {this.state.getList}
+      </Modal>
       </div>
+    </div>
     )
   }
 

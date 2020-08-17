@@ -24,13 +24,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Test(props) {
+  
+  //console.log('props is : ' + {this.props.eventId})
 
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
 
   return (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Study List</h2>
+      <h2 id="simple-modal-title">{props.eventId} Study List</h2>
       <p id="simple-modal-description">
         <li>Java Study / 16:00~18:00 / (1 / 5) / <a href='/'>join</a></li>
         <li>React Study / 16:00~18:00 / (1 / 5) / <a href='/'>join</a></li>
