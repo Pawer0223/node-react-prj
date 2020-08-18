@@ -7,6 +7,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+// selectBox
+import { makeStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
 // time
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
@@ -15,13 +22,6 @@ import {
     MuiPickersUtilsProvider,
     KeyboardTimePicker
   } from '@material-ui/pickers';
-
-  // selectBox
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 
 export default function FormDialog() {
 
@@ -60,7 +60,6 @@ export default function FormDialog() {
   const handleChange = (event) => {
     setSubjectId(event.target.value);
   };
-;
 
   return (
     <div>

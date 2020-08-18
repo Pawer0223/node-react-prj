@@ -23,7 +23,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-export default function RegisteEvent() {
+export default function RegisteEvent(props) {
+
+  let clickedDate = props.clickedDate;
+
+  console.log('clickedDate : ' + clickedDate)
 
   const [open, setOpen] = React.useState(true);
 
@@ -61,16 +65,30 @@ export default function RegisteEvent() {
 
   const classes = useStyles();
   const [subjectId, setSubjectId] = React.useState('');
-
-  const handleChange = (event) => {
+  const handleSubjectId = (event) => {
     setSubjectId(event.target.value);
   };
-;
+
+  const [title, setTitle] = React.useState('');
+  const handleTitle = (event) => {
+    setTitle(event.target.value);
+  };
+
+  const [maxPeople, setMaxPeople] = React.useState('');
+  const handleMaxPeople = (event) => {
+    setMaxPeople(event.target.value);
+  };
+
+
+const validationCheck = () => {
+  console.log('open : ' + open +', startTime : ' + startTime +', endTime : ' + endTime +', title : ' + title + ', maxPeople : ' + maxPeople);
+  event.preventDefault(); // default referesh prevent
+}
 
   return (
     <div>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Study Regist</DialogTitle>
+        <DialogTitle id="form-dialog-title">{clickedDate}</DialogTitle>
         <DialogContent>
           <DialogContentText>
             스터디를 등록해 주세요.
@@ -81,6 +99,7 @@ export default function RegisteEvent() {
             id="title"
             label="ex) Study 모집"
             type="text"
+            onChange={handleTitle}
             fullWidth
           />
 
@@ -117,7 +136,7 @@ export default function RegisteEvent() {
           labelId="demo-simple-select-placeholder-label-label"
           id="subject"
           value={subjectId}
-          onChange={handleChange}
+          onChange={handleSubjectId}
           displayEmpty
           className={classes.selectEmpty}
         >
@@ -136,6 +155,7 @@ export default function RegisteEvent() {
           InputLabelProps={{
             shrink: true,
           }}
+          onChange={handleMaxPeople}
         />
       </FormControl>              
         </DialogContent>
@@ -143,7 +163,7 @@ export default function RegisteEvent() {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={validationCheck} color="primary">
             Subscribe
           </Button>
         </DialogActions>

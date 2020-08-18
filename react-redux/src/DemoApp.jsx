@@ -39,9 +39,9 @@ class DemoApp extends React.Component {
     }))
   };
 
-  eventRegistOpen = () => {
+  eventRegistOpen = (startStr) => {
     this.setState(state => ({
-      registForm: <RegisteEvent  />,
+      registForm: <RegisteEvent clickedDate={startStr}/>,
       open2: true
     }))
   };
@@ -134,8 +134,9 @@ class DemoApp extends React.Component {
     if (this.state.open2){
       this.eventRegistClose()
     }
-    this.eventRegistOpen()
-    console.log('handleDateSelect clicked')
+    this.eventRegistOpen(selectInfo.startStr)
+    console.log('handleDateSelect clicked : ' + this.props.events)
+    console.log(selectInfo.startStr)
   }
 
   // handleDateSelect = (selectInfo) => {
