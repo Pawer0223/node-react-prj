@@ -8,8 +8,8 @@ import interactionPlugin from '@fullcalendar/interaction'
 import actionCreators from './actions'
 import { getHashValues } from './utils'
 import Modal from '@material-ui/core/Modal';
-import EventList from './EventList'
-import RegisteEvent from './components/views/RegisterPage/RegisteEvent'
+import StudyList from './StudyList'
+import RegisteStudy from './components/views/RegisterPage/RegisteStudy'
 
 class DemoApp extends React.Component {
 
@@ -22,7 +22,7 @@ class DemoApp extends React.Component {
 
   handleOpen = (clickInfo) => {
     this.setState(state => ({
-      getList: <EventList eventId={clickInfo.event.id} />,
+      getList: <StudyList studyId={clickInfo.event.id} />,
       open: true
     }))
   };
@@ -41,7 +41,8 @@ class DemoApp extends React.Component {
 
   eventRegistOpen = (startStr) => {
     this.setState(state => ({
-      registForm: <RegisteEvent clickedDate={startStr}/>,
+      // region 정보도 같이... 
+      registForm: <RegisteStudy clickedDate={startStr}/>,
       open2: true
     }))
   };
@@ -134,9 +135,11 @@ class DemoApp extends React.Component {
     if (this.state.open2){
       this.eventRegistClose()
     }
+    // region 정보도 같이... 
+
     this.eventRegistOpen(selectInfo.startStr)
-    console.log('handleDateSelect clicked : ' + this.props.events)
-    console.log(selectInfo.startStr)
+    // console.log('handleDateSelect clicked : ' + this.props.events)
+    // console.log(selectInfo)
   }
 
   // handleDateSelect = (selectInfo) => {

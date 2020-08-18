@@ -24,14 +24,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Test(props) {
+export default function StudyList(props) {
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/test')
     .then(response => {console.log(response.data)})
   }, [])
   
-  let clickedId = props.eventId;
+  let clickedId = props.studyId;
 
   console.log('clickedId : ' + clickedId);
 
@@ -40,7 +40,7 @@ export default function Test(props) {
 
   return (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">{props.eventId} Study List</h2>
+      <h2 id="simple-modal-title">{props.studyId} Study List</h2>
       <p id="simple-modal-description">
         <li>Java Study / 16:00~18:00 / (1 / 5) / <a href='/'>join</a></li>
         <li>React Study / 16:00~18:00 / (1 / 5) / <a href='/'>join</a></li>

@@ -5,7 +5,10 @@ const mongoose = require('mongoose')
 const config = require('./config/key')
 const bodyParser = require('body-parser');
 const cors = require('cors')
+const { Study } = require("./models/Study")
+
 let cors_origin = ['http://localhost:3000', 'http://localhost:8080']
+
 
 mongoose.connect(config.mongoURI,{
     useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false
@@ -16,7 +19,6 @@ mongoose.connect(config.mongoURI,{
 app.use(bodyParser.urlencoded({extended: true}));
 // application/json
 app.use(bodyParser.json());
-
 app.use(
   cors({
       origin: cors_origin, // 허락하고자 하는 요청 주소
@@ -32,8 +34,16 @@ app.get('/api/test', (req, res) => {
   res.send(" calld api test");
 })
 
-app.get('/api/getStudyList', (req, res) => {
-  res.send(" calld api getStudyList");
+app.post('/api/events/register', (req, res) => {
+    
+const study = new Study(req.body);
+  user.save((err, eventInfo) => {
+      if(err)
+          return res.json({ success: false, err })
+      return res.status(200).json({
+          success: true
+      })
+  })
 })
 
 app.listen(port, () => {

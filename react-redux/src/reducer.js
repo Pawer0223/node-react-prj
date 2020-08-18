@@ -1,9 +1,13 @@
 import { combineReducers } from 'redux'
 import { hashById } from './utils'
+import {
+  REGISTER_STUDY
+} from './_actions/types';
 
 export default combineReducers({
   weekendsVisible,
-  eventsById
+  eventsById,
+  study
 })
 
 function weekendsVisible(weekendsVisible = true, action) {
@@ -37,5 +41,16 @@ function eventsById(eventsById = {}, action) {
 
     default:
       return eventsById
+  }
+}
+
+function study(state = {}, action) {
+  switch (action.type) {
+
+    case REGISTER_STUDY:
+      return { ...state, register: action.payload }
+
+    default:
+      return state;
   }
 }

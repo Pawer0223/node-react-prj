@@ -22,35 +22,13 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { registStudy } from '../../../_actions/study_action'
+import { useDispatch } from 'react-redux'
 
-export default function RegisteEvent(props) {
+export default function RegisteStudy(props) {
 
-  let clickedDate = props.clickedDate;
-
-  console.log('clickedDate : ' + clickedDate)
-
-  const [open, setOpen] = React.useState(true);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  // Time
-  // The first commit of Material-UI
-  const [startTime, setStartTime] = React.useState(new Date('1900-01-01T00:00:00'));
-  const [endTime, setEndTime] = React.useState(new Date('1900-01-02T02:00:00'));
-
-  const handleStart = (date) => {
-    setStartTime(date);
-  };
-
-  const handleEnd = (date) => {
-    setEndTime(date);
-  };
+  // console.log('clickedDate : ' + props.clickedDate)
+  // console.log('clickedDate : ' + props.eventId)
 
   // select Box
   const useStyles = makeStyles((theme) => ({
@@ -62,58 +40,124 @@ export default function RegisteEvent(props) {
       marginTop: theme.spacing(2),
     },
   }));
-
+  
+  const dispatch = useDispatch();
   const classes = useStyles();
+  const [open, setOpen] = React.useState(true);
+  // Time
+  // The first commit of Material-UI
+  const [startTime, setStartTime] = React.useState(new Date('1900-01-01T00:00:00'));
+  const [endTime, setEndTime] = React.useState(new Date('1900-01-02T02:00:00'));
   const [subjectId, setSubjectId] = React.useState('');
+  const [title, setTitle] = React.useState('');
+  const [maxPeople, setMaxPeople] = React.useState(0);
+  const [station, setStation] = React.useState('online');
+
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleStart = (date) => {
+    setStartTime(date);
+  };
+  const handleEnd = (date) => {
+    setEndTime(date);
+  };
+
   const handleSubjectId = (event) => {
     setSubjectId(event.target.value);
   };
-
-  const [title, setTitle] = React.useState('');
+  
   const handleTitle = (event) => {
     setTitle(event.target.value);
   };
-
-  const [maxPeople, setMaxPeople] = React.useState(0);
+  
   const handleMaxPeople = (event) => {
     setMaxPeople(event.target.value);
   };
+  
+  const handleStation = (event) => {
+    setStation(event.target.value);
+  };
 
+  const validationCheck = () => {
+    let startT = startTime.getHours() + startTime.getMinutes();
+    let endT = endTime.getHours() + endTime.getMinutes();
+    let success = 0;
 
-const validationCheck = (event) => {
+    console.log('open : ' + open +', title : ' + title + ', maxPeople : ' + maxPeople);
 
-
-  let sartT = startTime.getHours() + startTime.getMinutes();
-  let endT = endTime.getHours() + endTime.getMinutes();
-
-  console.log('open : ' + open +', title : ' + title + ', maxPeople : ' + maxPeople);
-
-  if (title === ""){
-    alert('제목을 입력해 주세요.')
-  }else if (endT <= sartT) {
-    alert('종료시간을 시작시간보다 크게 설정해주세요.')
-  } else if (subjectId === ""){
-    alert('Subject를 설정해 주세요.')
-  } else if (maxPeople < 2){
-    alert('모집 인원은 최소2명 입니다.')
+    if (title === ""){
+      alert('제목을 입력해 주세요.')
+    } else if (endT <= startT) {
+      alert('종료시간을 시작시간보다 크게 설정해주세요.')
+    } else if (subjectId === ""){
+      alert('Subject를 설정해 주세요.')
+    } else if (maxPeople < 2){
+      alert('모집 인원은 최소2명 입니다.')
+    } else {
+      success = 1;
+    }
+    return success
   }
-}
+  const submitData = () => {
+  
+  if (validationCheck()){
+    let startT = startTime.getHours() + ':' + startTime.getMinutes();
+    let endT = endTime.getHours() + ':' + endTime.getMinutes();
+
+    // studyId 만들고, 현재인원은 1로 들어가도록
+    let data = {
+      studyId: 1, // axios call , max + 1
+      title: title,
+      startTime: startT,
+      endTime: endT,
+      maxPeople: maxPeople,
+      subject: subjectId,
+      studyDate: props.clickedDate,
+      station : station,
+      region: '경기도 용인시'   // selectRegion , props에서 받기
+    }
+
+    dispatch(registStudy(data))
+      .then(response => {
+        if(response.payload.success) {
+          alert('study가 등록되었습니다.')
+          handleClose();
+        }else {
+          alert("Error")
+        }
+      })
+    }
+  }
 
   return (
     <div>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">{clickedDate}</DialogTitle>
+        <DialogTitle id="form-dialog-title">{props.clickedDate}</DialogTitle>
         <DialogContent>
           <DialogContentText>
             스터디를 등록해 주세요.
-          </DialogContentText>
+          </DialogContentText>          
           <TextField
             autoFocus
             margin="dense"
             id="title"
-            label="ex) Study 모집"
+            label="Study title을 입력해주세요"
             type="text"
             onChange={handleTitle}
+            fullWidth
+          />          
+          <TextField
+            margin="dense"
+            id="station"
+            label="api 연동하여 axios 호출 후, 장소 선택 가능하도록"
+            type="text"
+            onChange={handleStation}
             fullWidth
           />
 
@@ -159,8 +203,9 @@ const validationCheck = (event) => {
           </MenuItem>
           <MenuItem value={0}><em>Project</em></MenuItem>
           <MenuItem value={1}>모각코</MenuItem>
-          <MenuItem value={2}>강의</MenuItem>
-          <MenuItem value={3}>기타</MenuItem>
+          <MenuItem value={2}>책 완독</MenuItem>
+          <MenuItem value={3}>강의</MenuItem>
+          <MenuItem value={4}>기타</MenuItem>
         </Select>
         <br />
         <TextField
@@ -178,7 +223,7 @@ const validationCheck = (event) => {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={validationCheck} color="primary">
+          <Button onClick={submitData} color="primary">
             Subscribe
           </Button>
         </DialogActions>
