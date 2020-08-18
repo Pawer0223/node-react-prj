@@ -31,9 +31,7 @@ export default function Test(props) {
     .then(response => {console.log(response.data)})
   }, [])
   
-  let clickedDate = props.clickedDate;
-
-  alert('clickedDate : ' + clickedDate)
+  let clickedId = props.eventId;
 
   console.log('clickedId : ' + clickedId);
 
