@@ -74,15 +74,29 @@ export default function RegisteEvent(props) {
     setTitle(event.target.value);
   };
 
-  const [maxPeople, setMaxPeople] = React.useState('');
+  const [maxPeople, setMaxPeople] = React.useState(0);
   const handleMaxPeople = (event) => {
     setMaxPeople(event.target.value);
   };
 
 
-const validationCheck = () => {
-  console.log('open : ' + open +', startTime : ' + startTime +', endTime : ' + endTime +', title : ' + title + ', maxPeople : ' + maxPeople);
-  event.preventDefault(); // default referesh prevent
+const validationCheck = (event) => {
+
+
+  let sartT = startTime.getHours() + startTime.getMinutes();
+  let endT = endTime.getHours() + endTime.getMinutes();
+
+  console.log('open : ' + open +', title : ' + title + ', maxPeople : ' + maxPeople);
+
+  if (title === ""){
+    alert('제목을 입력해 주세요.')
+  }else if (endT <= sartT) {
+    alert('종료시간을 시작시간보다 크게 설정해주세요.')
+  } else if (subjectId === ""){
+    alert('Subject를 설정해 주세요.')
+  } else if (maxPeople < 2){
+    alert('모집 인원은 최소2명 입니다.')
+  }
 }
 
   return (
@@ -146,6 +160,7 @@ const validationCheck = () => {
           <MenuItem value={0}><em>Project</em></MenuItem>
           <MenuItem value={1}>모각코</MenuItem>
           <MenuItem value={2}>강의</MenuItem>
+          <MenuItem value={3}>기타</MenuItem>
         </Select>
         <br />
         <TextField
