@@ -4,7 +4,6 @@ import {
 } from './types';
 
 export function registStudy(dataToSubmit) {
-    
     const request = axios.post('http://localhost:5000/api/studies/register', dataToSubmit)
     .then(response => response.data)
     return {

@@ -19,7 +19,7 @@ class DemoApp extends React.Component {
     registForm: "",
     open2: false
   };
-
+  
   handleOpen = (clickInfo) => {
     this.setState(state => ({
       getList: <StudyList studyId={clickInfo.event.id} />,

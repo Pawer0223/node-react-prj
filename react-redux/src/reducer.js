@@ -4,6 +4,7 @@ import {
   REGISTER_STUDY
 } from './_actions/types';
 
+
 export default combineReducers({
   weekendsVisible,
   eventsById,
@@ -47,10 +48,10 @@ function eventsById(eventsById = {}, action) {
 function study(state = {}, action) {
   switch (action.type) {
 
-    case REGISTER_STUDY:
-      return { ...state, register: action.payload }
-
-    default:
-      return state;
-  }
+      case REGISTER_STUDY:
+        return { ...state, register: action.payload }
+  
+      default:
+        return state;
+    }
 }

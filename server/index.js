@@ -6,6 +6,7 @@ const config = require('./config/key')
 const bodyParser = require('body-parser');
 const cors = require('cors')
 const { Study } = require("./models/Study")
+const { parseJSON } = require('date-fns')
 
 let cors_origin = ['http://localhost:3000', 'http://localhost:8080']
 
@@ -34,10 +35,12 @@ app.get('/api/test', (req, res) => {
   res.send(" calld api test");
 })
 
-app.post('/api/events/register', (req, res) => {
+app.post('/api/studies/register', (req, res) => {
     
 const study = new Study(req.body);
-  user.save((err, eventInfo) => {
+
+console.log('study : ' + study);
+  study.save((err, studyInfo) => {
       if(err)
           return res.json({ success: false, err })
       return res.status(200).json({

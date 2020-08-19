@@ -22,8 +22,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { registStudy } from '../../../_actions/study_action'
+
 import { useDispatch } from 'react-redux'
+import { registStudy } from '../../../_actions/study_action'
 
 export default function RegisteStudy(props) {
 
@@ -40,7 +41,7 @@ export default function RegisteStudy(props) {
       marginTop: theme.spacing(2),
     },
   }));
-  
+
   const dispatch = useDispatch();
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -52,7 +53,6 @@ export default function RegisteStudy(props) {
   const [title, setTitle] = React.useState('');
   const [maxPeople, setMaxPeople] = React.useState(0);
   const [station, setStation] = React.useState('online');
-
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -84,6 +84,10 @@ export default function RegisteStudy(props) {
     setStation(event.target.value);
   };
 
+  function registFail() {
+    alert('이벤트 등록에 실패하였습니다.')
+  }
+
   const validationCheck = () => {
     let startT = startTime.getHours() + startTime.getMinutes();
     let endT = endTime.getHours() + endTime.getMinutes();
@@ -104,34 +108,34 @@ export default function RegisteStudy(props) {
     }
     return success
   }
+
   const submitData = () => {
-  
-  if (validationCheck()){
-    let startT = startTime.getHours() + ':' + startTime.getMinutes();
-    let endT = endTime.getHours() + ':' + endTime.getMinutes();
 
-    // studyId 만들고, 현재인원은 1로 들어가도록
-    let data = {
-      studyId: 1, // axios call , max + 1
-      title: title,
-      startTime: startT,
-      endTime: endT,
-      maxPeople: maxPeople,
-      subject: subjectId,
-      studyDate: props.clickedDate,
-      station : station,
-      region: '경기도 용인시'   // selectRegion , props에서 받기
-    }
+    if (validationCheck()){
+      let startT = startTime.getHours() + ':' + startTime.getMinutes();
+      let endT = endTime.getHours() + ':' + endTime.getMinutes();
 
-    dispatch(registStudy(data))
-      .then(response => {
+      // studyId 만들고, 현재인원은 1로 들어가도록
+      let data = {
+        studyId: 1, // axios call , max + 1
+        title: title,
+        startTime: startT,
+        endTime: endT,
+        maxPeople: maxPeople,
+        subject: subjectId,
+        studyDate: props.clickedDate,
+        station : station,
+        region: '경기도 용인시'   // selectRegion , props에서 받기
+      }
+
+      dispatch(registStudy(data)).then(response => {
         if(response.payload.success) {
-          alert('study가 등록되었습니다.')
-          handleClose();
+           alert("success")
         }else {
-          alert("Error")
+            alert("Error")
         }
       })
+
     }
   }
 
