@@ -1,4 +1,5 @@
 import { excludeById, getTodayStr } from './utils'
+import axios from 'axios';
 
 /*
 functions that simulate network requests
@@ -88,6 +89,26 @@ export function requestEventDelete(eventId) {
         resolve(eventDb)
       }
     }, DELAY)
+  })
+}
+
+export function requestStudyReg(dataToSubmit, closeFunc) {
+  console.log('Regist Event data:', JSON.stringify(dataToSubmit))
+  
+  return new Promise((resolve, reject) => {
+
+    const request = axios.post('http://localhost:5000/api/studies/register', dataToSubmit)
+    .then(response => {
+      console.log(response);
+      if (!response.data.success) {
+        reject(new Error('Study Regist Error'))
+      } else {
+        let success =  response.data.success;
+        alert('Regist Event Success')
+        closeFunc();
+        resolve(success);
+      }
+    })
   })
 }
 

@@ -29,26 +29,25 @@ class DemoApp extends React.Component {
 
   handleClose = () => {
     this.setState(state => ({
-      open: false
-    }))
-  };
-
-  handleClose = () => {
-    this.setState(state => ({
-      open: false
+      open: false,
+      getList: ""
     }))
   };
 
   eventRegistOpen = (startStr) => {
     this.setState(state => ({
+      open2: true,
       // region 정보도 같이... 
-      registForm: <RegisteStudy clickedDate={startStr}/>,
-      open2: true
+      registForm: <RegisteStudy
+                    clickedDate= {startStr}
+                    hadleStudyReg = {this.hadleStudyReg}
+                    />
     }))
   };
 
   eventRegistClose = () => {
     this.setState(state => ({
+      open2: false,
       registForm: ""
     }))
   };
@@ -192,6 +191,12 @@ class DemoApp extends React.Component {
         removeInfo.revert()
       })
   }
+
+  hadleStudyReg = (submitData, closeFunc) => {
+    this.props.registStudy(submitData, closeFunc)
+      .catch(reportNetworkError)
+  }
+
 }
 
 function renderEventContent(eventInfo) {
@@ -225,7 +230,8 @@ function mapStateToProps() {
   return (state) => {
     return {
       events: getEventArray(state),
-      weekendsVisible: state.weekendsVisible
+      weekendsVisible: state.weekendsVisible,
+      study: state.study
     }
   }
 }

@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 import { hashById } from './utils'
-import {
-  REGISTER_STUDY
-} from './_actions/types';
 
+const studyInitialState = {
+  isSuccess: false
+}
 
 export default combineReducers({
   weekendsVisible,
@@ -45,11 +45,12 @@ function eventsById(eventsById = {}, action) {
   }
 }
 
-function study(state = {}, action) {
+function study(state = studyInitialState, action) {
+  console.log('study reducer is called');
   switch (action.type) {
 
-      case REGISTER_STUDY:
-        return { ...state, register: action.payload }
+      case 'REGISTER_STUDY':
+        return { ...state, registResult: action.isSucess }
   
       default:
         return state;

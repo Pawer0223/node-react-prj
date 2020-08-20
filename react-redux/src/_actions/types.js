@@ -1,1 +1,0 @@
-export const REGISTER_STUDY = "register_study";

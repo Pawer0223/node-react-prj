@@ -1,4 +1,4 @@
-import { requestEventsInRange, requestEventCreate, requestEventUpdate, requestEventDelete } from './requests'
+import { requestEventsInRange, requestEventCreate, requestEventUpdate, requestEventDelete, requestStudyReg } from './requests'
 
 export default {
 
@@ -50,6 +50,17 @@ export default {
         dispatch({
           type: 'DELETE_EVENT',
           eventId
+        })
+      })
+    }
+  },
+
+ registStudy(dataToSubmit, closeFunc) {
+   return (dispatch) => {
+     return requestStudyReg(dataToSubmit, closeFunc).then((success) => {
+      dispatch({
+         type: 'REGISTER_STUDY',
+         isSucess: success
         })
       })
     }

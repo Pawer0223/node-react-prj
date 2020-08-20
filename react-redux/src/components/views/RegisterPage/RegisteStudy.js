@@ -23,9 +23,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-import { useDispatch } from 'react-redux'
-import { registStudy } from '../../../_actions/study_action'
-
 export default function RegisteStudy(props) {
 
   // console.log('clickedDate : ' + props.clickedDate)
@@ -42,7 +39,6 @@ export default function RegisteStudy(props) {
     },
   }));
 
-  const dispatch = useDispatch();
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   // Time
@@ -84,10 +80,6 @@ export default function RegisteStudy(props) {
     setStation(event.target.value);
   };
 
-  function registFail() {
-    alert('이벤트 등록에 실패하였습니다.')
-  }
-
   const validationCheck = () => {
     let startT = startTime.getHours() + startTime.getMinutes();
     let endT = endTime.getHours() + endTime.getMinutes();
@@ -110,6 +102,7 @@ export default function RegisteStudy(props) {
   }
 
   const submitData = () => {
+    console.log('i am clicked')
 
     if (validationCheck()){
       let startT = startTime.getHours() + ':' + startTime.getMinutes();
@@ -127,15 +120,8 @@ export default function RegisteStudy(props) {
         station : station,
         region: '경기도 용인시'   // selectRegion , props에서 받기
       }
-
-      dispatch(registStudy(data)).then(response => {
-        if(response.payload.success) {
-           alert("success")
-        }else {
-            alert("Error")
-        }
-      })
-
+      props.hadleStudyReg(data, handleClose);
+      console.log('props : ' + JSON.stringify(props))
     }
   }
 
