@@ -12,7 +12,7 @@ const studySchema = mongoose.Schema({
     },
     // 날짜
     studyDate: {
-        type: String
+        type: Date
     },
     // 시작시간
     startTime: {

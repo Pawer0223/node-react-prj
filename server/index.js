@@ -37,15 +37,37 @@ app.get('/api/test', (req, res) => {
 
 app.post('/api/studies/register', (req, res) => {
     
-const study = new Study(req.body);
+  let study = new Study(req.body);
 
-console.log('study : ' + study);
-  study.save((err, studyInfo) => {
-      if(err)
-          return res.json({ success: false, err })
-      return res.status(200).json({
-          success: true
-      })
+  // console.log('study : ' + study);
+    study.save((err, studyInfo) => {
+        if(err)
+            return res.json({ success: false, err })
+        return res.status(200).json({
+            success: true
+        })
+    })
+})
+
+app.post('/api/studies/selectAll', (req, res) => {
+
+  let temp = {
+  }
+
+  console.log('selectAll req.body .. is.. ' + JSON.stringify(req.body));
+
+  let where = {'studyDate' :  {"$gte": new Date(req.body.start), "$lt": new Date(req.body.end)}}
+  
+   
+  Study.find(where, function(err, docs){
+      let size = docs.length;
+      console.log('size is : ' + size)
+
+        docs.forEach(stydy => {
+        let s = new Study(stydy);
+          console.log(JSON.stringify(s));
+      });
+
   })
 })
 

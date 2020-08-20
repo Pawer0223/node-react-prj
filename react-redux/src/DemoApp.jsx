@@ -141,25 +141,6 @@ class DemoApp extends React.Component {
     // console.log(selectInfo)
   }
 
-  // handleDateSelect = (selectInfo) => {
-  //   console.log('handleDateSelect clicked')
-  //   let calendarApi = selectInfo.view.calendar
-  //   let title = prompt('Please enter a new title for your event')
-
-  //   calendarApi.unselect() // clear date selection
-  //   //log.info(selectInfo);
-
-  //   if (title) {
-  //     calendarApi.addEvent({ // will render immediately. will call handleEventAdd
-  //       title,
-  //       start: selectInfo.startStr,
-  //       end: selectInfo.endStr,
-  //       allDay: selectInfo.allDay
-  //     }, true) // temporary=true, will get overwritten when reducer gives new events
-  //   }
-  // }
-
-
   // handlers that initiate reads/writes via the 'action' props
   // ------------------------------------------------------------------------------------------
 

@@ -34,6 +34,15 @@ export function requestEventsInRange(startStr, endStr) {
   console.log(`[STUB] requesting events from ${startStr} to ${endStr}`)
 
   return new Promise((resolve, reject) => {
+
+    let where = {
+      start : startStr,
+      end : endStr
+    }
+
+    // axios로 가져와서 eventDb에 담아주기
+    axios.post('http://localhost:5000/api/studies/selectAll', where)
+
     setTimeout(() => {
       if (simulateErrors) {
         reject(new Error('error'))
@@ -96,18 +105,18 @@ export function requestStudyReg(dataToSubmit, closeFunc) {
   
   return new Promise((resolve, reject) => {
 
-    const request = axios.post('http://localhost:5000/api/studies/register', dataToSubmit)
-    .then(response => {
-      if (!response.data.success) {
-        reject(new Error('Study Regist Error'))
-      } else {
-        let success =  response.data.success;
-        alert('Regist Event Success')
-        closeFunc();
-        resolve(success);
-      }
+    axios.post('http://localhost:5000/api/studies/register', dataToSubmit)
+      .then(response => {
+        if (!response.data.success) {
+          reject(new Error('Study Regist Error'))
+        } else {
+          let success =  response.data.success;
+          alert('Regist Event Success')
+          closeFunc();
+          resolve(success);
+        }
+      })
     })
-  })
 }
 
 function createEventId() {
