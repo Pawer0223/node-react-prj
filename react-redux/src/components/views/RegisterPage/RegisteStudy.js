@@ -85,7 +85,7 @@ export default function RegisteStudy(props) {
     let endT = endTime.getHours() + endTime.getMinutes();
     let success = 0;
 
-    console.log('open : ' + open +', title : ' + title + ', maxPeople : ' + maxPeople);
+    // console.log('open : ' + open +', title : ' + title + ', maxPeople : ' + maxPeople);
 
     if (title === ""){
       alert('제목을 입력해 주세요.')
@@ -102,8 +102,6 @@ export default function RegisteStudy(props) {
   }
 
   const submitData = () => {
-    console.log('i am clicked')
-
     if (validationCheck()){
       let startT = startTime.getHours() + ':' + startTime.getMinutes();
       let endT = endTime.getHours() + ':' + endTime.getMinutes();
@@ -121,7 +119,6 @@ export default function RegisteStudy(props) {
         region: '경기도 용인시'   // selectRegion , props에서 받기
       }
       props.hadleStudyReg(data, handleClose);
-      console.log('props : ' + JSON.stringify(props))
     }
   }
 

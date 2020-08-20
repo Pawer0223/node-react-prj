@@ -93,13 +93,11 @@ export function requestEventDelete(eventId) {
 }
 
 export function requestStudyReg(dataToSubmit, closeFunc) {
-  console.log('Regist Event data:', JSON.stringify(dataToSubmit))
   
   return new Promise((resolve, reject) => {
 
     const request = axios.post('http://localhost:5000/api/studies/register', dataToSubmit)
     .then(response => {
-      console.log(response);
       if (!response.data.success) {
         reject(new Error('Study Regist Error'))
       } else {

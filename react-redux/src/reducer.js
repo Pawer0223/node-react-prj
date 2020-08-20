@@ -46,7 +46,6 @@ function eventsById(eventsById = {}, action) {
 }
 
 function study(state = studyInitialState, action) {
-  console.log('study reducer is called');
   switch (action.type) {
 
       case 'REGISTER_STUDY':
