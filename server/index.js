@@ -52,30 +52,45 @@ app.post('/api/studies/register', (req, res) => {
 app.post('/api/studies/selectStudyInfo', (req, res) => {
 
   // 1. 기간 내의 모든, studyDate 가져오기
-
   // 2. groupby(studyDate) 해서 , 총 건수, id 이렇게 가져오면 됨.
-
-  // 총 건수 = title , start = studyDate , id = 가져온 id .. 
+  // 총 건수 = title , start = studyDate , id = 내부적으로 만들어 줘도 됨..
 
   // console.log('selectAll req.body .. is.. ' + JSON.stringify(req.body));
   let where = {'studyDate' :  {"$gte": new Date(req.body.start), "$lt": new Date(req.body.end)}}
 
+
+  // 이건 객체로 받아오기..
+  // Study.find(where).distinct('studyDate', (err, docs) => {
+
+  //     let size = docs.length;
+  //     console.log('size is : ' + size)
+
+  //       docs.forEach(studyDatePer => {
+  //       let cnt = Study.find({
+  //         'studyDate' : studyDatePer
+  //       }, (err, docs2) => {
+  //         console.log('studyDate : ' + studyDatePer + '.. length is : ' + docs2.length);
+  //         docs2.forEach(perStudy => {
+  //           console.log(JSON.stringify(perStudy));
+  //         })
+  //       });
+  //     });
+  // })
+
+  // 바로 총 갯수만 구하기..
   Study.find(where).distinct('studyDate', (err, docs) => {
 
-      let size = docs.length;
-      console.log('size is : ' + size)
+    let size = docs.length;
+    console.log('size is : ' + size)
 
-        docs.forEach(studyDatePer => {
-        let cnt = Study.find({
+      docs.forEach(studyDatePer => {
+        Study.find({
           'studyDate' : studyDatePer
-        }, (err, docs2) => {
-          console.log('studyDate : ' + studyDatePer + '.. length is : ' + docs2.length);
-          docs2.forEach(perStudy => {
-            console.log(JSON.stringify(perStudy));
-          })
-        });
-      });
-  })
+        }).count((err, cnt) => {
+          console.log('studyDate : ' + studyDatePer + '.. cnt is : ' + cnt);
+        }) 
+      })
+    })
 })
 
 app.listen(port, () => {
