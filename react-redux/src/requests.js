@@ -7,19 +7,6 @@ functions that simulate network requests
 
 let todayStr = getTodayStr()
 let eventGuid = 0
-let eventDb = [
-  {
-    id: createEventId(),
-    title: '3',
-    start: todayStr
-  },
-  {
-    id: createEventId(),
-    title: '1',
-    start: todayStr//todayStr + 'T12:00:00'
-  }
-]
-
 const DELAY = 200
 let simulateErrors = false
 
@@ -42,15 +29,22 @@ export function requestEventsInRange(startStr, endStr) {
 
     // axios로 가져와서 eventDb에 담아주기
     axios.post('http://localhost:5000/api/studies/selectStudyInfo', where)
-    
-
-    setTimeout(() => {
-      if (simulateErrors) {
-        reject(new Error('error'))
-      } else {
-        resolve(eventDb) // won't use the start/end, always return whole DB
-      }
-    }, DELAY)
+      .then(response => {
+        
+        console.log('request result... --> ' + JSON.stringify(response));
+        console.log('success? : ' + response.data.success)
+        let eventDb = []
+        if (!response.data.success){
+          console.log('study list select fail...')
+          reject(new Error('study list select Error !'))
+        }
+        else {
+          eventDb = response.data.eventDb;
+          console.log(JSON.stringify(eventDb));
+          console.log(JSON.stringify(eventDb));
+          resolve(eventDb);
+        }
+      })
   })
 }
 

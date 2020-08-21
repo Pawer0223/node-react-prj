@@ -49,6 +49,18 @@ app.post('/api/studies/register', (req, res) => {
     })
 })
 
+let eventGuid = 0
+
+function createEventId() {
+  return String(eventGuid++)
+}
+
+function getTodayStr(inputDate) {
+  return new Date(inputDate).toISOString().replace(/T.*$/, '')
+}
+
+let eventDb = [];
+
 app.post('/api/studies/selectStudyInfo', (req, res) => {
 
   // 1. 기간 내의 모든, studyDate 가져오기
@@ -80,18 +92,41 @@ app.post('/api/studies/selectStudyInfo', (req, res) => {
   // 바로 총 갯수만 구하기..
   Study.find(where).distinct('studyDate', (err, docs) => {
 
-    let size = docs.length;
-    console.log('size is : ' + size)
+    if(err)
+      return res.json({ success: false, err })
 
+    let totalCnt = docs.length;
       docs.forEach(studyDatePer => {
         Study.find({
           'studyDate' : studyDatePer
-        }).count((err, cnt) => {
-          console.log('studyDate : ' + studyDatePer + '.. cnt is : ' + cnt);
+        }).countDocuments((err, cnt) => {
+
+          let strStudyDate = getTodayStr(studyDatePer)
+
+          if(err)
+            return res.json({ success: false, err })
+          
+          eventDb.push({
+            id: createEventId(),
+            title: cnt,
+            start: strStudyDate
+          })
+          //console.log('studyDate : ' + studyDatePer + '.. cnt is : ' + cnt);
         }) 
       })
+
+      console.log('### eventDb' + JSON.stringify(eventDb));
+      console.log('totalCnt : ' + totalCnt)
+
+      return res.status(200).json({
+        success: true,
+        totalCnt: totalCnt,
+        eventDb: eventDb
+    })
+
     })
 })
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
