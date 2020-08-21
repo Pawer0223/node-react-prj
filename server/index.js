@@ -49,46 +49,18 @@ app.post('/api/studies/register', (req, res) => {
     })
 })
 
-let eventGuid = 0
-
-function createEventId() {
-  return String(eventGuid++)
-}
-
 function getTodayStr(inputDate) {
   return new Date(inputDate).toISOString().replace(/T.*$/, '')
 }
-
-let eventDb = [];
 
 app.post('/api/studies/selectStudyInfo', (req, res) => {
 
   // 1. 기간 내의 모든, studyDate 가져오기
   // 2. groupby(studyDate) 해서 , 총 건수, id 이렇게 가져오면 됨.
   // 총 건수 = title , start = studyDate , id = 내부적으로 만들어 줘도 됨..
-
   // console.log('selectAll req.body .. is.. ' + JSON.stringify(req.body));
   let where = {'studyDate' :  {"$gte": new Date(req.body.start), "$lt": new Date(req.body.end)}}
-
-
-  // 이건 객체로 받아오기..
-  // Study.find(where).distinct('studyDate', (err, docs) => {
-
-  //     let size = docs.length;
-  //     console.log('size is : ' + size)
-
-  //       docs.forEach(studyDatePer => {
-  //       let cnt = Study.find({
-  //         'studyDate' : studyDatePer
-  //       }, (err, docs2) => {
-  //         console.log('studyDate : ' + studyDatePer + '.. length is : ' + docs2.length);
-  //         docs2.forEach(perStudy => {
-  //           console.log(JSON.stringify(perStudy));
-  //         })
-  //       });
-  //     });
-  // })
-
+  let eventDb = []
   // 바로 총 갯수만 구하기..
   Study.find(where).distinct('studyDate', (err, docs) => {
 
@@ -96,34 +68,36 @@ app.post('/api/studies/selectStudyInfo', (req, res) => {
       return res.json({ success: false, err })
 
     let totalCnt = docs.length;
+    let eventGuid = 0;
+
       docs.forEach(studyDatePer => {
         Study.find({
           'studyDate' : studyDatePer
         }).countDocuments((err, cnt) => {
-
           let strStudyDate = getTodayStr(studyDatePer)
 
           if(err)
             return res.json({ success: false, err })
           
           eventDb.push({
-            id: createEventId(),
+            id: eventGuid++,
             title: cnt,
             start: strStudyDate
           })
+
+          if(eventGuid === totalCnt){
+            console.log('### eventDb' + JSON.stringify(eventDb));
+            console.log('totalCnt : ' + totalCnt)
+      
+              res.status(200).json({
+                success: true,
+                totalCnt: totalCnt,
+                eventDb: eventDb
+              })
+          }
           //console.log('studyDate : ' + studyDatePer + '.. cnt is : ' + cnt);
         }) 
       })
-
-      console.log('### eventDb' + JSON.stringify(eventDb));
-      console.log('totalCnt : ' + totalCnt)
-
-      return res.status(200).json({
-        success: true,
-        totalCnt: totalCnt,
-        eventDb: eventDb
-    })
-
     })
 })
 

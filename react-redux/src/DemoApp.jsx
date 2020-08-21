@@ -203,6 +203,7 @@ function reportNetworkError() {
 }
 
 function mapStateToProps() {
+  console.log('map state to props .. .called...')
   const getEventArray = createSelector(
     (state) => state.eventsById,
     getHashValues
@@ -211,8 +212,7 @@ function mapStateToProps() {
   return (state) => {
     return {
       events: getEventArray(state),
-      weekendsVisible: state.weekendsVisible,
-      study: state.study
+      weekendsVisible: state.weekendsVisible
     }
   }
 }

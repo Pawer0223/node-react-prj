@@ -14,7 +14,7 @@ export function hashById(array) {
 }
 
 export function excludeById(array, id) {
-  return array.filter((item) => item.id !== id)
+  return array.filter((item) => item.id !== id);
 }
 
 export function getTodayStr() {

@@ -25,8 +25,13 @@ function weekendsVisible(weekendsVisible = true, action) {
 function eventsById(eventsById = {}, action) {
   switch (action.type) {
 
-    case 'RECEIVE_EVENTS':
+    case 'RECEIVE_EVENTS': {
+      let result = hashById(action.plainEventObjects);
+
+      console.log('reducer... result.. -->>> ' + JSON.stringify(result))
+
       return hashById(action.plainEventObjects)
+    }
 
     case 'CREATE_EVENT':
     case 'UPDATE_EVENT':
