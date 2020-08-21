@@ -41,7 +41,8 @@ export function requestEventsInRange(startStr, endStr) {
     }
 
     // axios로 가져와서 eventDb에 담아주기
-    axios.post('http://localhost:5000/api/studies/selectAll', where)
+    axios.post('http://localhost:5000/api/studies/selectStudyInfo', where)
+    
 
     setTimeout(() => {
       if (simulateErrors) {

@@ -16,13 +16,11 @@ const studySchema = mongoose.Schema({
     },
     // 시작시간
     startTime: {
-        type: String,
-        default: new Date()
+        type: String
     },
     // 종료시간
     endTime: {
-        type: String,
-        default: new Date()
+        type: String
     },
     // 참여 인원
     maxPeople: {
