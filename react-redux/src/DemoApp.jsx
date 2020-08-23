@@ -51,7 +51,7 @@ class DemoApp extends React.Component {
       registForm: <RegisteStudy
                     clickedDate= {startStr}
                     hadleStudyReg = {this.hadleStudyReg}
-                    />
+                  />
     }))
   };
 

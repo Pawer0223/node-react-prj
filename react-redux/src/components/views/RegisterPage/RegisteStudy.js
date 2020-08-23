@@ -23,6 +23,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
+function makeTime(time){
+  let hour = (time.getHours() < 10 ? '0' : '') + time.getHours().toString();
+  let minute = (time.getMinutes() < 10 ? '0' : '') + time.getMinutes().toString();
+  return hour + ':' + minute;
+}
+
 export default function RegisteStudy(props) {
 
   // console.log('clickedDate : ' + props.clickedDate)
@@ -98,8 +104,10 @@ export default function RegisteStudy(props) {
 
   const submitData = () => {
     if (validationCheck()){
-      let startT = startTime.getHours() + ':' + startTime.getMinutes();
-      let endT = endTime.getHours() + ':' + endTime.getMinutes();
+      let startT = makeTime(startTime);
+      let endT = makeTime(endTime);
+
+      console.log('startT : ' + startT +', endT : ' + endT);
 
       // studyId 만들고, 현재인원은 1로 들어가도록
       let data = {

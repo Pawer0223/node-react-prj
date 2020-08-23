@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import StudyDetail from './StudyDetail'
 import axios from 'axios'
 
 function getModalStyle() {
-  const top = 50 ;
-  const left = 50 ;
+  const top = 50;
+  const left = 50;
 
   return {
     top: `${top}%`,
@@ -55,21 +56,28 @@ export default function StudyList(props) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(true);
+  const [detail, setDetail] = React.useState('');
   const studyList = []
 
   const handleOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
+  const handleDetailOpen = () => {
+    console.log('handleDetailOpen called')
+    setDetail(<StudyDetail />);
+  }
+  const handleDetailClose = () => {
+    setDetail('');
+  }
 
   // console.log('props.event INfo .... ' + JSON.stringify(props.studyList));
   // key를 studyId 추가하자, href에 studyId  걸어주자. eventId는 pk다 .
   let index = 0;
   props.studyList.forEach((stdInfo) => {
-    studyList.push(<li key={index++}>{getSubject(stdInfo.subject)} / {stdInfo.startTime}~{stdInfo.endTime} / ({stdInfo.joinPeople} / {stdInfo.maxPeople}) / <a href='/'>상세</a></li>)
+    studyList.push(<li key={index++}>{getSubject(stdInfo.subject)} / {stdInfo.startTime}~{stdInfo.endTime} / ({stdInfo.joinPeople} / {stdInfo.maxPeople}) / <StudyDetail /> </li>)
   });
 
     
