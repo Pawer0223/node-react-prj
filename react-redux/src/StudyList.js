@@ -32,10 +32,6 @@ export default function StudyList(props) {
     .then(response => {console.log(response.data)})
   }, [])
 
-  let where = {
-    'studyDate': props.eventInfo.start
-  }
-
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(true);
@@ -49,26 +45,14 @@ export default function StudyList(props) {
     setOpen(false);
   };
 
-    // 1. call api .. 나중에 지역 조건도 추가해야 함. 현재는 날짜로만...
-    axios.post('http://localhost:5000/api/studies/getStudyList', where)
-    .then(response => {
-      // 2. setData --> for ... paging... 
-      if (!response.data.success){
-        alert('스터디 정보 조회에 실패하였습니다.')
-        handleClose();
-        return ;
-      } else {
-        // response is json array..
-        let data = response.data.studyList;
-        let index = 0;
-        data.forEach((stdInfo) => {
-          studyList.push(<li>{stdInfo.subject} / {stdInfo.startTime}~{stdInfo.endTime} / ({stdInfo.joinPeople} / {stdInfo.maxPeople}) / <a href='/'>상세</a></li>)
-          console.log(index + ' 번째 .. ' + JSON.stringify(stdInfo));
-          index++
-        });
-        console.log(' studyList : ' + JSON.stringify(studyList))
-      }
-    })
+  // console.log('props.event INfo .... ' + JSON.stringify(props.studyList));
+  let index = 0;
+  props.studyList.forEach((stdInfo) => {
+    studyList.push(<li>{stdInfo.subject} / {stdInfo.startTime}~{stdInfo.endTime} / ({stdInfo.joinPeople} / {stdInfo.maxPeople}) / <a href='/'>상세</a></li>)
+    console.log(index + ' 번째 .. ' + JSON.stringify(stdInfo));
+    index++
+  });
+
     
   return (
     <div>

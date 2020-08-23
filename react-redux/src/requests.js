@@ -110,6 +110,31 @@ export function requestStudyReg(dataToSubmit, closeFunc) {
     })
 }
 
+export function requestStudyList(clickData) {
+
+  let where = {
+    'studyDate': clickData.event.start
+  }
+  return new Promise((resolve, reject) => {
+
+    // 1. call api .. 나중에 지역 조건도 추가해야 함. 현재는 날짜로만...
+    axios.post('http://localhost:5000/api/studies/getStudyList', where)
+    .then(response => {
+      // 2. setData --> for ... paging... 
+      if (!response.data.success){
+        reject(new Error('getStudyList Error'))
+        return { 'success': false };
+      } else {
+        // response is json array..
+        resolve({
+          'success': true,
+          'studyList': response.data.studyList
+        })
+      }
+    })
+  })
+}
+
 function createEventId() {
   return String(eventGuid++)
 }

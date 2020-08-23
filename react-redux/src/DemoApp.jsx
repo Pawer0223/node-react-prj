@@ -7,9 +7,9 @@ import timeGridPlugin, { buildTimeColsModel } from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import actionCreators from './actions'
 import { getHashValues } from './utils'
-import Modal from '@material-ui/core/Modal';
 import RegisteStudy from './components/views/RegisterPage/RegisteStudy'
 import StudyList from './StudyList'
+import { requestStudyList } from './requests'
 
 class DemoApp extends React.Component {
 
@@ -21,12 +21,22 @@ class DemoApp extends React.Component {
   };
 
   handleStudyListOpen = (clickInfo) => {
-    this.setState(state => ({
-      open: true,
-      studyList: <StudyList
-                    eventInfo= {clickInfo.event}
-                    />
-    }))
+
+    requestStudyList(clickInfo).then((result) => {
+
+      console.log(JSON.stringify(result));
+
+      if (!result.success){
+        alert('get Study Infos Error !!');
+      } else {
+        this.setState(state => ({
+          open: true,
+          studyList: <StudyList
+                        studyList= {result.studyList}
+                     />
+        }))
+      }
+    })
   };
 
   handleStudyListClose = () => {

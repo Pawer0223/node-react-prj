@@ -102,6 +102,7 @@ app.post('/api/studies/selectStudyInfo', (req, res) => {
 })
 
 app.post('/api/studies/getStudyList', (req, res) => {
+  console.log('getStudyList is Called !! ' )
   let studyInfos = [];
   let studyDateS = new Date(req.body.studyDate);
   let studyDateE = new Date(req.body.studyDate);
