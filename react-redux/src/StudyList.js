@@ -14,6 +14,26 @@ function getModalStyle() {
   };
 }
 
+function getSubject(subjectId){
+
+    console.log('subjectId... ' + subjectId);
+
+    switch (subjectId) {
+      case 0:
+        return 'Project'
+      case 1:
+        return '모각코'
+      case 2:
+        return '책 완독'
+      case 3:
+        return '강의'
+      case 4:
+        return '기타'
+      default:
+        return '없던건데?'
+    }
+}
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
@@ -46,11 +66,10 @@ export default function StudyList(props) {
   };
 
   // console.log('props.event INfo .... ' + JSON.stringify(props.studyList));
+  // key를 studyId 추가하자, href에 studyId  걸어주자. eventId는 pk다 .
   let index = 0;
   props.studyList.forEach((stdInfo) => {
-    studyList.push(<li>{stdInfo.subject} / {stdInfo.startTime}~{stdInfo.endTime} / ({stdInfo.joinPeople} / {stdInfo.maxPeople}) / <a href='/'>상세</a></li>)
-    console.log(index + ' 번째 .. ' + JSON.stringify(stdInfo));
-    index++
+    studyList.push(<li key={index++}>{getSubject(stdInfo.subject)} / {stdInfo.startTime}~{stdInfo.endTime} / ({stdInfo.joinPeople} / {stdInfo.maxPeople}) / <a href='/'>상세</a></li>)
   });
 
     

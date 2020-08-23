@@ -23,9 +23,6 @@ class DemoApp extends React.Component {
   handleStudyListOpen = (clickInfo) => {
 
     requestStudyList(clickInfo).then((result) => {
-
-      console.log(JSON.stringify(result));
-
       if (!result.success){
         alert('get Study Infos Error !!');
       } else {
