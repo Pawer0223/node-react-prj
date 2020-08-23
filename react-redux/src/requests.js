@@ -134,6 +134,27 @@ export function requestStudyList(clickData) {
     })
   })
 }
+export function requestMaxId(){
+  console.log('############ requestMaxId ############')
+
+  return new Promise((resolve, reject) => {
+
+    axios.get('http://localhost:5000/api/studies/getMaxId')
+    .then(response => {
+      if (!response.data.success){
+        reject(new Error('getStudyList Error'))
+        return { 'success': false };
+      } else {
+        console.log('requestMaxId... ' + JSON.stringify(response.data))
+        resolve({
+          'success': true,
+          'maxId': response.data.maxId
+        })
+      }
+    })
+  })
+}
+
 
 function createEventId() {
   return String(eventGuid++)

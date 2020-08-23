@@ -23,6 +23,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
+import { requestMaxId } from '../../../requests'
+
 function makeTime(time){
   let hour = (time.getHours() < 10 ? '0' : '') + time.getHours().toString();
   let minute = (time.getMinutes() < 10 ? '0' : '') + time.getMinutes().toString();
@@ -106,22 +108,30 @@ export default function RegisteStudy(props) {
     if (validationCheck()){
       let startT = makeTime(startTime);
       let endT = makeTime(endTime);
+      let maxId = 0;
 
-      console.log('startT : ' + startT +', endT : ' + endT);
+      requestMaxId().then(result => {
 
-      // studyId 만들고, 현재인원은 1로 들어가도록
-      let data = {
-        studyId: 1, // axios call , max + 1 .. 이거.. seq느낌으로... 검토하즈아..
-        content: content,
-        startTime: startT,
-        endTime: endT,
-        maxPeople: maxPeople,
-        subject: subjectId,
-        studyDate: props.clickedDate,
-        station : station,
-        region: '경기도 용인시'   // selectRegion , props에서 받기
-      }
-      props.hadleStudyReg(data, handleClose);
+        console.log('regist... study.. result.. ' + JSON.stringify(result))
+
+        if (!result.success){
+          alert('get MaxId ... Error !!');
+        } else {
+          // studyId 만들고, 현재인원은 1로 들어가도록
+          let data = {
+            studyId: result.maxId + 1,
+            content: content,
+            startTime: startT,
+            endTime: endT,
+            maxPeople: maxPeople,
+            subject: subjectId,
+            studyDate: props.clickedDate,
+            station : station,
+            region: '경기도 용인시'   // selectRegion , props에서 받기
+          }
+          props.hadleStudyReg(data, handleClose);
+        }
+      })
     }
   }
 

@@ -27,12 +27,17 @@ app.use(
   })
 );
 
+function getTodayStr(inputDate) {
+  return new Date(inputDate).toISOString().replace(/T.*$/, '')
+}
+
 app.get('/', (req, res) => {
   res.send('Start')
 })
 
 app.get('/api/test', (req, res) => {
-  res.send(" calld api test");
+    res.send(" calld api test");
+
 })
 
 app.post('/api/studies/register', (req, res) => {
@@ -41,18 +46,17 @@ app.post('/api/studies/register', (req, res) => {
 
   // console.log('study : ' + study);
     study.save((err, studyInfo) => {
-        if(err)
+        if (err){
+            console.log('register Error .. ' + err)
             return res.json({ success: false, err })
+        }
         return res.status(200).json({
             success: true
         })
     })
 })
 
-function getTodayStr(inputDate) {
-  return new Date(inputDate).toISOString().replace(/T.*$/, '')
-}
-
+// 1달 단위의  스터디 정보
 app.post('/api/studies/selectStudyInfo', (req, res) => {
 
   // 1. 기간 내의 모든, studyDate 가져오기
@@ -64,11 +68,16 @@ app.post('/api/studies/selectStudyInfo', (req, res) => {
   // 바로 총 갯수만 구하기..
   Study.find(where).distinct('studyDate', (err, docs) => {
 
-    if(err)
+    if (err){
+      console.log('selectStudyInfo Error .. ' + err)
       return res.json({ success: false, err })
+    }
 
     let totalCnt = docs.length;
     let eventGuid = 0;
+
+    if (totalCnt === 0)
+      return res.json({ success: true, eventDb })
 
       docs.forEach(studyDatePer => {
         Study.find({
@@ -101,6 +110,7 @@ app.post('/api/studies/selectStudyInfo', (req, res) => {
     })
 })
 
+// 선택한 날짜에 대한 스터디 정보
 app.post('/api/studies/getStudyList', (req, res) => {
   console.log('getStudyList is Called !! ' )
   let studyInfos = [];
@@ -112,9 +122,18 @@ app.post('/api/studies/getStudyList', (req, res) => {
   let where = {'studyDate' :  {"$gte": studyDateS, "$lt": studyDateE}}
 
   Study.find(where, (err, doc) => {
-    if (err){
-      console.log(err)
+    if (err) {
+      console.log('getStudyList Error .. ' + err)
+      res.json({ success: false, err })
     }
+
+    if (doc.length === 0){
+      res.status(200).json({
+        success: true,
+        studyList: studyInfos
+      })
+    }
+
     doc.forEach((info) => {
       studyInfos.push(new Study(info));
       index++;
@@ -125,6 +144,35 @@ app.post('/api/studies/getStudyList', (req, res) => {
           studyList: studyInfos
         })
       } 
+    })
+  })
+})
+
+// maxId 가져오기
+app.get('/api/studies/getMaxId', (req, res) => {
+
+  Study.aggregate([ 
+    { "$group": { 
+        "_id": null,
+        "max": { "$max": "$studyId" }, 
+        "min": { "$min": "$studyId" } 
+    }}
+  ], (err, result) => {
+    if (err){
+      console.log('getMaxId Error .. : ' + err);
+      return { 'sucess': false, err }
+    }
+
+    let max = 0;
+
+    if (result.length != 0)
+      max = result[0].max
+
+    console.log('server data check.. ' + max);
+
+    res.status(200).json({
+      success: true,
+      maxId: max
     })
   })
 })

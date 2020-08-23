@@ -89,12 +89,12 @@ export default function StudyList(props) {
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
     >
-    <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title"> Study List</h2>
-        <p id="simple-modal-description">
-          {studyList}
-        </p>
-    </div>
+      <div style={modalStyle} className={classes.paper}>
+        <h2 id="simple-modal-title"> Study List</h2>
+          <p id="simple-modal-description">
+            {studyList}
+          </p>
+      </div>
     </Modal>
     </div>
   );
