@@ -8,36 +8,33 @@ import interactionPlugin from '@fullcalendar/interaction'
 import actionCreators from './actions'
 import { getHashValues } from './utils'
 import Modal from '@material-ui/core/Modal';
-import RegisteStudy from './components/views/RegisterPage/RegisteStudy'
 import StudyList from './StudyList'
+import RegisteStudy from './components/views/RegisterPage/RegisteStudy'
 
 class DemoApp extends React.Component {
 
   state = {
     open: false,
-    studyList: "",
-    open2: false,
-    registForm: ""
+    getList: "",
+    registForm: "",
+    open2: false
   };
-
-  handleStudyListOpen = (clickInfo) => {
+  
+  handleOpen = (clickInfo) => {
     this.setState(state => ({
-      open: true,
-      studyList: <StudyList
-                    eventInfo= {clickInfo.event}
-                    />
+      getList: <StudyList eventInfo={clickInfo.event} />,
+      open: true
     }))
   };
 
-  handleStudyListClose = () => {
+  handleClose = () => {
     this.setState(state => ({
       open: false,
-      studyList: ""
+      getList: ""
     }))
   };
 
-
-  handleStudyRegOpen = (startStr) => {
+  eventRegistOpen = (startStr) => {
     this.setState(state => ({
       open2: true,
       // region 정보도 같이... 
@@ -48,7 +45,7 @@ class DemoApp extends React.Component {
     }))
   };
 
-  handleStudyRegClose = () => {
+  eventRegistClose = () => {
     this.setState(state => ({
       open2: false,
       registForm: ""
@@ -77,15 +74,22 @@ class DemoApp extends React.Component {
             select={this.handleDateSelect}
             events={this.props.events}
             eventContent={renderEventContent} // custom render function
-            eventClick={this.handleEventClick}
+            eventClick={this.handleOpen}
             eventAdd={this.handleEventAdd}
             eventChange={this.handleEventChange} // called for drag-n-drop/resize
             eventRemove={this.handleEventRemove}
           />
       </div>
       <div>
-        {this.state.studyList}
-        {this.state.registForm}
+      <Modal
+        open={this.state.open}
+        onClose={this.handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        >
+          {this.state.getList}
+      </Modal>
+      {this.state.registForm}
       </div>
     </div>
     )
@@ -128,19 +132,13 @@ class DemoApp extends React.Component {
 
   handleDateSelect = (selectInfo) => {
     if (this.state.open2){
-      this.handleStudyRegClose()
+      this.eventRegistClose()
     }
     // region 정보도 같이... 
-    this.handleStudyRegOpen(selectInfo.startStr)
+
+    this.eventRegistOpen(selectInfo.startStr)
     // console.log('handleDateSelect clicked : ' + this.props.events)
     // console.log(selectInfo)
-  }
-
-  handleEventClick = (clickInfo) => {
-    if (this.state.open){
-      this.handleStudyListClose()
-    }
-    this.handleStudyListOpen(clickInfo)
   }
 
   // handlers that initiate reads/writes via the 'action' props
