@@ -31,13 +31,15 @@ export default function StudyList(props) {
     axios.get('http://localhost:5000/api/test')
     .then(response => {console.log(response.data)})
   }, [])
-  
 
-  console.log('eventInfo : ' + JSON.stringify(props.eventInfo));
+  let where = {
+    'studyDate': props.eventInfo.start
+  }
 
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(true);
+  const studyList = []
 
   const handleOpen = () => {
     setOpen(true);
@@ -47,17 +49,27 @@ export default function StudyList(props) {
     setOpen(false);
   };
 
-  const body = (
-    <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title"> Study List</h2>
-        <p id="simple-modal-description">
-          <li>Java Study / 16:00~18:00 / (1 / 5) / <a href='/'>join</a></li>
-          <li>React Study / 16:00~18:00 / (1 / 5) / <a href='/'>join</a></li>
-          <li>모각코 / 16:00~18:00 / (1 / 5) / <a href='/'>join</a></li>
-        </p>
-    </div>
-  )
-
+    // 1. call api .. 나중에 지역 조건도 추가해야 함. 현재는 날짜로만...
+    axios.post('http://localhost:5000/api/studies/getStudyList', where)
+    .then(response => {
+      // 2. setData --> for ... paging... 
+      if (!response.data.success){
+        alert('스터디 정보 조회에 실패하였습니다.')
+        handleClose();
+        return ;
+      } else {
+        // response is json array..
+        let data = response.data.studyList;
+        let index = 0;
+        data.forEach((stdInfo) => {
+          studyList.push(<li>{stdInfo.subject} / {stdInfo.startTime}~{stdInfo.endTime} / ({stdInfo.joinPeople} / {stdInfo.maxPeople}) / <a href='/'>상세</a></li>)
+          console.log(index + ' 번째 .. ' + JSON.stringify(stdInfo));
+          index++
+        });
+        console.log(' studyList : ' + JSON.stringify(studyList))
+      }
+    })
+    
   return (
     <div>
     <Modal
@@ -66,7 +78,12 @@ export default function StudyList(props) {
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
     >
-      {body}
+    <div style={modalStyle} className={classes.paper}>
+      <h2 id="simple-modal-title"> Study List</h2>
+        <p id="simple-modal-description">
+          {studyList}
+        </p>
+    </div>
     </Modal>
     </div>
   );

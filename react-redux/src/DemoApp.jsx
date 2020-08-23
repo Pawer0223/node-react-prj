@@ -178,7 +178,7 @@ class DemoApp extends React.Component {
   hadleStudyReg = (submitData, closeFunc) => {
     this.props.registStudy(submitData, closeFunc)
       .catch(reportNetworkError)
-   window.location.reload(); 
+    window.location.reload(); 
   }
 
 }

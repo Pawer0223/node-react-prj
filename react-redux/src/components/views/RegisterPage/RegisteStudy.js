@@ -108,7 +108,7 @@ export default function RegisteStudy(props) {
 
       // studyId 만들고, 현재인원은 1로 들어가도록
       let data = {
-        studyId: 1, // axios call , max + 1
+        studyId: 1, // axios call , max + 1 .. 이거.. seq느낌으로... 검토하즈아..
         title: title,
         startTime: startT,
         endTime: endT,

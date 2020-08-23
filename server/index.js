@@ -101,6 +101,32 @@ app.post('/api/studies/selectStudyInfo', (req, res) => {
     })
 })
 
+app.post('/api/studies/getStudyList', (req, res) => {
+  let studyInfos = [];
+  let studyDateS = new Date(req.body.studyDate);
+  let studyDateE = new Date(req.body.studyDate);
+  let index = 0;
+  studyDateE.setDate(studyDateS.getDate() + 1);
+
+  let where = {'studyDate' :  {"$gte": studyDateS, "$lt": studyDateE}}
+
+  Study.find(where, (err, doc) => {
+    if (err){
+      console.log(err)
+    }
+    doc.forEach((info) => {
+      studyInfos.push(new Study(info));
+      index++;
+      if (index === doc.length){
+        // console.log('response ... studyinfos ...... ' + JSON.stringify(studyInfos))
+        res.status(200).json({
+          success: true,
+          studyList: studyInfos
+        })
+      } 
+    })
+  })
+})
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
