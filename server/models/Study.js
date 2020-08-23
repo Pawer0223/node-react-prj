@@ -5,11 +5,6 @@ const studySchema = mongoose.Schema({
     studyId: {
         type: Number
     },
-    // 제목
-    title: {
-        type: String,
-        maxlength : 50
-    },
     // 날짜
     studyDate: {
         type: Date
@@ -36,6 +31,11 @@ const studySchema = mongoose.Schema({
     subject:{
         type: Number,
         default: 0
+    },
+    // study 내용
+    content:{
+        type: String,
+        maxlength : 3000 // 1000자로 제한하기..
     },
     // 지역
     region:{

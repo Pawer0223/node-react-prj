@@ -40,13 +40,13 @@ export default function RegisteStudy(props) {
   }));
 
   const classes = useStyles();
+  const [content, setContent] = React.useState('Controlled');
   const [open, setOpen] = React.useState(true);
   // Time
   // The first commit of Material-UI
   const [startTime, setStartTime] = React.useState(new Date('1900-01-01T00:00:00'));
   const [endTime, setEndTime] = React.useState(new Date('1900-01-02T02:00:00'));
   const [subjectId, setSubjectId] = React.useState('');
-  const [title, setTitle] = React.useState('');
   const [maxPeople, setMaxPeople] = React.useState(0);
   const [station, setStation] = React.useState('online');
 
@@ -56,28 +56,23 @@ export default function RegisteStudy(props) {
   const handleClose = () => {
     setOpen(false);
   };
-
   const handleStart = (date) => {
     setStartTime(date);
   };
   const handleEnd = (date) => {
     setEndTime(date);
   };
-
   const handleSubjectId = (event) => {
     setSubjectId(event.target.value);
   };
-  
-  const handleTitle = (event) => {
-    setTitle(event.target.value);
-  };
-  
   const handleMaxPeople = (event) => {
     setMaxPeople(event.target.value);
   };
-  
   const handleStation = (event) => {
     setStation(event.target.value);
+  };
+  const handleContent = (event) => {
+    setContent(event.target.value);
   };
 
   const validationCheck = () => {
@@ -87,8 +82,8 @@ export default function RegisteStudy(props) {
 
     // console.log('open : ' + open +', title : ' + title + ', maxPeople : ' + maxPeople);
 
-    if (title === ""){
-      alert('제목을 입력해 주세요.')
+    if (content === ""){
+      alert('스터디 내용을 입력해 주세요.')
     } else if (endT <= startT) {
       alert('종료시간을 시작시간보다 크게 설정해주세요.')
     } else if (subjectId === ""){
@@ -109,7 +104,7 @@ export default function RegisteStudy(props) {
       // studyId 만들고, 현재인원은 1로 들어가도록
       let data = {
         studyId: 1, // axios call , max + 1 .. 이거.. seq느낌으로... 검토하즈아..
-        title: title,
+        content: content,
         startTime: startT,
         endTime: endT,
         maxPeople: maxPeople,
@@ -129,16 +124,14 @@ export default function RegisteStudy(props) {
         <DialogContent>
           <DialogContentText>
             스터디를 등록해 주세요.
-          </DialogContentText>          
+          </DialogContentText>              
           <TextField
-            autoFocus
-            margin="dense"
-            id="title"
-            label="Study title을 입력해주세요"
-            type="text"
-            onChange={handleTitle}
+            id="content"
+            label="스터디 내용을 1000자 이내로 자유롭게 작성해주세요"
+            onChange={handleContent}
+            multiline
             fullWidth
-          />          
+          />
           <TextField
             margin="dense"
             id="station"

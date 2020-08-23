@@ -27,9 +27,7 @@ function eventsById(eventsById = {}, action) {
 
     case 'RECEIVE_EVENTS': {
       let result = hashById(action.plainEventObjects);
-
-      console.log('reducer... result.. -->>> ' + JSON.stringify(result))
-
+      // console.log('reducer... result.. -->>> ' + JSON.stringify(result))
       return hashById(action.plainEventObjects)
     }
 
