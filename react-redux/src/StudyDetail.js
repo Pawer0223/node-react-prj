@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
+import { requestStudyDetail } from './requests'
 
 function getModalStyle() {
   const top = 55;
@@ -33,23 +34,47 @@ export default function StudyDetail(props) {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
+  const [body, setBody] = React.useState(
+  <div style={modalStyle} className={classes.paper} >
+    <h2 id="simple-modal-title">스터디 내용</h2>
+    <p id="simple-modal-description">
+      no content...
+    </p>
+  </div>);
 
   const handleOpen = () => {
-    setOpen(true);
+    console.log('handleOpel.. Called')
+
+    requestStudyDetail(props.studyId).then(result => {
+      console.log('result.. : ' + JSON.stringify(result));
+      
+     if (!result.success){
+        alert('detail modal open error !! ')
+      }else {
+        console.log('result content ... ' + result.content);
+        
+        let content = result.content;
+
+        setBody(
+          <div style={modalStyle} className={classes.paper} >
+            <h2 id="simple-modal-title">스터디 내용</h2>
+            <p id="simple-modal-description">
+              {
+                content.split('\n').map( line => {
+                  return (<span>{line}<br /></span>)
+                })
+              }
+            </p>
+          </div>
+        );
+        setOpen(true);
+      }
+    })
   };
 
   const handleClose = () => {
     setOpen(false);
   };
-
-  const body = (
-    <div style={modalStyle} className={classes.paper} >
-      <h2 id="simple-modal-title">Text in a modal</h2>
-      <p id="simple-modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </p>
-    </div>
-  );
 
   return (
     <div style={{display: "contents"}}>

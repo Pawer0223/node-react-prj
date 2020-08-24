@@ -134,6 +134,7 @@ export function requestStudyList(clickData) {
     })
   })
 }
+
 export function requestMaxId(){
   console.log('############ requestMaxId ############')
 
@@ -155,6 +156,26 @@ export function requestMaxId(){
   })
 }
 
+export function requestStudyDetail(studyId) {
+
+  let where = {
+    'studyId': studyId
+  }
+  return new Promise((resolve, reject) => {
+    axios.post('http://localhost:5000/api/studies/getDetail', where)
+    .then(response => {
+      if (!response.data.success){
+        reject(new Error('requestStudyDetail Error'))
+        return { 'success': false };
+      } else {
+        resolve({
+          'success': true,
+          'content': response.data.content
+        })
+      }
+    })
+  })
+}
 
 function createEventId() {
   return String(eventGuid++)

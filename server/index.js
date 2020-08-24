@@ -112,7 +112,7 @@ app.post('/api/studies/selectStudyInfo', (req, res) => {
 
 // 선택한 날짜에 대한 스터디 정보
 app.post('/api/studies/getStudyList', (req, res) => {
-  console.log('getStudyList is Called !! ' )
+  
   let studyInfos = [];
   let studyDateS = new Date(req.body.studyDate);
   let studyDateE = new Date(req.body.studyDate);
@@ -173,6 +173,27 @@ app.get('/api/studies/getMaxId', (req, res) => {
     res.status(200).json({
       success: true,
       maxId: max
+    })
+  })
+})
+
+// 상세정보 조회 !
+app.post('/api/studies/getDetail', (req, res) => {
+
+  let where = {'studyId' :  req.body.studyId};
+  let contentData = {};
+
+  Study.find(where, (err, doc) => {
+    if (err) {
+      console.log('getDetail Error .. ' + err)
+      res.json({ success: false, err })
+    }
+    if (doc.length != 0){
+      contentData = doc[0].content
+    }
+    res.status(200).json({
+        success: true,
+        content: contentData
     })
   })
 })

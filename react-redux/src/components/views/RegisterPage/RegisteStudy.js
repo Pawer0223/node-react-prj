@@ -219,10 +219,10 @@ export default function RegisteStudy(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Cancel
+            취소
           </Button>
           <Button onClick={submitData} color="primary">
-            Subscribe
+            등록
           </Button>
         </DialogActions>
       </Dialog>

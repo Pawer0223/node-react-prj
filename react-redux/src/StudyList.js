@@ -16,9 +16,6 @@ function getModalStyle() {
 }
 
 function getSubject(subjectId){
-
-    console.log('subjectId... ' + subjectId);
-
     switch (subjectId) {
       case 0:
         return 'Project'
@@ -56,7 +53,6 @@ export default function StudyList(props) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(true);
-  const [detail, setDetail] = React.useState('');
   const studyList = []
 
   const handleOpen = () => {
@@ -65,19 +61,11 @@ export default function StudyList(props) {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleDetailOpen = () => {
-    console.log('handleDetailOpen called')
-    setDetail(<StudyDetail />);
-  }
-  const handleDetailClose = () => {
-    setDetail('');
-  }
 
   // console.log('props.event INfo .... ' + JSON.stringify(props.studyList));
-  // key를 studyId 추가하자, href에 studyId  걸어주자. eventId는 pk다 .
   let index = 0;
   props.studyList.forEach((stdInfo) => {
-    studyList.push(<li key={index++}>{getSubject(stdInfo.subject)} / {stdInfo.startTime}~{stdInfo.endTime} / ({stdInfo.joinPeople} / {stdInfo.maxPeople}) / <StudyDetail /> </li>)
+    studyList.push(<li key={index++}>{getSubject(stdInfo.subject)} / {stdInfo.startTime}~{stdInfo.endTime} / ({stdInfo.joinPeople} / {stdInfo.maxPeople}) / <StudyDetail studyId={stdInfo.studyId}/> </li>)
   });
 
     
@@ -90,7 +78,7 @@ export default function StudyList(props) {
       aria-describedby="simple-modal-description"
     >
       <div style={modalStyle} className={classes.paper}>
-        <h2 id="simple-modal-title"> Study List</h2>
+        <h2 id="simple-modal-title">Study List</h2>
           <div id="simple-modal-description">
             {studyList}
           </div>
