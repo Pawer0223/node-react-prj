@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import StudyDetail from './StudyDetail'
+import Pagination from '@material-ui/lab/Pagination';
 import axios from 'axios'
 
 function getModalStyle() {
@@ -53,7 +54,14 @@ export default function StudyList(props) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(true);
-  const studyList = []
+  const [prevPage, setPrevPage] = React.useState(0);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [studyList, setStudyList] = React.useState([]);
+  const perPageCnt = 5;
+  let pageCnt =  parseInt(props.studyList.length / perPageCnt);
+
+  if ((props.studyList.length % perPageCnt) != 0)
+    pageCnt++;
 
   const handleOpen = () => {
     setOpen(true);
@@ -62,13 +70,34 @@ export default function StudyList(props) {
     setOpen(false);
   };
 
-  // console.log('props.event INfo .... ' + JSON.stringify(props.studyList));
-  let index = 0;
-  props.studyList.forEach((stdInfo) => {
-    studyList.push(<li key={index++}>{getSubject(stdInfo.subject)} / {stdInfo.startTime}~{stdInfo.endTime} / ({stdInfo.joinPeople} / {stdInfo.maxPeople}) / <StudyDetail studyId={stdInfo.studyId}/> </li>)
-  });
+  const handleCurrentPage = (event, selectPage) => {
+    setCurrentPage(selectPage)
+  }
 
+  const handlePrevPage = () => {
+    setPrevPage(currentPage);
+  }
+
+  const handleStudyList = (currentPage) => {
     
+    let list = [];
+    let start = ((currentPage - 1) * perPageCnt);
+    let end = start + perPageCnt;
+    if (end > props.studyList.length) 
+      end = props.studyList.length
+    
+    for (let i = start; i < end; i++) {
+      let stdInfo = props.studyList[i];
+      list.push(<li key={i}>{getSubject(stdInfo.subject)} / {stdInfo.startTime}~{stdInfo.endTime} / ({stdInfo.joinPeople} / {stdInfo.maxPeople}) / <StudyDetail studyId={stdInfo.studyId}/> </li>)
+    }
+    setStudyList(list);
+  }
+
+  if (prevPage != currentPage){
+    handleStudyList(currentPage);
+    handlePrevPage();
+  }
+   
   return (
     <div>
     <Modal
@@ -81,6 +110,7 @@ export default function StudyList(props) {
         <h2 id="simple-modal-title">Study List</h2>
           <div id="simple-modal-description">
             {studyList}
+            <Pagination count={pageCnt} shape="rounded" page={currentPage} onChange={handleCurrentPage}/>
           </div>
       </div>
     </Modal>

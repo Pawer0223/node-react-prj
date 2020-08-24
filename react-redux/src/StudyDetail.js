@@ -28,8 +28,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function StudyDetail(props) {
 
-  console.log('detail props .. ' + JSON.stringify(props))
-
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
