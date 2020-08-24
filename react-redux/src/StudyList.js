@@ -91,9 +91,9 @@ export default function StudyList(props) {
     >
       <div style={modalStyle} className={classes.paper}>
         <h2 id="simple-modal-title"> Study List</h2>
-          <p id="simple-modal-description">
+          <div id="simple-modal-description">
             {studyList}
-          </p>
+          </div>
       </div>
     </Modal>
     </div>
