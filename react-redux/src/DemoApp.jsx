@@ -213,7 +213,6 @@ function reportNetworkError() {
 }
 
 function mapStateToProps() {
-  console.log('map state to props .. .called...')
   const getEventArray = createSelector(
     (state) => state.eventsById,
     getHashValues

@@ -43,16 +43,11 @@ export default function StudyDetail(props) {
   </div>);
 
   const handleOpen = () => {
-    console.log('handleOpel.. Called')
-
     requestStudyDetail(props.studyId).then(result => {
-      console.log('result.. : ' + JSON.stringify(result));
-      
+ 
      if (!result.success){
         alert('detail modal open error !! ')
       }else {
-        console.log('result content ... ' + result.content);
-        
         let content = result.content;
 
         setBody(
@@ -60,8 +55,8 @@ export default function StudyDetail(props) {
             <h2 id="simple-modal-title">스터디 내용</h2>
             <p id="simple-modal-description">
               {
-                content.split('\n').map( line => {
-                  return (<span>{line}<br /></span>)
+                content.split('\n').map((line, index) => {
+                  return (<span key={index}>{line}<br /></span>)
                 })
               }
             </p>

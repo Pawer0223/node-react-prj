@@ -37,7 +37,6 @@ export function requestEventsInRange(startStr, endStr) {
         }
         else {
           let eventDb = response.data.eventDb;
-          console.log('eventDb size.. ' + eventDb.length);
           resolve(response.data.eventDb);
         }
       })
@@ -136,8 +135,6 @@ export function requestStudyList(clickData) {
 }
 
 export function requestMaxId(){
-  console.log('############ requestMaxId ############')
-
   return new Promise((resolve, reject) => {
 
     axios.get('http://localhost:5000/api/studies/getMaxId')
@@ -146,7 +143,6 @@ export function requestMaxId(){
         reject(new Error('getStudyList Error'))
         return { 'success': false };
       } else {
-        console.log('requestMaxId... ' + JSON.stringify(response.data))
         resolve({
           'success': true,
           'maxId': response.data.maxId
