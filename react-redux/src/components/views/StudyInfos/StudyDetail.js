@@ -2,7 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
-import { requestStudyDetail } from './requests'
+import DialogActions from '@material-ui/core/DialogActions';
+import { requestStudyDetail } from '../../../requests';
 
 function getModalStyle() {
   const top = 55;
@@ -58,6 +59,14 @@ export default function StudyDetail(props) {
                 })
               }
             </p>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            닫기
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            참가하기
+          </Button>
+        </DialogActions>
           </div>
         );
         setOpen(true);

@@ -8,10 +8,13 @@ import interactionPlugin from '@fullcalendar/interaction'
 import actionCreators from './actions'
 import { getHashValues } from './utils'
 import RegisteStudy from './components/views/RegisterPage/RegisteStudy'
-import StudyList from './StudyList'
+import StudyList from './components/views/StudyInfos/StudyList'
 import { requestStudyList } from './requests'
 
-class DemoApp extends React.Component {
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+
+class App extends React.Component {
 
   state = {
     open: false,
@@ -99,16 +102,24 @@ class DemoApp extends React.Component {
   }
 
   renderSidebar() {
+    let totalLen = 0;
+    
+    this.props.events.forEach(study => {
+      totalLen += study.title;  
+    });
     return (
       <div className='demo-app-sidebar'>
         <div className='demo-app-sidebar-section'>
-          <h2>Instructions</h2>
+          <h2>Match Study</h2>
           <ul>
-            <li>Select dates and you will be prompted to create a new event</li>
-            <li>Drag, drop, and resize events</li>
-            <li>Click an event to delete it</li>
-            <li>Add</li>
+            <li>지역을 검색하시면, 스터디 정보가 달력에 표시됩니다.( 파란색 바 )</li>
+            <li>스터디가 없다면, 달력에 아무것도 표시되지 않습니다.</li>
+            <li>날짜를 선택하여 새로운 스터디를 등록할 수 있습니다.</li>
+            <li>지역 검색의 최소 단위는 행정동 명칭 입니다.</li>
           </ul>
+        </div>
+        <div className='demo-app-sidebar-section'>
+          검색 창 render.. 
         </div>
         <div className='demo-app-sidebar-section'>
           <label>
@@ -117,15 +128,15 @@ class DemoApp extends React.Component {
               checked={this.props.weekendsVisible}
               onChange={this.props.toggleWeekends}
             ></input>
-            toggle weekends
+            weekends
           </label>
         </div>
         <div className='demo-app-sidebar-section'>
-          <h2>All Events ({this.props.events.length})</h2>
-          <ul>
+          <h2>All Events ({totalLen})</h2>
+          {/* <ul>
             {this.props.events.map(renderSidebarEvent)}
-          </ul>
-        </div>
+          </ul> */}
+        </div>   
       </div>
     )
   }
@@ -203,7 +214,7 @@ function renderSidebarEvent(plainEventObject) {
   return (
     <li key={plainEventObject.id}>
       <b>{formatDate(plainEventObject.start, {year: 'numeric', month: 'short', day: 'numeric'})}</b>
-      <i>{plainEventObject.title}</i>
+      {/* <i>{plainEventObject.title}</i> */}
     </li>
   )
 }
@@ -226,4 +237,4 @@ function mapStateToProps() {
   }
 }
 
-export default connect(mapStateToProps, actionCreators)(DemoApp)
+export default connect(mapStateToProps, actionCreators)(App)

@@ -45,6 +45,10 @@ const studySchema = mongoose.Schema({
     station:{
         type: String
     },
+    // // 참가인원 id정보
+    // participants: {
+    //     type: Array
+    // }
 })
 
 const Study = mongoose.model('Study', studySchema)
