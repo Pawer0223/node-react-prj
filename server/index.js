@@ -121,7 +121,8 @@ app.post('/api/studies/getStudyList', (req, res) => {
 
   let where = {'studyDate' :  {"$gte": studyDateS, "$lt": studyDateE}}
 
-  Study.find(where, (err, doc) => {
+  Study.find(where).sort({'startTime': 1}).exec((err, doc) => {
+
     if (err) {
       console.log('getStudyList Error .. ' + err)
       res.json({ success: false, err })
@@ -138,13 +139,13 @@ app.post('/api/studies/getStudyList', (req, res) => {
       studyInfos.push(new Study(info));
       index++;
       if (index === doc.length){
-        // console.log('response ... studyinfos ...... ' + JSON.stringify(studyInfos))
         res.status(200).json({
           success: true,
           studyList: studyInfos
         })
       } 
     })
+
   })
 })
 

@@ -81,12 +81,12 @@ export default function StudyList(props) {
   const handleStudyList = (currentPage) => {
     
     let list = [];
-    let start = props.studyList.length - 1 - ((currentPage - 1) * perPageCnt);
-    if (start < 0) start = 0;
-    let end = start - perPageCnt + 1;
-    if (end < 0) end = 0
-
-    for (let i = start; i >= end; i--) {
+    let start = ((currentPage - 1) * perPageCnt);
+    let end = start + perPageCnt;
+    if (end > props.studyList.length) 
+      end = props.studyList.length
+    
+    for (let i = start; i < end; i++) {
       let stdInfo = props.studyList[i];
       list.push(<li key={i}>{getSubject(stdInfo.subject)} / {stdInfo.startTime}~{stdInfo.endTime} / ({stdInfo.joinPeople} / {stdInfo.maxPeople}) / <StudyDetail studyId={stdInfo.studyId}/> </li>)
     }
