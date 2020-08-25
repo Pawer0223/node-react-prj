@@ -92,7 +92,7 @@ export default function RegisteStudy(props) {
 
     if (content === ""){
       alert('스터디 내용을 입력해 주세요.')
-    } else if (endT <= startT) {
+    } else if (endT <= startT){
       alert('종료시간을 시작시간보다 크게 설정해주세요.')
     } else if (subjectId === ""){
       alert('Subject를 설정해 주세요.')
