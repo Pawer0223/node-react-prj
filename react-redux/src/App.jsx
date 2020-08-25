@@ -7,12 +7,12 @@ import timeGridPlugin, { buildTimeColsModel } from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import actionCreators from './actions'
 import { getHashValues } from './utils'
-import RegisteStudy from './components/views/RegisterPage/RegisteStudy'
-import StudyList from './components/views/StudyInfos/StudyList'
 import { requestStudyList } from './requests'
 
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import RegisteStudy from './components/views/RegisterPage/RegisteStudy'
+import StudyList from './components/views/StudyInfos/StudyList'
+import SearchPage from './components/views/SearchPage/SearchPage'
+
 
 class App extends React.Component {
 
@@ -119,7 +119,7 @@ class App extends React.Component {
           </ul>
         </div>
         <div className='demo-app-sidebar-section'>
-          검색 창 render.. 
+          <SearchPage />
         </div>
         <div className='demo-app-sidebar-section'>
           <label>
