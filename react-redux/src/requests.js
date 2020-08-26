@@ -122,7 +122,6 @@ export function requestStudyList(clickData) {
       // 2. setData --> for ... paging... 
       if (!response.data.success){
         reject(new Error('getStudyList Error'))
-        return { 'success': false };
       } else {
         // response is json array..
         resolve({
@@ -141,7 +140,6 @@ export function requestMaxId(){
     .then(response => {
       if (!response.data.success){
         reject(new Error('getStudyList Error'))
-        return { 'success': false };
       } else {
         resolve({
           'success': true,
@@ -162,7 +160,6 @@ export function requestStudyDetail(studyId) {
     .then(response => {
       if (!response.data.success){
         reject(new Error('requestStudyDetail Error'))
-        return { 'success': false };
       } else {
         resolve({
           'success': true,
@@ -172,6 +169,9 @@ export function requestStudyDetail(studyId) {
     })
   })
 }
+
+
+
 
 function createEventId() {
   return String(eventGuid++)
