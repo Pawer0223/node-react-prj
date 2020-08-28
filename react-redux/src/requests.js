@@ -1,5 +1,7 @@
 import { excludeById, getTodayStr } from './utils'
+import fetch from 'cross-fetch';
 import axios from 'axios';
+import 'babel-polyfill';
 
 /*
 functions that simulate network requests
@@ -8,23 +10,100 @@ functions that simulate network requests
 let todayStr = getTodayStr()
 let eventGuid = 0
 const DELAY = 200
+const config = require('./config/config');
+const LOCAL_API_KEY = config.LOCAL_API_KEY;
 let simulateErrors = false
+let currentRegion = '';
 
-// document.addEventListener('keypress', (ev) => {
-//   if (ev.key === 'e') {
-//     alert('You pressed the key "e". Will begin to simulate errors.')
-//     simulateErrors = true
-//   }
-// })
+async function requestCurrentRegion(position) {
+    const response = await fetch("https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?input_coord=WGS84&output_coord=WGS84&y="+position.coords.latitude+"&x="+position.coords.longitude, {
+      headers: {
+        Authorization: `KakaoAK ${LOCAL_API_KEY}`
+      }
+    })  
+    const result = await response.json();
+    console.log('result : ' + JSON.stringify(result));
+    
+    if (result.documents.length > 0 ){
+      let obj = result.documents[0];
+      currentRegion = obj.region_1depth_name + ' ' + obj.region_2depth_name + ' ' + obj.region_3depth_name + ' ';
+    }
+}
 
-export function requestEventsInRange(startStr, endStr) {
-  console.log(`[STUB] requesting events from ${startStr} to ${endStr}`)
+function requetWithCurrentRegion(startStr, endStr) {
+  if (navigator.geolocation) { // GPS를 지원하면
+    navigator.geolocation.getCurrentPosition(function(position) {
+      requestCurrentRegion(position).then(() => {
+        console.log('this is caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaall back ')
+        console.log('currentRegion is !! : ' + currentRegion)
+      })
+    }, function(error) {
+      console.error(error);
+    }, {
+      enableHighAccuracy: false,
+      maximumAge: 0,
+      timeout: Infinity
+    });
+  } else {
+    alert('GPS를 지원하지 않습니다');
+  }
+}
+
+export function requestEventsInRange(startStr, endStr, region) {
+  console.log(`[STUB] requesting events from ${startStr} to ${endStr} and Region Info : [ ${region} ]`)
+
+  if (region === undefined) {
+    console.log('this is undefined');
+
+    if (navigator.geolocation) { // GPS를 지원하면
+      navigator.geolocation.getCurrentPosition(function(position) {
+        requestCurrentRegion(position).then(() => {
+          console.log('this is caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaall back ')
+          console.log('currentRegion is !! : ' + currentRegion)
+
+          return new Promise((resolve, reject) => {
+
+            let where = {
+              start: startStr,
+              end: endStr,
+              region: currentRegion
+            }
+        
+            // axios로 가져와서 eventDb에 담아주기
+            axios.post('http://localhost:5000/api/studies/selectStudyInfo', where)
+              .then(response => {
+                  
+                if (!response.data.success){
+                  console.log('study list select fail...')
+                  reject(new Error('study list select Error !'))
+                }
+                else {
+                  let eventDb = response.data.eventDb;
+                  resolve(response.data.eventDb);
+                }
+              })
+          })
+        })
+      }, function(error) {
+        console.error(error);
+      }, {
+        enableHighAccuracy: false,
+        maximumAge: 0,
+        timeout: Infinity
+      });
+    } else {
+      alert('GPS를 지원하지 않습니다');
+    }
+  }
 
   return new Promise((resolve, reject) => {
 
+    console.log('region.. !!! ')
+
     let where = {
-      start : startStr,
-      end : endStr
+      start: startStr,
+      end: endStr,
+      region: region
     }
 
     // axios로 가져와서 eventDb에 담아주기
@@ -41,6 +120,7 @@ export function requestEventsInRange(startStr, endStr) {
         }
       })
   })
+  
 }
 
 export function requestEventCreate(plainEventObject) {

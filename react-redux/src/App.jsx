@@ -20,7 +20,14 @@ class App extends React.Component {
     open: false,
     studyList: "",
     open2: false,
-    registForm: ""
+    registForm: "",
+    rangeInfo: ""
+  };
+
+  handlerangeInfo = (info) => {
+    this.setState(state => ({
+      rangeInfo: info
+    }))
   };
 
   handleStudyListOpen = (clickInfo) => {
@@ -119,7 +126,10 @@ class App extends React.Component {
           </ul>
         </div>
         <div className='demo-app-sidebar-section'>
-          <SearchPage />
+          <SearchPage 
+            reloadEventsFunc = {this.props.requestEvents}
+            rangeInfo = {this.state.rangeInfo}
+          />
         </div>
         <div className='demo-app-sidebar-section'>
           <label>
@@ -163,9 +173,9 @@ class App extends React.Component {
 
   // handlers that initiate reads/writes via the 'action' props
   // ------------------------------------------------------------------------------------------
-
   handleDates = (rangeInfo) => {
-    this.props.requestEvents(rangeInfo.startStr, rangeInfo.endStr)
+    this.handlerangeInfo(rangeInfo);
+    this.props.requestEvents(rangeInfo.startStr, rangeInfo.endStr, undefined)
       .catch(reportNetworkError)
   }
 

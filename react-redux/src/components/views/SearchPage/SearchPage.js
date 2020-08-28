@@ -10,14 +10,31 @@ function sleep(delay = 0) {
   });
 }
 
-export default function Asynchronous() {
+export default function SearchPage(props) {
+
+  console.log(' this is search page ## ')
+  console.log(props)
 
   const [input, setInput] = React.useState('');
   const [regionList, setRegionList] =React.useState([]);
   const config = require('../../../config/config');
   const LOCAL_API_KEY = config.LOCAL_API_KEY;
+
   const handleInput = (event) => {
     setInput(event.target.value);
+  };
+
+  const selectValue = (clickButton) => {
+
+    let region = clickButton.target.innerText;
+    props.reloadEventsFunc(props.rangeInfo.startStr, props.rangeInfo.endStr, region)
+    .catch(() => {
+      alert('reload Error !!!')
+    })
+    // const label = document.getElementById('region-label');
+    // let region = clickButton.target.firstChild.innerText;
+    // label.innerText = region;
+    setRegionList([]);
   };
 
   React.useEffect(() => {
@@ -53,7 +70,15 @@ export default function Asynchronous() {
         setArr = [...set];
      
         setArr.forEach((data, index) => {
-          finalArr.push(<Button key={index} color="primary" variant="contained" style={{'display': "block", 'marginTop': "10px"}}>{data}</Button>)
+          finalArr.push(<Button 
+                          key={index} 
+                          color="primary" 
+                          variant="contained" 
+                          style={{'display': "block", 'marginTop': "10px"}}
+                          onClick={selectValue}
+                        >
+                            {data}
+                        </Button>)
         })
         setRegionList(finalArr);
       }

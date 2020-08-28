@@ -63,7 +63,12 @@ app.post('/api/studies/selectStudyInfo', (req, res) => {
   // 2. groupby(studyDate) 해서 , 총 건수, id 이렇게 가져오면 됨.
   // 총 건수 = title , start = studyDate , id = 내부적으로 만들어 줘도 됨..
   // console.log('selectAll req.body .. is.. ' + JSON.stringify(req.body));
-  let where = {'studyDate' :  {"$gte": new Date(req.body.start), "$lt": new Date(req.body.end)}}
+  let where = {
+    'studyDate':  {"$gte": new Date(req.body.start), "$lt": new Date(req.body.end)},
+    'region': req.body.region
+  };
+
+  console.log(' req.body.region : ' + req.body.region);
   let eventDb = []
   // 바로 총 갯수만 구하기..
   Study.find(where).distinct('studyDate', (err, docs) => {

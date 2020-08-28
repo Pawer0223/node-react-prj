@@ -8,9 +8,9 @@ export default {
     }
   },
 
-  requestEvents(startStr, endStr) {
+  requestEvents(startStr, endStr, region) {
     return (dispatch) => {
-      return requestEventsInRange(startStr, endStr).then((plainEventObjects) => {
+      return requestEventsInRange(startStr, endStr, region).then((plainEventObjects) => {
         dispatch({
           type: 'RECEIVE_EVENTS',
           plainEventObjects
