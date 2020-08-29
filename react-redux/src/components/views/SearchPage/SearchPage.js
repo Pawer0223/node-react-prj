@@ -4,12 +4,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import 'babel-polyfill';
 
-function sleep(delay = 0) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, delay);
-  });
-}
-
 export default function SearchPage(props) {
 
   console.log(' this is search page ## ')
@@ -63,7 +57,12 @@ export default function SearchPage(props) {
           if (obj === null){
             obj = info.road_address;
           }
-          setArr.push(obj.region_1depth_name + ' ' + obj.region_2depth_name + ' ' + obj.region_3depth_name + ' ')
+          let sido = obj.region_1depth_name;
+
+          if (sido === '경기')
+            sido = '경기도';
+          
+          setArr.push(sido + ' ' + obj.region_2depth_name + ' ' + obj.region_3depth_name)
         })
 
         let set = new Set(setArr);

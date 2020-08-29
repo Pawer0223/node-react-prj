@@ -46,11 +46,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function StudyList(props) {
 
-  useEffect(() => {
-    axios.get('http://localhost:5000/api/test')
-    .then(response => {console.log(response.data)})
-  }, [])
-
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(true);

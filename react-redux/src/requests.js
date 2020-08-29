@@ -26,7 +26,17 @@ async function requestCurrentRegion(position) {
     
     if (result.documents.length > 0 ){
       let obj = result.documents[0];
-      currentRegion = obj.region_1depth_name + ' ' + obj.region_2depth_name + ' ' + obj.region_3depth_name + ' ';
+      
+      let sido, sikunku, hangjeongdong;
+
+      sido = obj.region_1depth_name;
+      if (sido === '경기'){
+        sido = '경기도'
+      }
+      sikunku = obj.region_2depth_name;
+      hangjeongdong = obj.region_3depth_name;
+
+      currentRegion = sido + ' ' +  sikunku + ' ' + hangjeongdong;
     }
 }
 
@@ -120,7 +130,7 @@ export function requestEventsInRange(startStr, endStr, region) {
         }
       })
   })
-  
+
 }
 
 export function requestEventCreate(plainEventObject) {
@@ -189,11 +199,16 @@ export function requestStudyReg(dataToSubmit, closeFunc) {
     })
 }
 
-export function requestStudyList(clickData) {
+export function requestStudyList(clickData, region) {
 
   let where = {
-    'studyDate': clickData.event.start
+    'studyDate': clickData.event.start,
+    'region': region
   }
+
+  console.log('here where : ' + JSON.stringify(where))
+
+  
   return new Promise((resolve, reject) => {
 
     // 1. call api .. 나중에 지역 조건도 추가해야 함. 현재는 날짜로만...

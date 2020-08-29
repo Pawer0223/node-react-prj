@@ -63,12 +63,14 @@ app.post('/api/studies/selectStudyInfo', (req, res) => {
   // 2. groupby(studyDate) 해서 , 총 건수, id 이렇게 가져오면 됨.
   // 총 건수 = title , start = studyDate , id = 내부적으로 만들어 줘도 됨..
   // console.log('selectAll req.body .. is.. ' + JSON.stringify(req.body));
+
+  let region = req.body.region; 
+
   let where = {
     'studyDate':  {"$gte": new Date(req.body.start), "$lt": new Date(req.body.end)},
-    'region': req.body.region
+    'region': region
   };
 
-  console.log(' req.body.region : ' + req.body.region);
   let eventDb = []
   // 바로 총 갯수만 구하기..
   Study.find(where).distinct('studyDate', (err, docs) => {
@@ -86,7 +88,8 @@ app.post('/api/studies/selectStudyInfo', (req, res) => {
 
       docs.forEach(studyDatePer => {
         Study.find({
-          'studyDate' : studyDatePer
+          'studyDate': studyDatePer,
+          'region': region
         }).countDocuments((err, cnt) => {
           let strStudyDate = getTodayStr(studyDatePer)
 
@@ -96,18 +99,19 @@ app.post('/api/studies/selectStudyInfo', (req, res) => {
           eventDb.push({
             id: eventGuid++,
             title: cnt,
-            start: strStudyDate
+            start: strStudyDate,
+            region: region
           })
 
-          if(eventGuid === totalCnt){
+          if (eventGuid === totalCnt){
             console.log('### eventDb' + JSON.stringify(eventDb));
             console.log('totalCnt : ' + totalCnt)
       
-              res.status(200).json({
-                success: true,
-                totalCnt: totalCnt,
-                eventDb: eventDb
-              })
+            res.status(200).json({
+              success: true,
+              totalCnt: totalCnt,
+              eventDb: eventDb
+            })
           }
           //console.log('studyDate : ' + studyDatePer + '.. cnt is : ' + cnt);
         }) 
@@ -124,7 +128,12 @@ app.post('/api/studies/getStudyList', (req, res) => {
   let index = 0;
   studyDateE.setDate(studyDateS.getDate() + 1);
 
-  let where = {'studyDate' :  {"$gte": studyDateS, "$lt": studyDateE}}
+  let where = {
+    'studyDate' :  {"$gte": studyDateS, "$lt": studyDateE},
+    'region': req.body.region
+  }
+
+  console.log('where : ' + JSON.stringify(where))
 
   Study.find(where).sort({'startTime': 1}).exec((err, doc) => {
 
