@@ -21,15 +21,8 @@ class App extends React.Component {
     studyList: "",
     open2: false,
     registForm: "",
-    rangeInfo: "",
-    region: ""
+    rangeInfo: ""
   };
-
-  handleRegion = (info) => {
-    this.setState(state => ({
-      region: info
-    }))
-  }
 
   handlerangeInfo = (info) => {
     this.setState(state => ({
@@ -39,7 +32,7 @@ class App extends React.Component {
 
   handleStudyListOpen = (clickInfo) => {
 
-    this.props.levent.
+    let region = this.props.events[0].region;
 
     requestStudyList(clickInfo, region).then((result) => {
       if (!result.success){
@@ -121,10 +114,11 @@ class App extends React.Component {
     
     let totalLen = 0;
     
+    let region;
     this.props.events.forEach((study, index) => {
       totalLen += study.title;  
       if (index === 0)
-        handleRegion(study.region);
+        region = study.region;
     });
 
     return (
@@ -156,7 +150,7 @@ class App extends React.Component {
         </div>
         <div className='demo-app-sidebar-section'>
           <h2>ongoing study({totalLen})</h2>
-          <h3>{this.region}</h3>
+          <h3>{region}</h3>
           {/* <ul>
             {this.props.events.map(renderSidebarEvent)}
           </ul> */}

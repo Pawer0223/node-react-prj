@@ -68,9 +68,7 @@ export function requestEventsInRange(startStr, endStr, region) {
     if (navigator.geolocation) { // GPS를 지원하면
       navigator.geolocation.getCurrentPosition(function(position) {
         requestCurrentRegion(position).then(() => {
-          console.log('this is caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaall back ')
-          console.log('currentRegion is !! : ' + currentRegion)
-
+          
           return new Promise((resolve, reject) => {
 
             let where = {
@@ -200,6 +198,8 @@ export function requestStudyReg(dataToSubmit, closeFunc) {
 }
 
 export function requestStudyList(clickData, region) {
+
+  console.log('this is region : ' + region)
 
   let where = {
     'studyDate': clickData.event.start,
