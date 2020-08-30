@@ -21,31 +21,30 @@ async function requestCurrentRegion(position, region) {
     searchRegion = region;
     return ;
   }
-
-    const response = await fetch("https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?input_coord=WGS84&output_coord=WGS84&y="+position.coords.latitude+"&x="+position.coords.longitude, {
-      headers: {
-        Authorization: `KakaoAK ${LOCAL_API_KEY}`
-      }
-    })  
-    const result = await response.json();
-    // console.log('get current location result : ' + JSON.stringify(result));
-    
-    if (result.documents.length > 0 ){
-      let obj = result.documents[0];
-      
-      let sido, sikunku, hangjeongdong;
-
-      sido = obj.region_1depth_name;
-      if (sido === '경기'){
-        sido = '경기도'
-      }
-      sikunku = obj.region_2depth_name;
-      hangjeongdong = obj.region_3depth_name;
-
-      searchRegion = sido + ' ' +  sikunku + ' ' + hangjeongdong;
+  const response = await fetch("https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?input_coord=WGS84&output_coord=WGS84&y="+position.coords.latitude+"&x="+position.coords.longitude, {
+    headers: {
+      Authorization: `KakaoAK ${LOCAL_API_KEY}`
     }
-}
+  })  
+  const result = await response.json();
+  // console.log('get current location result : ' + JSON.stringify(result));
+  
+  if (result.documents.length > 0 ){
+    let obj = result.documents[0];
+    
+    let sido, sikunku, hangjeongdong;
 
+    sido = obj.region_1depth_name;
+    if (sido === '경기'){
+      sido = '경기도'
+    }
+    sikunku = obj.region_2depth_name;
+    hangjeongdong = obj.region_3depth_name;
+
+    searchRegion = sido + ' ' +  sikunku + ' ' + hangjeongdong;
+  }
+  return searchRegion;
+}
 
 export function requestEventsInRange(startStr, endStr, region) {
   console.log(`[STUB] requesting events from ${startStr} to ${endStr} and Region Info : [ ${region} ]`)
@@ -73,7 +72,7 @@ export function requestEventsInRange(startStr, endStr, region) {
               }
               else {
                 let eventDb = response.data.eventDb;
-                resolve(response.data.eventDb);
+                resolve(eventDb);
               }
             })
         })
@@ -165,13 +164,9 @@ export function requestStudyList(clickData, region) {
     'studyDate': clickData.event.start,
     'region': region
   }
-
-  console.log('here where : ' + JSON.stringify(where))
-
   
   return new Promise((resolve, reject) => {
 
-    // 1. call api .. 나중에 지역 조건도 추가해야 함. 현재는 날짜로만...
     axios.post('http://localhost:5000/api/studies/getStudyList', where)
     .then(response => {
       // 2. setData --> for ... paging... 

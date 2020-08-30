@@ -33,8 +33,8 @@ function makeTime(time){
 
 export default function RegisteStudy(props) {
 
-  // console.log('clickedDate : ' + props.clickedDate)
-  // console.log('clickedDate : ' + props.eventId)
+  console.log('### Regist Study ###');
+  console.log(props);
 
   // select Box
   const useStyles = makeStyles((theme) => ({
@@ -108,7 +108,6 @@ export default function RegisteStudy(props) {
     if (validationCheck()){
       let startT = makeTime(startTime);
       let endT = makeTime(endTime);
-      let maxId = 0;
 
       requestMaxId().then(result => {
 
@@ -127,7 +126,7 @@ export default function RegisteStudy(props) {
             subject: subjectId,
             studyDate: props.clickedDate,
             station : station,
-            region: '경기도 용인시'   // selectRegion , props에서 받기
+            region: props.region   // selectRegion , props에서 받기
           }
           props.hadleStudyReg(data, handleClose);
         }
@@ -141,7 +140,7 @@ export default function RegisteStudy(props) {
         <DialogTitle id="form-dialog-title">{props.clickedDate}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            스터디를 등록해 주세요.
+            {props.region}(의) 스터디를 등록해 주세요.
           </DialogContentText>              
           <TextField
             id="content"
@@ -150,15 +149,6 @@ export default function RegisteStudy(props) {
             multiline
             fullWidth
           />
-          <TextField
-            margin="dense"
-            id="station"
-            label="api 연동하여 axios 호출 후, 장소 선택 가능하도록"
-            type="text"
-            onChange={handleStation}
-            fullWidth
-          />
-
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Grid container justify="space-around">
         <KeyboardTimePicker

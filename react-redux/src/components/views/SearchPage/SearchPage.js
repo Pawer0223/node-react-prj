@@ -19,8 +19,9 @@ export default function SearchPage(props) {
 
     let region = clickButton.target.innerText;
     props.reloadEventsFunc(props.rangeInfo.startStr, props.rangeInfo.endStr, region)
-    .catch(() => {
+    .catch((error) => {
       alert('reload Error !!!')
+      console.log(error)
     })
     // const label = document.getElementById('region-label');
     // let region = clickButton.target.firstChild.innerText;

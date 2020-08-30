@@ -57,12 +57,16 @@ class App extends React.Component {
 
 
   handleStudyRegOpen = (startStr) => {
+
+    let region = this.props.events[0].region;
+
     this.setState(state => ({
       open2: true,
       // region 정보도 같이... 
       registForm: <RegisteStudy
                     clickedDate= {startStr}
-                    hadleStudyReg = {this.hadleStudyReg}
+                    hadleStudyReg= {this.hadleStudyReg}
+                    region= {region}
                   />
     }))
   };
@@ -84,7 +88,7 @@ class App extends React.Component {
             headerToolbar={{
               left: 'prev,next today',
               center: 'title',
-              right: 'dayGridMonth,timeGridWeek,timeGridDay'
+              right: 'dayGridMonth,timeGridWeek'
             }}
             initialView='dayGridMonth'
             editable={true}

@@ -29,7 +29,7 @@ function getSubject(subjectId){
       case 4:
         return 'Algorithm'
       case 5:
-          return '기타'
+        return '기타'
       default:
         return '없던건데?'
     }

@@ -84,7 +84,13 @@ app.post('/api/studies/selectStudyInfo', (req, res) => {
     let eventGuid = 0;
 
     if (totalCnt === 0)
-      return res.json({ success: true, eventDb })
+      return res.json({ 
+                        success: true,
+                        eventDb: [{
+                        'title': 0,
+                        'region': region
+                        }]
+                      })
 
       docs.forEach(studyDatePer => {
         Study.find({
