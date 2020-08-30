@@ -31,10 +31,11 @@ function makeTime(time){
   return hour + ':' + minute;
 }
 
-export default function RegisteStudy(props) {
+function getTimeAmonut(time){
+  return time.getMonth() + time.getDate() + time.getMinutes() + time.getMinutes();;
+} 
 
-  console.log('### Regist Study ###');
-  console.log(props);
+export default function RegisteStudy(props) {
 
   // select Box
   const useStyles = makeStyles((theme) => ({
@@ -48,12 +49,12 @@ export default function RegisteStudy(props) {
   }));
 
   const classes = useStyles();
-  const [content, setContent] = React.useState('Controlled');
+  const [content, setContent] = React.useState('');
   const [open, setOpen] = React.useState(true);
   // Time
   // The first commit of Material-UI
-  const [startTime, setStartTime] = React.useState(new Date('1900-01-01T00:00:00'));
-  const [endTime, setEndTime] = React.useState(new Date('1900-01-02T02:00:00'));
+  const [startTime, setStartTime] = React.useState(new Date());
+  const [endTime, setEndTime] = React.useState(new Date());
   const [subjectId, setSubjectId] = React.useState('');
   const [maxPeople, setMaxPeople] = React.useState(0);
   const [station, setStation] = React.useState('online');
@@ -84,16 +85,17 @@ export default function RegisteStudy(props) {
   };
 
   const validationCheck = () => {
-    let startT = startTime.getHours() + startTime.getMinutes();
-    let endT = endTime.getHours() + endTime.getMinutes();
+    let startT = getTimeAmonut(startTime);
+    let endT = getTimeAmonut(endTime);
+    let nowT = getTimeAmonut(new Date());
     let success = 0;
-
-    // console.log('open : ' + open +', title : ' + title + ', maxPeople : ' + maxPeople);
 
     if (content === ""){
       alert('스터디 내용을 입력해 주세요.')
     } else if (endT <= startT){
       alert('종료시간을 시작시간보다 크게 설정해주세요.')
+    } else if (startT < nowT) {
+      alert('현재시간 이후부터 등록할 수 있습니다.')
     } else if (subjectId === ""){
       alert('Subject를 설정해 주세요.')
     } else if (maxPeople < 2){
@@ -146,6 +148,13 @@ export default function RegisteStudy(props) {
             id="content"
             label="스터디 내용을 1000자 이내로 자유롭게 작성해주세요"
             onChange={handleContent}
+            multiline
+            fullWidth
+          />
+          <TextField
+            id="station"
+            label="스터디 장소를 적어주세요 (미 입력시 온라인 스터디로 지정)"
+            onChange={handleStation}
             multiline
             fullWidth
           />

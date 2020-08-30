@@ -118,12 +118,22 @@ class App extends React.Component {
     
     let totalLen = 0;
     
-    let region;
+    let region ='';
+    let regionComment = '';
+    let title = '';
+
     this.props.events.forEach((study, index) => {
       totalLen += study.title;  
-      if (index === 0)
+      if (index === 0) {
         region = study.region;
+        title = study.title
+      }
     });
+
+    regionComment = region;
+    if (title === 0){
+      regionComment += '(의) 첫 번째 Study를 등록해 주세요 :)'
+    }
 
     return (
       <div className='demo-app-sidebar'>
@@ -133,7 +143,7 @@ class App extends React.Component {
             <li>지역을 검색하시면, 스터디 정보가 달력에 표시됩니다.( 파란색 바 )</li>
             <li>스터디가 없다면, 달력에 아무것도 표시되지 않습니다.</li>
             <li>날짜를 선택하여 새로운 스터디를 등록할 수 있습니다.</li>
-            <li>지역 검색의 최소 단위는 행정동 명칭 입니다.</li>
+            <li>지역 검색의 단위는 행정동 명칭 입니다.</li>
           </ul>
         </div>
         <div className='demo-app-sidebar-section'>
@@ -154,7 +164,7 @@ class App extends React.Component {
         </div>
         <div className='demo-app-sidebar-section'>
           <h2>ongoing study({totalLen})</h2>
-          <h3>{region}</h3>
+          <h3>{regionComment}</h3>
           {/* <ul>
             {this.props.events.map(renderSidebarEvent)}
           </ul> */}
@@ -170,10 +180,13 @@ class App extends React.Component {
     if (this.state.open2){
       this.handleStudyRegClose()
     }
-    // region 정보도 같이... 
-    this.handleStudyRegOpen(selectInfo.startStr)
-    // console.log('handleDateSelect clicked : ' + this.props.events)
-    // console.log(selectInfo)
+    let start = selectInfo.start;
+
+    if ((start.getMonth() + start.getDate()) < (new Date().getMonth() + new Date().getDate())) {
+      alert('오늘 날짜 이후로만 등록 가능합니다.')
+    } else {
+      this.handleStudyRegOpen(selectInfo.startStr)
+    }
   }
 
   handleEventClick = (clickInfo) => {

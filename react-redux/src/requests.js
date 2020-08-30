@@ -150,7 +150,7 @@ export function requestStudyReg(dataToSubmit, closeFunc) {
           reject(new Error('Study Regist Error'))
         } else {
           let success =  response.data.success;
-          alert('Regist Event Success')
+          alert('Success')
           closeFunc();
           resolve(success);
         }
