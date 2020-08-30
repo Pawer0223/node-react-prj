@@ -213,7 +213,8 @@ export function requestStudyDetail(studyId) {
       } else {
         resolve({
           'success': true,
-          'content': response.data.content
+          'content': response.data.content,
+          'station': response.data.station
         })
       }
     })

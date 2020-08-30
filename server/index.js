@@ -202,7 +202,8 @@ app.get('/api/studies/getMaxId', (req, res) => {
 app.post('/api/studies/getDetail', (req, res) => {
 
   let where = {'studyId' :  req.body.studyId};
-  let contentData = {};
+  let contentData = '';
+  let stationData = '';
 
   Study.find(where, (err, doc) => {
     if (err) {
@@ -210,11 +211,15 @@ app.post('/api/studies/getDetail', (req, res) => {
       res.json({ success: false, err })
     }
     if (doc.length != 0){
+      console.log('doc.length != 0 ... doc is ' )
+      console.log(doc)
       contentData = doc[0].content
+      stationData = doc[0].station
     }
     res.status(200).json({
         success: true,
-        content: contentData
+        content: contentData,
+        station: stationData
     })
   })
 })

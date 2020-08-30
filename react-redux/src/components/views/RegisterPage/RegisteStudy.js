@@ -155,7 +155,6 @@ export default function RegisteStudy(props) {
             id="station"
             label="스터디 장소를 적어주세요 (미 입력시 온라인 스터디로 지정)"
             onChange={handleStation}
-            multiline
             fullWidth
           />
     <MuiPickersUtilsProvider utils={DateFnsUtils}>

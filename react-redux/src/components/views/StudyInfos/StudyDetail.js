@@ -48,16 +48,25 @@ export default function StudyDetail(props) {
         alert('detail modal open error !! ')
       }else {
         let content = result.content;
+        let station = result.station;
+
+        console.log('here .. result ')
+        console.log(result)
+        console.log(JSON.stringify(result))
 
         setBody(
           <div style={modalStyle} className={classes.paper} >
-            <h2 id="simple-modal-title">스터디 내용</h2>
+            <h2 id="simple-modal-title">스터디 소개</h2>
             <p id="simple-modal-description">
+            <li>장소 : {station}</li>
+            <li>내용 :
               {
                 content.split('\n').map((line, index) => {
                   return (<span key={index}>{line}<br /></span>)
                 })
               }
+            </li>
+            <li>참가 인원: 프로필 똥그라미?!</li>
             </p>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
