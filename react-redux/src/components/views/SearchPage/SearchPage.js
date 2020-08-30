@@ -6,9 +6,6 @@ import 'babel-polyfill';
 
 export default function SearchPage(props) {
 
-  console.log(' this is search page ## ')
-  console.log(props)
-
   const [input, setInput] = React.useState('');
   const [regionList, setRegionList] =React.useState([]);
   const config = require('../../../config/config');

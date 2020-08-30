@@ -22,16 +22,13 @@ async function requestCurrentRegion(position, region) {
     return ;
   }
 
-  console.log('point 3')
     const response = await fetch("https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?input_coord=WGS84&output_coord=WGS84&y="+position.coords.latitude+"&x="+position.coords.longitude, {
       headers: {
         Authorization: `KakaoAK ${LOCAL_API_KEY}`
       }
     })  
-    console.log('point 4')
     const result = await response.json();
-    console.log('point 5')
-    console.log('get current location result : ' + JSON.stringify(result));
+    // console.log('get current location result : ' + JSON.stringify(result));
     
     if (result.documents.length > 0 ){
       let obj = result.documents[0];
@@ -49,19 +46,6 @@ async function requestCurrentRegion(position, region) {
     }
 }
 
-function requetWithCurrentRegion() {
-  console.log('point 2')
-    navigator.geolocation.getCurrentPosition(function(position) {
-      console.log('point 2-1')
-      return requestCurrentRegion(position)
-    }, function(error) {
-      console.error(error);
-    }, {
-      enableHighAccuracy: false,
-      maximumAge: 0,
-      timeout: Infinity
-    });
-}
 
 export function requestEventsInRange(startStr, endStr, region) {
   console.log(`[STUB] requesting events from ${startStr} to ${endStr} and Region Info : [ ${region} ]`)
@@ -69,14 +53,10 @@ export function requestEventsInRange(startStr, endStr, region) {
   return new Promise((resolve, reject) => {
 
     if (navigator.geolocation) { // GPS를 지원하면
-      console.log('point 1')
       
       navigator.geolocation.getCurrentPosition(function(position) {
-        console.log('point 2-1')
         requestCurrentRegion(position, region).then(() => {
 
-          console.log('### searchRegion : ' + searchRegion)
-          
           let where = {
             start: startStr,
             end: endStr,
@@ -105,8 +85,9 @@ export function requestEventsInRange(startStr, endStr, region) {
         maximumAge: 0,
         timeout: Infinity
       });
-    } else {
-      alert('GPS를 지원하지 않습니다');
+    }
+    else {
+      alert('GPS를 지원하지 않아 현재위치를 받아올 수 없습니다. 검색하여 이용해 주세요.');
       reject(new Error('study list select Error !'))
     }
   })
@@ -179,8 +160,6 @@ export function requestStudyReg(dataToSubmit, closeFunc) {
 }
 
 export function requestStudyList(clickData, region) {
-
-  console.log('this is region : ' + region)
 
   let where = {
     'studyDate': clickData.event.start,

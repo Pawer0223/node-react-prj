@@ -27,7 +27,9 @@ function getSubject(subjectId){
       case 3:
         return '강의'
       case 4:
-        return '기타'
+        return 'Algorithm'
+      case 5:
+          return '기타'
       default:
         return '없던건데?'
     }

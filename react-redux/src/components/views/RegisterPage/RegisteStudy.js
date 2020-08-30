@@ -203,7 +203,8 @@ export default function RegisteStudy(props) {
           <MenuItem value={1}>모각코</MenuItem>
           <MenuItem value={2}>책 완독</MenuItem>
           <MenuItem value={3}>강의</MenuItem>
-          <MenuItem value={4}>기타</MenuItem>
+          <MenuItem value={4}>Algorithm</MenuItem>
+          <MenuItem value={5}>기타</MenuItem>
         </Select>
         <br />
         <TextField
