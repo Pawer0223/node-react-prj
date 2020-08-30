@@ -26,6 +26,7 @@ export default function SearchPage(props) {
     // const label = document.getElementById('region-label');
     // let region = clickButton.target.firstChild.innerText;
     // label.innerText = region;
+    setInput('');
     setRegionList([]);
   };
 
@@ -88,6 +89,7 @@ export default function SearchPage(props) {
     <TextField
     id="region"
     label="지역 검색"
+    value={input}
     onChange={handleInput}
     multiline
     fullWidth
