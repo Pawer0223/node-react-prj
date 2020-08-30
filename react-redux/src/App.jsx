@@ -86,7 +86,7 @@ class App extends React.Component {
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             headerToolbar={{
-              left: 'prev,next today',
+              left: 'next today',
               center: 'title',
               right: 'dayGridMonth,timeGridWeek'
             }}
@@ -199,8 +199,14 @@ class App extends React.Component {
   // handlers that initiate reads/writes via the 'action' props
   // ------------------------------------------------------------------------------------------
   handleDates = (rangeInfo) => {
+    let region = undefined;
+
+    if (this.props.events.length > 0) {
+      region = this.props.events[0].region;
+    }
+
     this.handlerangeInfo(rangeInfo);
-    this.props.requestEvents(rangeInfo.startStr, rangeInfo.endStr, undefined)
+    this.props.requestEvents(rangeInfo.startStr, rangeInfo.endStr, region)
       .catch(reportNetworkError)
   }
 
