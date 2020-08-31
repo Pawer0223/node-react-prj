@@ -7,7 +7,7 @@ import {
 
 import MainPage from './components/views/MainPage/MainPage'
 import TestPage from './components/views/TestPage/Test'
-// import LoginPage from './components/views/LoginPage/LoginPage'
+import LoginPage from './components/views/LoginPage/LoginPage'
 // import RegisterPage from './components/views/RegisterPage/RegisterPage'
 // import Auth from './hoc/auth'
 
@@ -23,7 +23,8 @@ function App() {
         of them to render at a time
       */}
       <Switch>
-        <Route exact path="/" component={MainPage} />
+        <Route exact path="/" component={LoginPage} />
+        <Route exact path="/main" component={MainPage} />
         <Route exact path="/test" component={TestPage} />
       </Switch>
     </div>

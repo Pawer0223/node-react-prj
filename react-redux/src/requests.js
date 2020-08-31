@@ -221,9 +221,6 @@ export function requestStudyDetail(studyId) {
   })
 }
 
-
-
-
 function createEventId() {
   return String(eventGuid++)
 }

@@ -12,6 +12,7 @@
     "fetch": "^1.1.0",
     "fullcalendar": "^5.2.0",
     "fullcalendar-scheduler": "^5.2.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.28"
   },
   "devDependencies": {
