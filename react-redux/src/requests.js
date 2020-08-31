@@ -158,6 +158,29 @@ export function requestStudyReg(dataToSubmit, closeFunc) {
     })
 }
 
+export function requestUserReg(dataToSubmit, closeFunc) {
+
+  console.log('3')
+  
+  return new Promise((resolve, reject) => {
+
+    axios.post('http://localhost:5000/api/users/register', dataToSubmit)
+      .then(response => {
+        console.log('4')
+        if (!response.data.success) {
+          reject(new Error('Study Regist Error'))
+        } else {
+          console.log('5')
+          let success =  response.data.success;
+          alert('Success')
+          closeFunc();
+          resolve(success);
+        }
+      })
+    })
+}
+
+
 export function requestStudyList(clickData, region) {
 
   let where = {

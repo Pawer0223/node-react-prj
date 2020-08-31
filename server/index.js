@@ -6,7 +6,10 @@ const config = require('./config/key')
 const bodyParser = require('body-parser');
 const cors = require('cors')
 const { Study } = require("./models/Study")
+const { User } = require("./models/Study")
 const { parseJSON } = require('date-fns')
+const multer  = require('multer')
+const upload = multer({ dest: './uploads/' })
 
 let cors_origin = ['http://localhost:3000', 'http://localhost:8080']
 
@@ -40,6 +43,48 @@ app.get('/api/test', (req, res) => {
 
 })
 
+app.post('/api/users/register', (req, res) => {
+    
+  let study = new Study(req.body);
+
+  // console.log('study : ' + study);
+    study.save((err, studyInfo) => {
+        if (err){
+            console.log('register Error .. ' + err)
+            return res.json({ success: false, err })
+        }
+        return res.status(200).json({
+            success: true
+        })
+    })
+})
+
+app.post('/api/users/register', upload.single('profile_img'), (req, res) => {
+
+  console.log('reg user : ', req.body);
+  console.log(req.file);
+  console.log(req.file.filename);
+  
+  // const user = new User(req.body);
+
+  // console.log('################ user : ' + JSON.stringify(user))
+
+  // user.save((err, userInfo) => {
+  //     if(err)
+  //         return res.json({ success: false, err })
+  //     return res.status(200).json({
+  //         success: true
+  //     })
+  // })
+
+
+       return res.status(200).json({
+          success: true
+      })
+})
+
+
+// 스터디 등록
 app.post('/api/studies/register', (req, res) => {
     
   let study = new Study(req.body);
