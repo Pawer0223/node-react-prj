@@ -34,6 +34,7 @@
     "react-native-daum-postcode": "^1.0.9",
     "react-native-webview": "^10.8.2",
     "react-redux": "^7.2.0",
+    "react-router-dom": "^5.2.0",
     "react-router-modal": "^1.5.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",

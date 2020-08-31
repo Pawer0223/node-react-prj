@@ -32,6 +32,7 @@ module.exports = {
     })
   ],
   devServer: {
-    disableHostCheck: true // for codepen.io, REMOVE THIS IN YOUR PROJECT
+    disableHostCheck: true, // for codepen.io, REMOVE THIS IN YOUR PROJECT
+    historyApiFallback: true // for react-router-dom use..
   }
 }
