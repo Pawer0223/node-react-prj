@@ -15,15 +15,11 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
-
 import clsx from 'clsx';
-
-
 import { makeStyles } from '@material-ui/core/styles';
 
-
-
-
+// form
+import RegisteUser from '../RegisterPage/RegisteUser'
 
 function LoginPage(props) {   
 
@@ -40,7 +36,25 @@ function LoginPage(props) {
     const [Email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState("false");
+    const [registForm, setRegistForm] = useState("");
+
     const dispatch = useDispatch();
+
+
+    const  handleRegistForm = () => {
+
+        console.log('handleRegistForm')
+        console.log(registForm)
+
+        
+        setRegistForm(<RegisteUser
+                        clickedDate= ''
+                        hadleStudyReg= ''
+                        region= ''
+                        setRegistForm={setRegistForm}
+                     />
+        )
+    }
 
     const onEmailHandler = (event) => {
         setEmail(event.target.value)
@@ -122,11 +136,12 @@ function LoginPage(props) {
             <Button variant="contained" onClick={onSubmitHandler}>
                 로그인
             </Button>
-            <Button variant="contained">
+            <Button variant="contained"  onClick={handleRegistForm}>
                 회원가입
             </Button>
             </DialogActions>
             </form>
+            {registForm}
         </div>
     )
 }
