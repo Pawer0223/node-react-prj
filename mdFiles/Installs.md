@@ -15,6 +15,11 @@
    - cors
       - cors(Cross-Origin Resource Sharing) 해결하기위해 다운
       - ```cors_origin``` 변수에 접근 허용을 위한 ip기입, 해당 변수 참조하여 index.js에 cors설정
+   
+   - multer
+      - 파일 업로드를 위해 사용.
+      - multpart/form-data가 아닌 폼에서는 동작하지 않음.
+
   
   ## Client
    - create-react-app
