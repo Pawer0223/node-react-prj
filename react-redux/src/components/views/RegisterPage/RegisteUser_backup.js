@@ -70,8 +70,7 @@ export default function RegisteUser(props) {
     setConfirmPassword(event.target.value);
   };
   const handleProfile = (event) => {
-    let files = event.target.files;
-    setProfile(files[0]);
+    setProfile(event.target.value);
   };
 
   const validationCheck = () => {
@@ -106,7 +105,7 @@ export default function RegisteUser(props) {
           formData.append('email', email)
           formData.append('nickName', nickName)
           formData.append('password', password)
-          formData.append('profile', profile)
+          formData.append('profile', profile.files[0])
 
           requestUserReg(formData, handleClose);
     }
@@ -168,6 +167,7 @@ export default function RegisteUser(props) {
             onChange={handleProfile}
             type="file"
             helperText="profile upload"
+            value={profile}
             fullWidth
           /><br />
         </DialogContent>

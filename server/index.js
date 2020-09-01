@@ -9,7 +9,17 @@ const { Study } = require("./models/Study")
 const { User } = require("./models/Study")
 const { parseJSON } = require('date-fns')
 const multer  = require('multer')
-const upload = multer({ dest: './uploads/' })
+const path = require('path');
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/');
+    },
+    filename: function (req, file, cb) {
+      cb(null, new Date().valueOf() + path.extname(file.originalname));
+    }
+  }),
+})
 
 let cors_origin = ['http://localhost:3000', 'http://localhost:8080']
 
@@ -43,23 +53,7 @@ app.get('/api/test', (req, res) => {
 
 })
 
-app.post('/api/users/register', (req, res) => {
-    
-  let study = new Study(req.body);
-
-  // console.log('study : ' + study);
-    study.save((err, studyInfo) => {
-        if (err){
-            console.log('register Error .. ' + err)
-            return res.json({ success: false, err })
-        }
-        return res.status(200).json({
-            success: true
-        })
-    })
-})
-
-app.post('/api/users/register', upload.single('profile_img'), (req, res) => {
+app.post('/api/users/register', upload.single('profile'), (req, res) => {
 
   console.log('reg user : ', req.body);
   console.log(req.file);
@@ -77,10 +71,6 @@ app.post('/api/users/register', upload.single('profile_img'), (req, res) => {
   //     })
   // })
 
-
-       return res.status(200).json({
-          success: true
-      })
 })
 
 

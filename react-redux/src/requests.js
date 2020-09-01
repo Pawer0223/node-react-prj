@@ -173,7 +173,7 @@ export function requestUserReg(dataToSubmit, closeFunc) {
           console.log('5')
           let success =  response.data.success;
           alert('Success')
-          closeFunc();
+          // closeFunc();
           resolve(success);
         }
       })
