@@ -39,6 +39,21 @@ export default function RegisteUser(props) {
     },
   }));
 
+  const pwCheck = (pw, inputValue) => {
+    let error = document.getElementById('error');
+    if ((pw != '' || inputValue != '')){
+      if (pw !== inputValue){
+        error.style.display = 'block';
+      }
+      if (pw === inputValue){
+        error.style.display = 'none';
+      }
+    }
+    if (pw === '' || inputValue === ''){
+      error.style.display = 'none';
+    }
+  }
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   // Time
@@ -66,17 +81,11 @@ export default function RegisteUser(props) {
   };
   const handlePassword = (event) => {
     setPassword(event.target.value);
+    pwCheck(confirmPassword, event.target.value)
   };
   const handleConfirmPassword = (event) => {
     setConfirmPassword(event.target.value);
-
-    let error = document.getElementById('error');
-    if (password !== event.target.value){
-      error.style.display = 'block';
-    }
-    if ((password != '') && (password === event.target.value)){
-      error.style.display = 'none';
-    }
+    pwCheck(password, event.target.value)
   };
   const handleProfile = (event) => {
     let files = event.target.files;
