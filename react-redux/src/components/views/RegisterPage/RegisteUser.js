@@ -44,20 +44,22 @@ export default function RegisteUser(props) {
   }
 
   const emailCheck = (email) => {
+
+    setEmailIsTrue(true);
+    setEmailCheckFlag(false);
+
     let error = document.getElementById('emailError');
     if (email === '') {
-      setEmailIsTrue(false);
       error.style.display = 'none';
     } else if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
       error.style.display = 'none';
       setEmailIsTrue(false);
     } else {
       error.style.display = 'block';
-      setEmailIsTrue(true);
     }
   }
 
-  const hasEmailCheck = () => {
+  const hasEmailCheck = () => {    
 
     let where = {
       email: email
@@ -119,10 +121,16 @@ export default function RegisteUser(props) {
 
     if (email === ""){
       alert('email을 입력해 주세요.')
-    } else if(!emailCheckFlag){
+    } else if (!emailCheckFlag){
       alert('email 중복체크를 해주세요.')
-    } else if(pwError){
-      alert('비밀번호가 일치하지 않습니다.')
+    } else if (nickName === ''){
+      alert('별명을 입력해 주세요.')
+    } else if (password === ''){
+      alert('암호를 입력해 주세요.')
+    } else if (confirmPassword === '' || pwError){
+      alert('암호가 일치하지 않습니다.')
+    } else if (password.length < 5) {
+      alert('암호는 5자 이상으로 지정해 주세요.')
     } else if (nickName === ""){
       alert('별명을 입력해 주세요.')
     } else if (password === ""){
