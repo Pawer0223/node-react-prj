@@ -39,18 +39,39 @@ export default function RegisteUser(props) {
     },
   }));
 
+  const errorStyle = {'textAlign': 'left', 'color': 'red', 'marginTop': '0px', 'height' : '15px', 'display': 'none'}
+  
+
   const pwCheck = (pw, inputValue) => {
-    let error = document.getElementById('error');
+    let error = document.getElementById('pwError');
     if ((pw != '' || inputValue != '')){
       if (pw !== inputValue){
         error.style.display = 'block';
+        setPwIsSame(true);
       }
       if (pw === inputValue){
         error.style.display = 'none';
+        setPwIsSame(false);
       }
     }
     if (pw === '' || inputValue === ''){
       error.style.display = 'none';
+      setPwIsSame(false);
+    }
+  }
+
+  const emailCheck = (email) => {
+    console.log('email : ' + email )
+    let error = document.getElementById('emailError');
+    if (email === '') {
+      setEmailIsTrue(false);
+      error.style.display = 'none';
+    } else if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      error.style.display = 'none';
+      setEmailIsTrue(false);
+    } else {
+      error.style.display = 'block';
+      setEmailIsTrue(true);
     }
   }
 
@@ -63,7 +84,8 @@ export default function RegisteUser(props) {
   const [password, setPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
   const [profile, setProfile] = React.useState('');
-  const [error, setError] = React.useState('none');
+  const [pwIsSame, setPwIsSame] = React.useState(false);
+  const [emailIsTrue, setEmailIsTrue] = React.useState(false);
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -75,6 +97,7 @@ export default function RegisteUser(props) {
 
   const handleEmail = (event) => {
     setEmail(event.target.value);
+    emailCheck(event.target.value);
   };
   const handleNickName = (event) => {
     setNickName(event.target.value);
@@ -130,6 +153,7 @@ export default function RegisteUser(props) {
             회원 가입
           </DialogContentText>              
           <TextField
+            error={emailIsTrue}
             style={{ 'width': '300px'}}
             id="email"
             name="email"
@@ -141,6 +165,7 @@ export default function RegisteUser(props) {
           <Button onClick={handleClose} color="primary" style={{ 'marginTop': '12px'}}>
             중복체크
           </Button>
+          <p id='emailError' style={errorStyle}>email형식이 올바르지 않습니다.</p>
           <br />
           <TextField
             // error
@@ -155,6 +180,7 @@ export default function RegisteUser(props) {
           /><br />
           <TextField
             id="password"
+            error={pwIsSame}
             name='password'
             label="Password"
             onChange={handlePassword}
@@ -162,15 +188,16 @@ export default function RegisteUser(props) {
             value={password}
             fullWidth
           /><br />
-          <p id='error' style={{'textAlign': 'left', 'color': 'red', 'marginTop': '0px', 'height' : '15px', 'display': 'none'}}>비밀번호가 일치하지 않습니다.</p>
           <TextField
             id="passwordCheck"
             label="Confirm Password"
+            error={pwIsSame}
             onChange={handleConfirmPassword}
             type="password"
             value={confirmPassword}
             fullWidth
           /><br />
+          <p id='pwError' style={errorStyle}>비밀번호가 일치하지 않습니다.</p>
           <TextField
             id="profile_img"
             name='profile_img'
