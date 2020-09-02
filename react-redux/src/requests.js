@@ -160,19 +160,17 @@ export function requestStudyReg(dataToSubmit, closeFunc) {
 
 export function requestUserReg(dataToSubmit, closeFunc) {
 
-  return new Promise((resolve, reject) => {
-
-    axios.post('http://localhost:5000/api/users/register', dataToSubmit)
-      .then(response => {
-        if (!response.data.success) {
-          reject(new Error('Study Regist Error'))
-        } else {
-          let success =  response.data.success;
-          alert('Success')
-          closeFunc();
-          resolve(success);
-        }
-      })
+  axios.post('http://localhost:5000/api/users/register', dataToSubmit)
+    .then(response => {
+      response.error
+      if (!response.data.success) {
+        throw new Error('User Regist Error Occur !!!! ');
+      } else {
+        alert('Success');
+        closeFunc();
+      }
+    }).catch((err) => {
+      console.log(err);
     })
 }
 

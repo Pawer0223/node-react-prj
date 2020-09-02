@@ -71,21 +71,26 @@ app.post('/api/users/HasEmail', (req, res) => {
 
 app.post('/api/users/register', upload.single('profile'), (req, res) => {
 
-  console.log('reg user : ', req.body);
-  console.log(req.file);
-  console.log(req.file.filename);
-  
-  // const user = new User(req.body);
+  // console.log('reg user : ', req.body);
 
-  // console.log('################ user : ' + JSON.stringify(user))
+  const user = new User(req.body);
 
-  // user.save((err, userInfo) => {
-  //     if(err)
-  //         return res.json({ success: false, err })
-  //     return res.status(200).json({
-  //         success: true
-  //     })
-  // })
+  if (req.file != undefined) {
+    user.profile = req.file.path;
+  }else {
+    user.profile = 'uploads\\default.jpg';
+  }
+
+  user.save((err, userInfo) => {
+      if(err){
+        console.log('###### User Save Error #####')
+        console.log(err)
+        return res.json({ success: false, err: err })
+      }
+      return res.status(200).json({
+          success: true
+      })
+  })
 
 })
 

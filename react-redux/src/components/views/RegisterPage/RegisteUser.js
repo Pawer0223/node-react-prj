@@ -7,22 +7,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-// time
-import 'date-fns';
-import Grid from '@material-ui/core/Grid';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-    MuiPickersUtilsProvider,
-    KeyboardTimePicker
-  } from '@material-ui/pickers';
-
-  // selectBox
+// selectBox
 import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-
 import { requestUserReg, requestHasEmail } from '../../../requests'
 
 
@@ -39,24 +25,21 @@ export default function RegisteUser(props) {
     },
   }));
 
-  const errorStyle = {'textAlign': 'left', 'color': 'red', 'marginTop': '0px', 'height' : '15px', 'display': 'none'}
-  
-
   const pwCheck = (pw, inputValue) => {
     let error = document.getElementById('pwError');
     if ((pw != '' || inputValue != '')){
       if (pw !== inputValue){
         error.style.display = 'block';
-        setPwIsSame(true);
+        setPwError(true);
       }
       if (pw === inputValue){
         error.style.display = 'none';
-        setPwIsSame(false);
+        setPwError(false);
       }
     }
     if (pw === '' || inputValue === ''){
       error.style.display = 'none';
-      setPwIsSame(false);
+      setPwError(false);
     }
   }
 
@@ -89,6 +72,7 @@ export default function RegisteUser(props) {
     }
   }
 
+  const errorStyle = {'textAlign': 'left', 'color': 'red', 'marginTop': '0px', 'height' : '15px', 'display': 'none'}
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   // Time
@@ -98,7 +82,7 @@ export default function RegisteUser(props) {
   const [password, setPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
   const [profile, setProfile] = React.useState('');
-  const [pwIsSame, setPwIsSame] = React.useState(false);
+  const [pwError, setPwError] = React.useState(false);
   const [emailIsTrue, setEmailIsTrue] = React.useState(false);
   const [emailCheckFlag, setEmailCheckFlag] = React.useState(false);
   
@@ -135,6 +119,10 @@ export default function RegisteUser(props) {
 
     if (email === ""){
       alert('email을 입력해 주세요.')
+    } else if(!emailCheckFlag){
+      alert('email 중복체크를 해주세요.')
+    } else if(pwError){
+      alert('비밀번호가 일치하지 않습니다.')
     } else if (nickName === ""){
       alert('별명을 입력해 주세요.')
     } else if (password === ""){
@@ -147,14 +135,14 @@ export default function RegisteUser(props) {
 
   const submitData = () => {
     if (validationCheck()){
-          const formData = new FormData();
+      const formData = new FormData();
 
-          formData.append('email', email)
-          formData.append('nickName', nickName)
-          formData.append('password', password)
-          formData.append('profile', profile)
+      formData.append('email', email);
+      formData.append('nickName', nickName);
+      formData.append('password', password);
+      formData.append('profile', profile);
 
-          requestUserReg(formData, handleClose);
+      requestUserReg(formData, handleClose);
     }
   }
 
@@ -188,14 +176,17 @@ export default function RegisteUser(props) {
             id="nickName"
             name="nickName"
             label="별명"
+            inputProps={{
+              maxLength: 10,
+            }}
             onChange={handleNickName}
             type="text"
-            value={nickName}            
+            value={nickName}
             fullWidth
           /><br />
           <TextField
             id="password"
-            error={pwIsSame}
+            error={pwError}
             name='password'
             label="Password"
             onChange={handlePassword}
@@ -206,7 +197,7 @@ export default function RegisteUser(props) {
           <TextField
             id="passwordCheck"
             label="Confirm Password"
-            error={pwIsSame}
+            error={pwError}
             onChange={handleConfirmPassword}
             type="password"
             value={confirmPassword}
