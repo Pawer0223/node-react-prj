@@ -4,12 +4,13 @@ const port = 5000
 const mongoose = require('mongoose')
 const config = require('./config/key')
 const bodyParser = require('body-parser');
-const cors = require('cors')
-const { Study } = require("./models/Study")
-const { User } = require("./models/User")
-const { parseJSON } = require('date-fns')
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const { Study } = require("./models/Study");
+const { User } = require("./models/User");
+const { parseJSON } = require('date-fns');
 const multer  = require('multer')
-const path = require('path');
+const path = require('path'); 
 const upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
@@ -23,7 +24,6 @@ const upload = multer({
 
 let cors_origin = ['http://localhost:3000', 'http://localhost:8080']
 
-
 mongoose.connect(config.mongoURI,{
     useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false
 }).then(() => console.log('MongoDB Connected...'))
@@ -33,6 +33,7 @@ mongoose.connect(config.mongoURI,{
 app.use(bodyParser.urlencoded({extended: true}));
 // application/json
 app.use(bodyParser.json());
+app.use(cookieParser()); 
 app.use(
   cors({
       origin: cors_origin, // 허락하고자 하는 요청 주소
@@ -52,6 +53,10 @@ app.get('/api/test', (req, res) => {
     res.send(" calld api test");
 
 })
+ 
+/*
+  Users !!
+*/
 
 app.post('/api/users/HasEmail', (req, res) => {
   User.findOne({ email: req.body.email }, (err, user) => {
@@ -94,6 +99,50 @@ app.post('/api/users/register', upload.single('profile'), (req, res) => {
 
 })
 
+app.post('/api/users/login', (req, res) => {
+
+  console.log('users/login called')
+
+  console.log(JSON.stringify(req.body))
+
+  User.findOne({ email : req.body.email }, (err, user) => {
+      if(!user) {
+        console.log('login !user Error: ' + err)
+          return res.json({
+              loginSuccess: false,
+              message: "제공된 이메일에 해당하는 유저가 없습니다."
+          })
+      }
+
+      user.comparePassword(req.body.password, (err, isMatch) => {
+          if(!isMatch) {
+            console.log('login !isMatch Error: ' + err)
+             return res.json({
+                 loginSuccess: false,
+                 message: "비밀번호가 틀렸습니다."
+             })
+            }
+             user.genarateToken((err, user) => {
+                 if (err) {
+                    console.log('login Error: ' + err)
+                     return res.status(400).send(err);
+                 }
+                 // 토큰을 쿠키에 저장.
+                 res.cookie("x_auth", user.token)
+                 .status(200)
+                 .json({
+                     loginSuccess: true,
+                     userId: user._id
+                 })
+             })
+      })
+
+  })
+})
+
+/*
+Study !!
+*/
 
 // 스터디 등록
 app.post('/api/studies/register', (req, res) => {

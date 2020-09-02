@@ -162,7 +162,6 @@ export function requestUserReg(dataToSubmit, closeFunc) {
 
   axios.post('http://localhost:5000/api/users/register', dataToSubmit)
     .then(response => {
-      response.error
       if (!response.data.success) {
         throw new Error('User Regist Error Occur !!!! ');
       } else {
@@ -172,6 +171,25 @@ export function requestUserReg(dataToSubmit, closeFunc) {
     }).catch((err) => {
       console.log(err);
     })
+}
+
+export function requestLoginUser(dataToSubmit) {
+
+  return new Promise((resolve, reject) => {
+    axios.post('http://localhost:5000/api/users/login', dataToSubmit)
+      .then(response => {
+        let userId = '';
+        if (!response.data.loginSuccess){
+          alert(response.data.message)
+        } else {
+          userId = response.data.userId;
+        }
+        console.log('login resolve before...')
+        resolve(userId);
+    }).catch((err) => {
+      throw new Error('login Error')
+    })
+  })
 }
 
 export function requestHasEmail(where) {

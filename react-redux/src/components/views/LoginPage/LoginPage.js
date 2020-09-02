@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
  // import { loginUser } from '../../../_actions/user_action'
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux'
+
 
 // for ui
 import Button from '@material-ui/core/Button';
@@ -17,6 +19,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
+import actionCreators from '../../../actions'
+
 
 // form
 import RegisteUser from '../RegisterPage/RegisteUser'
@@ -40,7 +44,6 @@ function LoginPage(props) {
 
     const dispatch = useDispatch();
 
-
     const  handleRegistForm = () => {
 
         console.log('handleRegistForm')
@@ -56,11 +59,11 @@ function LoginPage(props) {
         )
     }
 
-    const onEmailHandler = (event) => {
-        setEmail(event.target.value)
+    const handleEmail = (event) => {
+        setEmail(event.target.value);
     }
 
-    const onPasswordHandler = (event) => {
+    const handlePassword = (event) => {
         setPassword(event.target.value)
     }
 
@@ -72,6 +75,10 @@ function LoginPage(props) {
       event.preventDefault();
     };
 
+    const reportNetworkError = () => {
+        alert('This action could not be completed')
+    }
+
     const onSubmitHandler = (event) => {
         event.preventDefault(); // default referesh prevent
 
@@ -82,14 +89,11 @@ function LoginPage(props) {
             password: password
         }
 
-        // dispatch(loginUser(body))
-        //     .then(response => {
-        //         if (response.payload.loginSuccess) {
-        //             props.history.push('/')
-        //         } else {
-        //             alert('Error')
-        //         }
-        //     })
+        props.loginUser(body)
+         //.catch(reportNetworkError())
+
+        console.log('loginUserInfo : ####')
+        console.log(JSON.stringify(props.loginUserInfo))
     }
 
     return (
@@ -100,8 +104,10 @@ function LoginPage(props) {
             <form style={{ display:'flex', flexDirection:"column"}}
             >
                 <TextField      
-                    className={classes.margin}              
-                    id="input-with-icon-textfield"
+                    className={classes.margin}
+                    onChange={handleEmail}
+                    value={Email}   
+                    id="email"
                     label="Email"
                     InputProps={{
                     startAdornment: (
@@ -117,7 +123,7 @@ function LoginPage(props) {
                         id="standard-adornment-password"
                         type={showPassword ? 'text' : 'password'}
                         value={password}
-                        onChange={onPasswordHandler}
+                        onChange={handlePassword}
                         endAdornment={
                         <InputAdornment position="end">
                             <IconButton
@@ -146,4 +152,13 @@ function LoginPage(props) {
     )
 }
 
-export default withRouter(LoginPage)
+function mapStateToProps() {
+
+    return (state) => {
+      return {
+        loginUserInfo: state.user
+      }
+    }
+  }
+
+export default connect(mapStateToProps, actionCreators)(LoginPage)

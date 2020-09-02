@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import { hashById } from './utils'
+import actions from './actions'
 
 const studyInitialState = {
   isSuccess: false
@@ -8,7 +9,8 @@ const studyInitialState = {
 export default combineReducers({
   weekendsVisible,
   eventsById,
-  study
+  study,
+  user
 })
 
 function weekendsVisible(weekendsVisible = true, action) {
@@ -57,4 +59,15 @@ function study(state = studyInitialState, action) {
       default:
         return state;
     }
+}
+
+function user(state = {}, action){
+  console.log('user .. state .. ', JSON.stringify(state))
+  console.log('user .. action .. ', JSON.stringify(action))
+  switch (action.type) {
+    case 'LOGIN_USER':
+        return { ...state, loginUserId: action.loginUserId}
+    default:
+        return state;
+  }
 }

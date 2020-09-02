@@ -1,4 +1,4 @@
-import { requestEventsInRange, requestEventCreate, requestEventUpdate, requestEventDelete, requestStudyReg } from './requests'
+import { requestEventsInRange, requestEventCreate, requestEventUpdate, requestEventDelete, requestStudyReg, requestLoginUser } from './requests'
 
 export default {
 
@@ -64,6 +64,21 @@ export default {
         })
       })
     }
+  },
+
+loginUser(dataToSubmit) {
+    return (dispatch) => {
+      return requestLoginUser(dataToSubmit).then((userId) => {
+        dispatch({
+          type: 'LOGIN_USER',
+          loginUserId: userId
+        })
+      })
+    }
   }
 
-}
+
+
+
+
+}// end
