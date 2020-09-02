@@ -48,6 +48,7 @@ export default function RegisteUser(props) {
   const [password, setPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
   const [profile, setProfile] = React.useState('');
+  const [error, setError] = React.useState('none');
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -68,6 +69,14 @@ export default function RegisteUser(props) {
   };
   const handleConfirmPassword = (event) => {
     setConfirmPassword(event.target.value);
+
+    let error = document.getElementById('error');
+    if (password !== event.target.value){
+      error.style.display = 'block';
+    }
+    if ((password != '') && (password === event.target.value)){
+      error.style.display = 'none';
+    }
   };
   const handleProfile = (event) => {
     let files = event.target.files;
@@ -81,8 +90,8 @@ export default function RegisteUser(props) {
       alert('email을 입력해 주세요.')
     } else if (nickName === ""){
       alert('별명을 입력해 주세요.')
-    } else if (password === "" || password !== confirmPassword){
-      alert('비밀번호가 다릅니다.')
+    } else if (password === ""){
+      alert('비밀번호를 입력해 주세요.')
     } else {
       success = 1;
     }
@@ -90,17 +99,7 @@ export default function RegisteUser(props) {
   }
 
   const submitData = () => {
-    console.log('1')
-
     if (validationCheck()){
-      console.log('2')
-          // let userData = {
-          //   email: email,
-          //   nickName: nickName,
-          //   password: password,
-          //   profile: profile
-          // }
-
           const formData = new FormData();
 
           formData.append('email', email)
@@ -154,6 +153,7 @@ export default function RegisteUser(props) {
             value={password}
             fullWidth
           /><br />
+          <p id='error' style={{'textAlign': 'left', 'color': 'red', 'marginTop': '0px', 'height' : '15px', 'display': 'none'}}>비밀번호가 일치하지 않습니다.</p>
           <TextField
             id="passwordCheck"
             label="Confirm Password"
@@ -167,7 +167,7 @@ export default function RegisteUser(props) {
             name='profile_img'
             onChange={handleProfile}
             type="file"
-            helperText="profile upload"
+            helperText="프로필 사진을 등록해 주세요."
             fullWidth
           /><br />
         </DialogContent>
