@@ -23,7 +23,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-import { requestUserReg } from '../../../requests'
+import { requestUserReg, requestHasEmail } from '../../../requests'
 
 
 export default function RegisteUser(props) {
@@ -61,7 +61,6 @@ export default function RegisteUser(props) {
   }
 
   const emailCheck = (email) => {
-    console.log('email : ' + email )
     let error = document.getElementById('emailError');
     if (email === '') {
       setEmailIsTrue(false);
@@ -72,6 +71,21 @@ export default function RegisteUser(props) {
     } else {
       error.style.display = 'block';
       setEmailIsTrue(true);
+    }
+  }
+
+  const hasEmailCheck = () => {
+
+    let where = {
+      email: email
+    }
+
+    if (email != '' && !emailIsTrue) {
+      requestHasEmail(where);
+      setEmailCheckFlag(true);
+    }else {
+      alert('email형식이 올바르지 않습니다.');
+      setEmailCheckFlag(false);
     }
   }
 
@@ -86,6 +100,7 @@ export default function RegisteUser(props) {
   const [profile, setProfile] = React.useState('');
   const [pwIsSame, setPwIsSame] = React.useState(false);
   const [emailIsTrue, setEmailIsTrue] = React.useState(false);
+  const [emailCheckFlag, setEmailCheckFlag] = React.useState(false);
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -162,7 +177,7 @@ export default function RegisteUser(props) {
             type="email"
             value={email}
           />
-          <Button onClick={handleClose} color="primary" style={{ 'marginTop': '12px'}}>
+          <Button onClick={hasEmailCheck} color="primary" style={{ 'marginTop': '12px'}}>
             중복체크
           </Button>
           <p id='emailError' style={errorStyle}>email형식이 올바르지 않습니다.</p>

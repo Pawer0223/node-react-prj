@@ -176,6 +176,19 @@ export function requestUserReg(dataToSubmit, closeFunc) {
     })
 }
 
+export function requestHasEmail(where) {
+  let success = false;
+  axios.post('http://localhost:5000/api/users/hasEmail', where)
+    .then(response => {
+      alert(response.data.message);
+      success = response.data.success;
+    }
+  ).catch(err => {
+    new Error(err);
+  })
+  return success;
+}
+
 
 export function requestStudyList(clickData, region) {
 
