@@ -6,7 +6,7 @@ const config = require('./config/key')
 const bodyParser = require('body-parser');
 const cors = require('cors')
 const { Study } = require("./models/Study")
-const { User } = require("./models/Study")
+const { User } = require("./models/User")
 const { parseJSON } = require('date-fns')
 const multer  = require('multer')
 const path = require('path');
@@ -51,6 +51,22 @@ app.get('/', (req, res) => {
 app.get('/api/test', (req, res) => {
     res.send(" calld api test");
 
+})
+
+app.post('/api/users/HasEmail', (req, res) => {
+  User.findOne({ email: req.body.email }, (err, user) => {
+    if(!user){
+      return res.json({
+        success: true,
+        message: "해당 이메일은 사용 가능합니다."
+      })
+    } else {
+      return res.json({
+        succes: false,
+        message: "해당 이메일은 현재 사용중입니다."
+      })
+    }
+  })
 })
 
 app.post('/api/users/register', upload.single('profile'), (req, res) => {
