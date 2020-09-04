@@ -6,10 +6,8 @@ import {
 } from "react-router-dom";
 
 import MainPage from './components/views/MainPage/MainPage'
-import TestPage from './components/views/TestPage/Test'
 import LoginPage from './components/views/LoginPage/LoginPage'
-// import RegisterPage from './components/views/RegisterPage/RegisterPage'
-// import Auth from './hoc/auth'
+import Auth from './hoc/auth'
 
 function App() {
   return (
@@ -23,9 +21,8 @@ function App() {
         of them to render at a time
       */}
       <Switch>
-        <Route exact path="/" component={LoginPage} />
-        <Route exact path="/main" component={MainPage} />
-        <Route exact path="/test" component={TestPage} />
+        <Route exact path="/" component={Auth(MainPage, false)} />
+        <Route exact path="/login" component={Auth(LoginPage, true)} />
       </Switch>
     </div>
   </Router>

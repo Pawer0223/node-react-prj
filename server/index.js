@@ -9,8 +9,10 @@ const cors = require('cors');
 const { Study } = require("./models/Study");
 const { User } = require("./models/User");
 const { parseJSON } = require('date-fns');
+const { auth } = require("./middleware/auth");
 const multer  = require('multer')
 const path = require('path'); 
+
 const upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
@@ -101,6 +103,9 @@ app.post('/api/users/register', upload.single('profile'), (req, res) => {
 
 app.post('/api/users/login', (req, res) => {
 
+  let token = req.cookies.x_auth;
+  console.log('hheerree... ' , token)
+
   console.log('users/login called')
 
   console.log(JSON.stringify(req.body))
@@ -128,17 +133,45 @@ app.post('/api/users/login', (req, res) => {
                      return res.status(400).send(err);
                  }
                  // 토큰을 쿠키에 저장.
+                 console.log('x_auth save token... ' , user.token)
                  res.cookie("x_auth", user.token)
                  .status(200)
                  .json({
                      loginSuccess: true,
-                     userId: user._id
+                     loginUserInfo: user
                  })
              })
       })
-
   })
 })
+
+// req받은 후, callback function 호출 전 수행되는 함수.. auth !
+app.get('/api/users/auth', auth, (req, res) => {
+    
+
+  console.log('here......... ?!')
+  // middle ware를 통과 해야지 하위 코드를 탈 수 있음 !
+  res.status(200).json({
+      ...req.user,
+      isAuth: true
+  })
+})
+
+app.get('/api/users/logout', auth, (req, res) => {
+
+  User.findOneAndUpdate(
+      {_id: req.user._id},
+      {token : ""},
+      (err, user) => {
+          if (err)
+              return res.json({ success: false, err });
+          return res.status(200).send({
+              success: true
+          })
+      }
+  )
+})
+
 
 /*
 Study !!

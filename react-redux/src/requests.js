@@ -92,6 +92,81 @@ export function requestEventsInRange(startStr, endStr, region) {
   })
 }
 
+/*
+  Users
+*/
+
+export function requestUserReg(dataToSubmit, closeFunc) {
+
+  axios.post('http://localhost:5000/api/users/register', dataToSubmit)
+    .then(response => {
+      if (!response.data.success) {
+        throw new Error('User Regist Error Occur !!!! ');
+      } else {
+        alert('Success');
+        closeFunc();
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
+}
+
+export function requestLoginUser(dataToSubmit, props) {
+
+  return new Promise((resolve, reject) => {
+    axios.post('http://localhost:5000/api/users/login', dataToSubmit)
+      .then(response => {
+        let loginUserInfo = {};
+        if (!response.data.loginSuccess){
+          alert(response.data.message)
+        } else {
+          loginUserInfo = response.data.loginUserInfo;
+          props.history.push('/')
+        }
+        resolve(loginUserInfo);
+    }).catch((err) => {
+      throw new Error('login Error')
+    })
+  })
+}
+
+export function requestAuth(props, option) {
+
+  // option : 로그인 한 유저의 출입여부.
+
+  // 1. /login은 로그인 하지 않은 유저만 접근 가능
+
+  // 2. home은 로그인 한 유저만 접근 가능
+
+  console.log('######### auth in ## ')
+
+  return new Promise((resolve, reject) => {
+      
+  axios.get('http://localhost:5000/api/users/auth')
+    .then(response => {
+
+      console.log('auth response : ')
+      console.log(JSON.stringify(response));
+
+      //로그인 하지 않은 상태
+      if (!response.data.isAuth){
+          props.history.push('/login');
+      }else {
+          // 로그인 한 상태
+          if (adminRoute && !response.data.loginUserInfo.isAdmin){
+              props.history.push('/')
+          } else { // 로그인 한 사람이, login페이지에 접근하는 경우 
+              props.history.push('/')
+          }
+      }
+      resolve(response.data.loginUserInfo)
+    }).catch(new Error('auth error !! '))
+  })
+}
+
+/*
+  Calendars
+*/
 export function requestEventCreate(plainEventObject) {
   console.log('[STUB] requesting event create:', plainEventObject)
 
@@ -156,40 +231,6 @@ export function requestStudyReg(dataToSubmit, closeFunc) {
         }
       })
     })
-}
-
-export function requestUserReg(dataToSubmit, closeFunc) {
-
-  axios.post('http://localhost:5000/api/users/register', dataToSubmit)
-    .then(response => {
-      if (!response.data.success) {
-        throw new Error('User Regist Error Occur !!!! ');
-      } else {
-        alert('Success');
-        closeFunc();
-      }
-    }).catch((err) => {
-      console.log(err);
-    })
-}
-
-export function requestLoginUser(dataToSubmit) {
-
-  return new Promise((resolve, reject) => {
-    axios.post('http://localhost:5000/api/users/login', dataToSubmit)
-      .then(response => {
-        let userId = '';
-        if (!response.data.loginSuccess){
-          alert(response.data.message)
-        } else {
-          userId = response.data.userId;
-        }
-        console.log('login resolve before...')
-        resolve(userId);
-    }).catch((err) => {
-      throw new Error('login Error')
-    })
-  })
 }
 
 export function requestHasEmail(where) {

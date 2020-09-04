@@ -89,11 +89,8 @@ function LoginPage(props) {
             password: password
         }
 
-        props.loginUser(body)
+        props.loginUser(body, props)
          //.catch(reportNetworkError())
-
-        console.log('loginUserInfo : ####')
-        console.log(JSON.stringify(props.loginUserInfo))
     }
 
     return (
@@ -161,4 +158,4 @@ function mapStateToProps() {
     }
   }
 
-export default connect(mapStateToProps, actionCreators)(LoginPage)
+export default connect(mapStateToProps, actionCreators)(withRouter(LoginPage))

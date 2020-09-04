@@ -1,4 +1,4 @@
-import { requestEventsInRange, requestEventCreate, requestEventUpdate, requestEventDelete, requestStudyReg, requestLoginUser } from './requests'
+import { requestEventsInRange, requestEventCreate, requestEventUpdate, requestEventDelete, requestStudyReg, requestLoginUser, requestAuth } from './requests'
 
 export default {
 
@@ -66,19 +66,28 @@ export default {
     }
   },
 
-loginUser(dataToSubmit) {
+  loginUser(dataToSubmit, props) {
     return (dispatch) => {
-      return requestLoginUser(dataToSubmit).then((userId) => {
+      return requestLoginUser(dataToSubmit, props).then((loginUserInfo) => {
         dispatch({
-          type: 'LOGIN_USER',
-          loginUserId: userId
+           type: 'LOGIN_USER',
+           loginUserInfo: loginUserInfo
+        })
+      })
+    }
+  },
+
+  auth(props, option) {
+    console.log('### action auth ###')
+    return (dispatch) => {
+      console.log('### action auth2 ###')
+      return requestAuth(props, option).then(loginUserInfo => {
+        dispatch({
+          type: 'AUTH_USER',
+          loginUserInfo: loginUserInfo
         })
       })
     }
   }
-
-
-
-
 
 }// end

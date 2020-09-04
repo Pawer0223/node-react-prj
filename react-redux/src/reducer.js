@@ -30,7 +30,7 @@ function eventsById(eventsById = {}, action) {
     case 'RECEIVE_EVENTS': {
       let result = hashById(action.plainEventObjects);
       // console.log('reducer... result.. -->>> ' + JSON.stringify(result))
-      return hashById(action.plainEventObjects)
+      return result
     }
 
     case 'CREATE_EVENT':
@@ -61,13 +61,22 @@ function study(state = studyInitialState, action) {
     }
 }
 
-function user(state = {}, action){
-  console.log('user .. state .. ', JSON.stringify(state))
+function user(userInfo = {}, action){
+  console.log('user .. userInfo .. ', JSON.stringify(userInfo))
   console.log('user .. action .. ', JSON.stringify(action))
   switch (action.type) {
     case 'LOGIN_USER':
-        return { ...state, loginUserId: action.loginUserId}
+        return {
+          ...userInfo,
+          loginUserInfo: action.loginUserInfo
+        }
+    case 'AUTH_USER':
+        return {
+          ...userInfo,
+          loginUserInfo: action.loginUserInfo
+        }
+
     default:
-        return state;
+        return {...userInfo};
   }
 }

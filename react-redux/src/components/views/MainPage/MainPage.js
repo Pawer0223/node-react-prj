@@ -5,10 +5,12 @@ import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin, { buildTimeColsModel } from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import { withRouter } from 'react-router-dom';
 
 import actionCreators from '../../../actions'
 import { getHashValues } from '../../../utils'
 import { requestStudyList } from '../../../requests'
+
 
 import RegisteStudy from '../RegisterPage/RegisteStudy'
 import StudyList from '../StudyInfos/StudyList'
@@ -178,6 +180,9 @@ class Main extends React.Component {
   // ------------------------------------------------------------------------------------------
 
   handleDateSelect = (selectInfo) => {
+
+    console.log('loginUserInfo : ' , JSON.stringify(this.props.userInfo))
+
     if (this.state.open2){
       this.handleStudyRegClose()
     }
@@ -274,9 +279,10 @@ function mapStateToProps() {
   return (state) => {
     return {
       events: getEventArray(state),
-      weekendsVisible: state.weekendsVisible
+      weekendsVisible: state.weekendsVisible,
+      userInfo: state.user
     }
   }
 }
 
-export default connect(mapStateToProps, actionCreators)(Main)
+export default connect(mapStateToProps, actionCreators)(withRouter(Main))
