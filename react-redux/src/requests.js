@@ -114,7 +114,7 @@ export function requestUserReg(dataToSubmit, closeFunc) {
 export function requestLoginUser(dataToSubmit, props) {
 
   return new Promise((resolve, reject) => {
-    axios.post('http://localhost:5000/api/users/login', dataToSubmit)
+    axios.post('http://localhost:5000/api/users/login', dataToSubmit, {withCredentials: true})
       .then(response => {
         let loginUserInfo = {};
         if (!response.data.loginSuccess){
@@ -142,7 +142,7 @@ export function requestAuth(props, option) {
 
   return new Promise((resolve, reject) => {
       
-  axios.get('http://localhost:5000/api/users/auth')
+  axios.get('http://localhost:5000/api/users/auth', {withCredentials: true})
     .then(response => {
 
       console.log('auth response : ')

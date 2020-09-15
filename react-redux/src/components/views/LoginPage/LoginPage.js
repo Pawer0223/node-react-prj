@@ -39,10 +39,8 @@ function LoginPage(props) {
     const classes = useStyles();
     const [Email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [showPassword, setShowPassword] = useState("false");
+    const [showPassword, setShowPassword] = useState(false);
     const [registForm, setRegistForm] = useState("");
-
-    const dispatch = useDispatch();
 
     const  handleRegistForm = () => {
 
@@ -68,6 +66,7 @@ function LoginPage(props) {
     }
 
     const handleClickShowPassword = () => {
+        console.log("handleClickShowPassword")
         setShowPassword(!showPassword);
     };
   
