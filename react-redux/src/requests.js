@@ -153,7 +153,8 @@ export function requestAuth(props, option) {
           props.history.push('/login');
       }else {
           // 로그인 한 상태
-          if (adminRoute && !response.data.loginUserInfo.isAdmin){
+          // if (adminRoute && !response.data.loginUserInfo.isAdmin){
+          if (!response.data.loginUserInfo.isAdmin){
               props.history.push('/')
           } else { // 로그인 한 사람이, login페이지에 접근하는 경우 
               props.history.push('/')

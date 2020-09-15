@@ -148,12 +148,11 @@ app.post('/api/users/login', (req, res) => {
 // req받은 후, callback function 호출 전 수행되는 함수.. auth !
 app.get('/api/users/auth', auth, (req, res) => {
     
-
-  console.log('here......... ?!')
   // middle ware를 통과 해야지 하위 코드를 탈 수 있음 !
   res.status(200).json({
-      ...req.user,
-      isAuth: true
+      loginUserInfo : req.user,
+      isAuth: true,
+      isAdmin: req.user.role === 0 ? false : true
   })
 })
 

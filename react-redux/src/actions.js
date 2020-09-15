@@ -78,9 +78,7 @@ export default {
   },
 
   auth(props, option) {
-    console.log('### action auth ###')
     return (dispatch) => {
-      console.log('### action auth2 ###')
       return requestAuth(props, option).then(loginUserInfo => {
         dispatch({
           type: 'AUTH_USER',
