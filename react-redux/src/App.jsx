@@ -21,7 +21,7 @@ function App() {
         of them to render at a time
       */}
       <Switch>
-        <Route exact path="/" component={Auth(MainPage, false)} />
+        <Route exact path="/" component={Auth(MainPage, false, false, 'Main')} />
         <Route exact path="/login" component={Auth(LoginPage, true)} />
       </Switch>
     </div>

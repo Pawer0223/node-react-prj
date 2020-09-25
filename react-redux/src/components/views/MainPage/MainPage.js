@@ -10,7 +10,7 @@ import { withRouter } from 'react-router-dom';
 import actionCreators from '../../../actions'
 import { getHashValues } from '../../../utils'
 import { requestStudyList } from '../../../requests'
-
+import Button from '@material-ui/core/Button';
 
 import RegisteStudy from '../RegisterPage/RegisteStudy'
 import StudyList from '../StudyInfos/StudyList'
@@ -61,7 +61,10 @@ class Main extends React.Component {
 
   handleStudyRegOpen = (startStr) => {
 
-    let region = this.props.events[0].region;
+    let region = '';
+
+    if (this.props.events.length  > 0)
+      region = this.props.events[0].region;
 
     this.setState(state => ({
       open2: true,
@@ -124,6 +127,12 @@ class Main extends React.Component {
     let region ='';
     let regionComment = '';
     let title = '';
+    let loginUserInfo = this.props.userInfo.loginUserInfo;
+    let name = 'UNKNOWN';
+
+    if (loginUserInfo !== undefined) {
+      name = loginUserInfo.name;
+    }
 
     this.props.events.forEach((study, index) => {
       totalLen += study.title;  
@@ -138,10 +147,16 @@ class Main extends React.Component {
       regionComment += '(의) 첫 번째 Study를 등록해 주세요 :)'
     }
 
+    console.log("#####################")
+    console.log(loginUserInfo);
+
     return (
       <div className='demo-app-sidebar'>
         <div className='demo-app-sidebar-section'>
-          <h2>Match Study</h2>
+          <h2>{name}님 반갑습니다.</h2>
+          <Button color="primary">
+            logout
+          </Button>
           <ul>
             <li>지역을 검색하시면, 스터디 정보가 달력에 표시됩니다.( 파란색 바 )</li>
             <li>스터디가 없다면, 달력에 아무것도 표시되지 않습니다.</li>
@@ -181,7 +196,7 @@ class Main extends React.Component {
 
   handleDateSelect = (selectInfo) => {
 
-    console.log('loginUserInfo : ' , JSON.stringify(this.props.userInfo))
+    console.log('loginUserInfo : ' , JSON.stringify(this.props.userInfo.loginUserInfo))
 
     if (this.state.open2){
       this.handleStudyRegClose()

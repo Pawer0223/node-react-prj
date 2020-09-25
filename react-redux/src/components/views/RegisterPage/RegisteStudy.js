@@ -32,7 +32,9 @@ function makeTime(time){
 }
 
 function getTimeAmonut(time){
-  return time.getMonth() + time.getDate() + time.getMinutes() + time.getMinutes();;
+  let result = time.getMonth() + time.getDate() + time.getMinutes() + time.getMinutes();
+  console.log('calc Result : ' + result)
+  return result;
 } 
 
 export default function RegisteStudy(props) {
@@ -89,6 +91,8 @@ export default function RegisteStudy(props) {
     let endT = getTimeAmonut(endTime);
     let nowT = getTimeAmonut(new Date());
     let success = 0;
+
+    console.log('startT : ' , startT , 'endT : ', endT)
 
     if (content === ""){
       alert('스터디 내용을 입력해 주세요.')
