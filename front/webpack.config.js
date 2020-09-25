@@ -5,7 +5,7 @@ const packageMeta = require('./package.json')
 module.exports = {
   mode: 'development',
   devtool: 'source-map',
-  entry: './src/main.jsx',
+  entry: './src/index.jsx',
   resolve: {
     extensions: [ '.js', '.jsx' ]
   },
@@ -23,7 +23,7 @@ module.exports = {
     ]
   },
   output: {
-    filename: 'main.js',
+    filename: 'index.js',
     path: path.join(__dirname, 'dist')
   },
   plugins: [

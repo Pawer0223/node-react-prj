@@ -1,14 +1,14 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { createSelector } from 'reselect'
-import FullCalendar, { formatDate } from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import interactionPlugin from '@fullcalendar/interaction'
-import actionCreators from './actions'
-import { getHashValues } from './utils'
+import React from '../../../node_modules/react'
+import { connect } from '../../../node_modules/react-redux'
+import { createSelector } from '../../../node_modules/reselect'
+import FullCalendar, { formatDate } from '../../../node_modules/@fullcalendar/react'
+import dayGridPlugin from '../../..//node_modules/@fullcalendar/daygrid'
+import timeGridPlugin from '../../../node_modules/@fullcalendar/timegrid'
+import interactionPlugin from '../../../node_modules/@fullcalendar/interaction'
+import actionCreators from '../../actions'
+import { getHashValues } from '../../utils'
 
-class DemoApp extends React.Component {
+class Main extends React.Component {
 
   render() {
     return (
@@ -169,4 +169,4 @@ function mapStateToProps() {
   }
 }
 
-export default connect(mapStateToProps, actionCreators)(DemoApp)
+export default connect(mapStateToProps, actionCreators)(Main)
