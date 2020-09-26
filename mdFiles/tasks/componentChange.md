@@ -9,4 +9,4 @@
 ### 어려웠던 점
   - redux의 전역상태를 가져오는 부분을 변경하기.
     - 과정
-      - [connect -> useSelector()](https://react-redux.js.org/api/hooks)  
+      - [connect](https://react-redux.js.org/api/connect) -> [useSelector()](https://react-redux.js.org/api/hooks)  
