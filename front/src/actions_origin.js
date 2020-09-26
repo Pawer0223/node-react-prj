@@ -1,48 +1,58 @@
 import { requestEventsInRange, requestEventCreate, requestEventUpdate, requestEventDelete } from './requests'
 
+export default {
 
-
-  export function toggleWeekends() {
+  toggleWeekends() {
     return {
       type: 'TOGGLE_WEEKENDS'
     }
-  }
+  },
 
-  export function requestEvents(startStr, endStr) {
+  requestEvents(startStr, endStr) {
+    return (dispatch) => {
       return requestEventsInRange(startStr, endStr).then((plainEventObjects) => {
-        return {
+        dispatch({
           type: 'RECEIVE_EVENTS',
           plainEventObjects
-        }
+        })
       })
-  }
+    }
+  },
 
-  export function createEvent(plainEventObject) {
+  createEvent(plainEventObject) {
+    return (dispatch) => {
       return requestEventCreate(plainEventObject).then((newEventId) => {
-        return {
+        dispatch({
           type: 'CREATE_EVENT',
           plainEventObject: {
             id: newEventId,
             ...plainEventObject
           }
-        }
+        })
       })
-  }
+    }
+  },
 
-  export function updateEvent(plainEventObject) {
+  updateEvent(plainEventObject) {
+    return (dispatch) => {
       return requestEventUpdate(plainEventObject).then(() => {
-        return {
+        dispatch({
           type: 'UPDATE_EVENT',
           plainEventObject
-        }
+        })
       })
-  }
+    }
+  },
 
-  export function deleteEvent(eventId) {
+  deleteEvent(eventId) {
+    return (dispatch) => {
       return requestEventDelete(eventId).then(() => {
-        return {
+        dispatch({
           type: 'DELETE_EVENT',
           eventId
-        }
+        })
       })
+    }
   }
+
+}

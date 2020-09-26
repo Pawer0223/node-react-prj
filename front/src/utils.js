@@ -1,5 +1,7 @@
 
 export function getHashValues(hash) {
+  console.log('here 2')
+  console.log(hash)
   return Object.values(hash) // needs modern browser
 }
 
@@ -8,6 +10,7 @@ export function hashById(array) {
 
   for (let item of array) {
     hash[item.id] = item
+    console.log(item);
   }
 
   return hash
