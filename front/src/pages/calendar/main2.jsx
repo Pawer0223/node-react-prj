@@ -8,12 +8,13 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import * as actionCreators from '../../actions'
 import { getHashValues } from '../../utils'
+import { requestEventsInRange, requestEventCreate, requestEventUpdate, requestEventDelete } from '../../requests';
+
 
 
 function Main(props) {
 
   const dispatch = useDispatch();
-  const boundActionCreators = bindActionCreators(actionCreators, dispatch)
 
   const getEventArray = createSelector(
     (state) => state.eventsById,
@@ -21,12 +22,12 @@ function Main(props) {
   )
 
   const events = useSelector(getEventArray);
+  console.log(events);
   const weekendsVisible = useSelector((state) => state.weekendsVisible);
 
 
   // handlers for user actions
   // ------------------------------------------------------------------------------------------
-
   const handleDateSelect = (selectInfo) => {
     let calendarApi = selectInfo.view.calendar
     let title = prompt('Please enter a new title for your event')
@@ -53,8 +54,14 @@ function Main(props) {
   // ------------------------------------------------------------------------------------------
 
   const handleDates = (rangeInfo) => {
-    actionCreators.requestEvents(rangeInfo.startStr, rangeInfo.endStr)
-      .catch(reportNetworkError)
+    // const action = actionCreators.requestEvents(rangeInfo.startStr, rangeInfo.endStr)
+
+    requestEventsInRange(rangeInfo.startStr, rangeInfo.endStr).then((action) => {
+      console.log(action)
+      dispatch(action);
+    })
+
+
   }
 
   const handleEventAdd = (addInfo) => {

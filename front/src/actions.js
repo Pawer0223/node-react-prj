@@ -1,6 +1,4 @@
-import { requestEventsInRange, requestEventCreate, requestEventUpdate, requestEventDelete } from './requests'
-
-
+import { requestEventsInRange, requestEventCreate, requestEventUpdate, requestEventDelete } from './requests';
 
   export function toggleWeekends() {
     return {
@@ -9,7 +7,7 @@ import { requestEventsInRange, requestEventCreate, requestEventUpdate, requestEv
   }
 
   export function requestEvents(startStr, endStr) {
-      return requestEventsInRange(startStr, endStr).then((plainEventObjects) => {
+      requestEventsInRange(startStr, endStr).then((plainEventObjects) => {
         return {
           type: 'RECEIVE_EVENTS',
           plainEventObjects

@@ -37,7 +37,13 @@ export function requestEventsInRange(startStr, endStr) {
       if (simulateErrors) {
         reject(new Error('error'))
       } else {
-        resolve(eventDb) // won't use the start/end, always return whole DB
+        // resolve(eventDb) // won't use the start/end, always return whole DB
+        resolve({
+          // type: 'RECEIVE_EVENTS',
+          // eventDb
+          type: 'RECEIVE_EVENTS',
+          plainEventObjects: eventDb
+        })
       }
     }, DELAY)
   })
