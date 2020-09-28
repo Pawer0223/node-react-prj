@@ -17,13 +17,16 @@ function Main(props) {
   const dispatch = useDispatch();
 
   const getEventArray = createSelector(
-    (state) => state.eventsById,
+    (state) => state.mainStudyList,
     (eventsById) => Object.values(eventsById)
   )
 
   const events = useSelector(getEventArray);
-  console.log(events);
   const weekendsVisible = useSelector((state) => state.weekendsVisible);
+  const currentDate = useSelector((state) => state.currentDate);
+
+  console.log('currentDate inner Main ################ ')
+  console.log(currentDate)
 
 
   // handlers for user actions
@@ -56,36 +59,42 @@ function Main(props) {
   const handleDates = (rangeInfo) => {
     // const action = actionCreators.requestEvents(rangeInfo.startStr, rangeInfo.endStr)
 
-    requestEventsInRange(rangeInfo.startStr, rangeInfo.endStr).then((action) => {
-      console.log(action)
-      dispatch(action);
-    })
+    // requestEventsInRange(rangeInfo.startStr, rangeInfo.endStr).then((action) => {
+    //   console.log(action)
+    //   dispatch(action);
+    // })
+    dispatch({type: 'CURRENT_DATE', data: rangeInfo});
+    dispatch(actionCreators.startMain(rangeInfo)());
+
+
+
+
 
 
   }
 
   const handleEventAdd = (addInfo) => {
-    actionCreators.createEvent(addInfo.event.toPlainObject())
-      .catch(() => {
-        reportNetworkError()
-        addInfo.revert()
-      })
+    // actionCreators.createEvent(addInfo.event.toPlainObject())
+    //   .catch(() => {
+    //     reportNetworkError()
+    //     addInfo.revert()
+    //   })
   }
 
   const handleEventChange = (changeInfo) => {
-    actionCreators.updateEvent(changeInfo.event.toPlainObject())
-      .catch(() => {
-        reportNetworkError()
-        changeInfo.revert()
-      })
+    // actionCreators.updateEvent(changeInfo.event.toPlainObject())
+    //   .catch(() => {
+    //     reportNetworkError()
+    //     changeInfo.revert()
+    //   })
   }
 
   const handleEventRemove = (removeInfo) => {
-    actionCreators.deleteEvent(removeInfo.event.id)
-      .catch(() => {
-        reportNetworkError()
-        removeInfo.revert()
-      })
+    // actionCreators.deleteEvent(removeInfo.event.id)
+    //   .catch(() => {
+    //     reportNetworkError()
+    //     removeInfo.revert()
+    //   })
   }
 
   return (

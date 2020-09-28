@@ -1,3 +1,4 @@
+import { createAction } from "typesafe-actions";
 import { requestEventsInRange, requestEventCreate, requestEventUpdate, requestEventDelete } from './requests';
 
   export function toggleWeekends() {
@@ -5,6 +6,18 @@ import { requestEventsInRange, requestEventCreate, requestEventUpdate, requestEv
       type: 'TOGGLE_WEEKENDS'
     }
   }
+
+  export const startMain = createAction(
+    "@command/events/startMain",
+    (resolve) => {
+      return () => resolve();
+    }
+  );
+
+  export const selectMainStudies = createAction(
+    "@command/events/selectMainStudies",
+    (plainEventObjects) => plainEventObjects
+  );
 
   export function requestEvents(startStr, endStr) {
       requestEventsInRange(startStr, endStr).then((plainEventObjects) => {
