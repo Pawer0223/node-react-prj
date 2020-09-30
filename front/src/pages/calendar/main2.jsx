@@ -63,13 +63,8 @@ function Main(props) {
     //   console.log(action)
     //   dispatch(action);
     // })
-    dispatch({type: 'CURRENT_DATE', data: rangeInfo});
-    dispatch(actionCreators.startMain(rangeInfo)());
-
-
-
-
-
+    dispatch(actionCreators.currentDate()(rangeInfo));
+    dispatch(actionCreators.startMain()());
 
   }
 

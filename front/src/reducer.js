@@ -14,14 +14,10 @@ export default combineReducers({
 function currentDate(currentDate = {}, action) {
   switch (action.type) {
 
-    case 'CURRENT_DATE':
-      console.log('hey current data !!');
-      console.log(action.data);
-      return action.data
+    case getType(Actions.currentDate()):
+      return action.payload
 
     default:
-      console.log('hey current data2222222 !!');
-      console.log(currentDate);
       return currentDate
   }
 }
@@ -46,8 +42,6 @@ function mainStudyList(mainStudyList = {}, action) {
       };
 
     case getType(Actions.selectMainStudies()):
-      console.log('this is selectMainStudies')
-      console.log(action)
       return {
         ...mainStudyList,
         ...action.payload

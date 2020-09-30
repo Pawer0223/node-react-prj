@@ -7,6 +7,12 @@ import { requestEventsInRange, requestEventCreate, requestEventUpdate, requestEv
     }
   }
 
+  export const currentDate = createAction(
+    "@command/common/currentDate",
+    (rangeInfo) => rangeInfo
+  );
+
+
   export const startMain = createAction(
     "@command/events/startMain",
     (resolve) => {
