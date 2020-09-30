@@ -14,24 +14,26 @@ import {
   
   function* mainStudyWorkflow() {
 
-        yield take(getType(Actions.startMain()));
+    const currentDate = yield select(state => state.currentDate);   
 
-        const currentDate = yield select(state => state.currentDate);   
-  
-        try {        
-          const [studyResp] = yield all([
-            call(() => Api.requestStudiesInRange(currentDate.startStr, currentDate.endStr))
-          ]);
+    try {        
+      const [studyResp] = yield all([
+        call(() => Api.requestStudiesInRange(currentDate.startStr, currentDate.endStr))
+      ]);
 
-          yield put(
-            Actions.selectMainStudies()(studyResp)
-          );
-        } catch (e) {
-            throw new Error(e);
-        }
+      yield put(
+        Actions.selectMainStudies()(studyResp)
+      );
+    } catch (e) {
+        throw new Error(e);
+    }
 
+  }
+
+  function* startMain() {
+    yield takeLatest(getType(Actions.startMain()),mainStudyWorkflow);
   }
   
   export default function* () {
-    yield fork(mainStudyWorkflow);
+    yield fork(startMain);
   }

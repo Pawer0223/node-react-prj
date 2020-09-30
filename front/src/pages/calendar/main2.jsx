@@ -57,15 +57,8 @@ function Main(props) {
   // ------------------------------------------------------------------------------------------
 
   const handleDates = (rangeInfo) => {
-    // const action = actionCreators.requestEvents(rangeInfo.startStr, rangeInfo.endStr)
-
-    // requestEventsInRange(rangeInfo.startStr, rangeInfo.endStr).then((action) => {
-    //   console.log(action)
-    //   dispatch(action);
-    // })
     dispatch(actionCreators.currentDate()(rangeInfo));
     dispatch(actionCreators.startMain()());
-
   }
 
   const handleEventAdd = (addInfo) => {
