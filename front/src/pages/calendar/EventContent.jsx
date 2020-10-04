@@ -1,6 +1,5 @@
 import React from 'react'
 
-// inner component1
 function EventContent(eventInfo) {
 
   return (

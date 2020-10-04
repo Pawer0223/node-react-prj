@@ -57,7 +57,9 @@ function Main(props) {
     dispatch(actionCreators.startMain()());
   }
 
+  // 로그인 한 유저만 가능해야 함.
   const handleEventAdd = (addInfo) => {
+    console.log('handleEventAdd')
     // actionCreators.createEvent(addInfo.event.toPlainObject())
     //   .catch(() => {
     //     reportNetworkError()
@@ -65,6 +67,8 @@ function Main(props) {
     //   })
   }
 
+  // 내가 등록한 글만 이동할 수 있다.
+  // 내가 등록한 글만 활성화 되도록 할 수 있을까 ??
   const handleEventChange = (changeInfo) => {
     // actionCreators.updateEvent(changeInfo.event.toPlainObject())
     //   .catch(() => {
@@ -73,6 +77,7 @@ function Main(props) {
     //   })
   }
 
+  // 이것도 update와 동일한 권한 되도록
   const handleEventRemove = (removeInfo) => {
     // actionCreators.deleteEvent(removeInfo.event.id)
     //   .catch(() => {
@@ -96,7 +101,7 @@ function Main(props) {
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
           }}
-          contentHeight='auto'
+          contentHeight='auto' // because resizeing error !
           initialView='dayGridMonth'
           editable={true}
           selectable={true}

@@ -1,5 +1,5 @@
 import { createAction } from "typesafe-actions";
-import { requestEventsInRange, requestEventCreate, requestEventUpdate, requestEventDelete } from './requests';
+import { requestEventCreate, requestEventUpdate, requestEventDelete } from './requests';
   
   /* Common */
   export const toggleWeekends = createAction(
@@ -28,6 +28,7 @@ import { requestEventsInRange, requestEventCreate, requestEventUpdate, requestEv
   );
 
   export function createEvent(plainEventObject) {
+    console.log('create Event')
     return requestEventCreate(plainEventObject).then((newEventId) => {
       return {
         type: 'CREATE_EVENT',
