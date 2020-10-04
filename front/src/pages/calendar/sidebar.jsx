@@ -1,4 +1,5 @@
 import React from 'react'
+import { formatDate } from '@fullcalendar/react'
 
 function Sidebar(props) {
     return (
@@ -15,21 +16,30 @@ function Sidebar(props) {
           <label>
             <input
               type='checkbox'
-              //checked={weekendsVisible}
-              //onChange={props.toggleWeekends}
+              checked={props.weekendsVisible}
+              onChange={props.toggleWeekends}
             ></input>
             toggle weekends
           </label>
         </div>
         <div className='demo-app-sidebar-section'>
-          {/* <h2>All Events ({props.events.length})</h2> */}
-          <h2>All Events (1)</h2>
+          <h2>All Events ({props.events.length})</h2>
           <ul>
-            {/* {props.events.map(renderSidebarEvent)} */}
+          {props.events.map(renderSidebarEvent)}
           </ul>
         </div>
       </div>
     )
   }
 
-  export default Sidebar;
+// 추후 분리하기...
+function renderSidebarEvent(plainEventObject) {
+  return (
+    <li key={plainEventObject.id}>
+      <b>{formatDate(plainEventObject.start, {year: 'numeric', month: 'short', day: 'numeric'})}</b>
+      <i>{plainEventObject.title}</i>
+    </li>
+  )
+}
+
+export default Sidebar;

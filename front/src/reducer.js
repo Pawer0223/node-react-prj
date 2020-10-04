@@ -22,18 +22,6 @@ function currentDate(currentDate = {}, action) {
   }
 }
 
-
-function weekendsVisible(weekendsVisible = true, action) {
-  switch (action.type) {
-
-    case 'TOGGLE_WEEKENDS':
-      return !weekendsVisible
-
-    default:
-      return weekendsVisible
-  }
-}
-
 function mainStudyList(mainStudyList = {}, action) {
   switch (action.type) {
     case getType(Actions.startMain()):
@@ -52,6 +40,16 @@ function mainStudyList(mainStudyList = {}, action) {
   }
 }
 
+function weekendsVisible(weekendsVisible = true, action) {
+  switch (action.type) {
+
+    case getType(Actions.toggleWeekends()):
+      return !weekendsVisible
+
+    default:
+      return weekendsVisible
+  }
+}
 
 function mainStudyList2(mainStudyList = {}, action) {
   switch (action.type) {

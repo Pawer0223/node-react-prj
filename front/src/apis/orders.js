@@ -1,6 +1,8 @@
 import { getTodayStr, hashById } from '../utils'
 let todayStr = getTodayStr()
 let eventGuid = 0
+let tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
 let studyDb = [
   {
     id: createEventId(),
@@ -11,6 +13,11 @@ let studyDb = [
     id: createEventId(),
     title: 'Timed event',
     start: todayStr + 'T12:00:00'
+  },
+  {
+    id: createEventId(),
+    title: 'Taesan',
+    start: tomorrow.toISOString().replace(/T.*$/, '')
   }
 ]
 

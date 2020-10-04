@@ -1,14 +1,13 @@
 import React from 'react'
-import { bindActionCreators } from 'redux'
 import { useSelector, useDispatch } from 'react-redux'
 import { createSelector } from 'reselect'
-import FullCalendar, { formatDate } from '@fullcalendar/react'
+import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import * as actionCreators from '../../actions'
-import { getHashValues } from '../../utils'
 import Sidebar from './Sidebar'
+import EventContent from './EventContent'
 
 function Main(props) {
 
@@ -25,6 +24,10 @@ function Main(props) {
 
   // handlers for user actions
   // ------------------------------------------------------------------------------------------
+  const toggleWeekends = () => {
+    dispatch(actionCreators.toggleWeekends()())
+  }
+
   const handleDateSelect = (selectInfo) => {
     let calendarApi = selectInfo.view.calendar
     let title = prompt('Please enter a new title for your event')
@@ -80,7 +83,11 @@ function Main(props) {
 
   return (
     <div className='demo-app'>
-      <Sidebar />
+      <Sidebar 
+        events = {events}
+        weekendsVisible = {weekendsVisible}
+        toggleWeekends = {toggleWeekends}
+      />
       <div className='demo-app-main'>
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -99,7 +106,7 @@ function Main(props) {
           datesSet={handleDates}
           select={handleDateSelect}
           events={events}
-          eventContent={renderEventContent} // custom render function
+          eventContent={EventContent} // custom render function
           eventClick={handleEventClick}
           eventAdd={handleEventAdd}
           eventChange={handleEventChange} // called for drag-n-drop/resize
@@ -110,31 +117,4 @@ function Main(props) {
   )
 }
 
-// inner component1
-function renderEventContent(eventInfo) {
-  return (
-    <>
-      <b>{eventInfo.timeText}</b>
-      <i>{eventInfo.event.title}</i>
-    </>
-  )
-}
-
-// inner component2
-function renderSidebarEvent(plainEventObject) {
-  return (
-    <li key={plainEventObject.id}>
-      <b>{formatDate(plainEventObject.start, {year: 'numeric', month: 'short', day: 'numeric'})}</b>
-      <i>{plainEventObject.title}</i>
-    </li>
-  )
-}
-
-function reportNetworkError() {
-  alert('This action could not be completed')
-}
-
-
 export default Main;
-
-// export default connect(mapStateToProps, actionCreators)(Main)
