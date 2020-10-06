@@ -4,7 +4,7 @@ function EventContent(eventInfo) {
 
   return (
     <>
-      <b>{eventInfo.timeText}</b>
+      <b>this is {eventInfo.timeText}</b>
       <i>{eventInfo.event.title}</i>
     </>
   )

@@ -1,1 +1,2 @@
-export { default as Calendar } from "./calendar/Main";
+export { default as EventContent } from "./EventContent"
+export { default as Calendar } from "./Calendar"

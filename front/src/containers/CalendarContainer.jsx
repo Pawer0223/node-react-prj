@@ -1,15 +1,10 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { createSelector } from 'reselect'
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import interactionPlugin from '@fullcalendar/interaction'
-import * as actionCreators from '../../actions'
-import Sidebar from './Sidebar'
-import EventContent from './EventContent'
+import * as actionCreators from '../actions'
+import { CalendarMain, CalendarSidebar } from '../components';
 
-function Main(props) {
+function CalendarContainer(props) {
 
   const dispatch = useDispatch();
 
@@ -88,38 +83,25 @@ function Main(props) {
 
   return (
     <div className='demo-app'>
-      <Sidebar 
-        events = {events}
-        weekendsVisible = {weekendsVisible}
-        toggleWeekends = {toggleWeekends}
-      />
-      <div className='demo-app-main'>
-        <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          headerToolbar={{
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-          }}
-          contentHeight='auto' // because resizeing error !
-          initialView='dayGridMonth'
-          editable={true}
-          selectable={true}
-          selectMirror={true}
-          dayMaxEvents={true}
-          weekends={weekendsVisible}
-          datesSet={handleDates}
-          select={handleDateSelect}
-          events={events}
-          eventContent={EventContent} // custom render function
-          eventClick={handleEventClick}
-          eventAdd={handleEventAdd}
-          eventChange={handleEventChange} // called for drag-n-drop/resize
-          eventRemove={handleEventRemove}
-        />
-      </div>
+            <CalendarSidebar 
+                events = {events}
+                weekendsVisible = {weekendsVisible}
+                toggleWeekends = {toggleWeekends}
+            />
+        <div className='demo-app-main'>
+            <CalendarMain 
+                weekendsVisible = {weekendsVisible}
+                handleDates = {handleDates}
+                handleDateSelect = {handleDateSelect}
+                events = {events}
+                handleEventClick = {handleEventClick}
+                handleEventAdd = {handleEventAdd}
+                handleEventChange = {handleEventChange}
+                handleEventRemove = {handleEventRemove}
+            />
+        </div>
     </div>
   )
 }
 
-export default Main;
+export default CalendarContainer;
