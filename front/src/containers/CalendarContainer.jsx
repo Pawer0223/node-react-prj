@@ -7,15 +7,13 @@ import { CalendarMain, CalendarSidebar } from '../components';
 function CalendarContainer(props) {
 
   const dispatch = useDispatch();
-
-  const getEventArray = createSelector(
-    (state) => state.mainStudyList,
-    (eventsById) => Object.values(eventsById)
-  )
-
-  const events = useSelector(getEventArray);
+  const events = useSelector((state) => Object.values(state.mainStudyList));
   const weekendsVisible = useSelector((state) => state.weekendsVisible);
-  const currentDate = useSelector((state) => state.currentDate);
+  
+  // const getEventArray = createSelector(
+  //   (state) => state.mainStudyList,
+  //   (eventsById) => Object.values(eventsById)
+  // )
 
   // handlers for user actions
   // ------------------------------------------------------------------------------------------
@@ -91,9 +89,9 @@ function CalendarContainer(props) {
         <div className='demo-app-main'>
             <CalendarMain 
                 weekendsVisible = {weekendsVisible}
+                events = {events}
                 handleDates = {handleDates}
                 handleDateSelect = {handleDateSelect}
-                events = {events}
                 handleEventClick = {handleEventClick}
                 handleEventAdd = {handleEventAdd}
                 handleEventChange = {handleEventChange}

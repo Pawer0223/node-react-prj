@@ -10,7 +10,7 @@ import {
   } from "redux-saga/effects";
   import { getType } from "typesafe-actions";
   import * as Actions from "../actions";
-  import * as Api from "../apis/orders";
+  import * as Api from "../apis/studyInfos";
   
   function* mainStudyWorkflow() {
 
@@ -31,7 +31,7 @@ import {
   }
 
   function* startMain() {
-    yield takeLatest(getType(Actions.startMain()),mainStudyWorkflow);
+    yield takeLatest(getType(Actions.startMain()), mainStudyWorkflow);
   }
   
   export default function* () {

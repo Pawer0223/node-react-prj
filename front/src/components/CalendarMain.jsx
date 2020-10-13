@@ -27,7 +27,7 @@ export const CalendarMain = (props) => {
         eventContent={EventContent} // custom render function
         eventClick={props.handleEventClick}
         eventAdd={props.handleEventAdd}
-        eventChange={props.shandleEventChange} // called for drag-n-drop/resize
+        eventChange={props.handleEventChange} // called for drag-n-drop/resize
         eventRemove={props.handleEventRemove}
     />
   )
